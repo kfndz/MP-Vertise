@@ -1,62 +1,439 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { Star, ShoppingCart, ChevronRight, Plus, Minus, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 
-export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+const Index = () => {
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [email, setEmail] = useState('');
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
-    }
-  };
+  // Product data
+  const products = [
+    {
+      id: 1,
+      name: 'Fone de Ouvido Wireless Premium',
+      price: 'R$ 299,90',
+      originalPrice: 'R$ 399,90',
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
+      rating: 4.8,
+      reviews: 324,
+      badge: 'Bestseller',
+    },
+    {
+      id: 2,
+      name: 'Luminária LED Inteligente',
+      price: 'R$ 149,90',
+      originalPrice: 'R$ 199,90',
+      image: 'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=500&h=500&fit=crop',
+      rating: 4.9,
+      reviews: 156,
+      badge: 'Top Vendido',
+    },
+    {
+      id: 3,
+      name: 'Garrafa Térmica Aço Inoxidável',
+      price: 'R$ 89,90',
+      originalPrice: 'R$ 129,90',
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
+      rating: 4.7,
+      reviews: 412,
+      badge: 'Novo',
+    },
+    {
+      id: 4,
+      name: 'Almofada de Espuma Ergonômica',
+      price: 'R$ 179,90',
+      originalPrice: 'R$ 249,90',
+      image: 'https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=500&h=500&fit=crop',
+      rating: 4.6,
+      reviews: 289,
+      badge: 'Bestseller',
+    },
+  ];
+
+  const categories = [
+    {
+      name: 'Tecnologia',
+      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
+      description: 'Gadgets e acessórios inovadores',
+    },
+    {
+      name: 'Casa',
+      image: 'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=400&h=400&fit=crop',
+      description: 'Decoração e utilidades',
+    },
+    {
+      name: 'Bem-estar',
+      image: 'https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=400&h=400&fit=crop',
+      description: 'Saúde e bem-estar',
+    },
+    {
+      name: 'Utilidades',
+      image: 'https://images.unsplash.com/photo-1560088014-8785e5aff617?w=400&h=400&fit=crop',
+      description: 'Produtos do dia a dia',
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Marina Santos',
+      text: 'Produto de excelente qualidade e entrega rápida! Recomendo muito.',
+      rating: 5,
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+    },
+    {
+      name: 'João Pedro',
+      text: 'Atendimento humanizado de verdade. A equipe me ajudou com tudo.',
+      rating: 5,
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+    },
+    {
+      name: 'Ana Costa',
+      text: 'Surpreendida com a qualidade premium dos produtos. Vale cada centavo.',
+      rating: 4.8,
+      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
+    },
+  ];
+
+  const faqs = [
+    {
+      question: 'Como funciona o envio?',
+      answer: 'Oferecemos envio para todo o Brasil. A entrega é feita dentro de 7 dias úteis. Frete grátis para compras acima de R$199.',
+    },
+    {
+      question: 'Qual é a política de devolução?',
+      answer: 'Você tem até 30 dias para devolver um produto em perfeitas condições. Oferecemos reembolso total ou troca.',
+    },
+    {
+      question: 'Como rastrear meu pedido?',
+      answer: 'Após a confirmação do pedido, você receberá um código de rastreamento via email para acompanhar sua entrega.',
+    },
+    {
+      question: 'Os produtos têm garantia?',
+      answer: 'Sim! Todos os nossos produtos têm garantia de 1 ano contra defeitos de fabricação.',
+    },
+    {
+      question: 'Como faço para entrar em contato?',
+      answer: 'Você pode nos contatar via email, chat, ou telefone. Nosso suporte está disponível 24/7.',
+    },
+    {
+      question: 'Vocês oferecem parcelamento?',
+      answer: 'Sim! Aceitamos parcelamento em até 12 vezes sem juros no cartão de crédito.',
+    },
+  ];
+
+  const instagramGallery = [
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=300&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=300&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1560088014-8785e5aff617?w=300&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=300&h=300&fit=crop',
+  ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
+    <div className="min-h-screen bg-background">
+      <Header />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="container mx-auto px-4 py-16 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="animate-slide-up">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+                Descubra produtos que fazem diferença no seu dia a dia
+              </h1>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                Seleção exclusiva com qualidade, praticidade e entrega segura.
+              </p>
+              <div className="flex gap-4">
+                <button className="px-8 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center gap-2">
+                  Explorar Produtos
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <button className="px-8 py-4 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-all">
+                  Mais Vendidos
+                </button>
+              </div>
+            </div>
+
+            {/* Hero Image */}
+            <div className="relative hidden md:block">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
+                <img
+                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop"
+                  alt="Hero"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-accent-secondary rounded-2xl opacity-20 blur-3xl" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Categories */}
+      <section className="py-20 md:py-32 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Categorias Destacadas</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Explore nossas seleções especiais em cada categoria
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.map((cat) => (
+              <div
+                key={cat.name}
+                className="group relative overflow-hidden rounded-xl bg-card hover:shadow-xl transition-all duration-300 cursor-pointer"
+              >
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-xl font-semibold text-white mb-1">{cat.name}</h3>
+                  <p className="text-white/80 text-sm">{cat.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Best Sellers */}
+      <section className="py-20 md:py-32 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Mais Vendidos</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Os favoritos dos nossos clientes
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div key={product.id} className="group">
+                <div className="relative bg-card rounded-lg overflow-hidden mb-4">
+                  <div className="aspect-square overflow-hidden bg-muted">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  {product.badge && (
+                    <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      {product.badge}
+                    </div>
+                  )}
+                  <button className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <div className="bg-white rounded-full p-3">
+                      <ShoppingCart className="w-6 h-6 text-foreground" />
+                    </div>
+                  </button>
+                </div>
+
+                <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{product.name}</h3>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-4 h-4 fill-accent text-accent"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-xs text-muted-foreground">({product.reviews})</span>
+                </div>
+
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-xl font-bold text-foreground">{product.price}</span>
+                  <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+                </div>
+
+                <button className="w-full py-2.5 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95">
+                  Adicionar ao Carrinho
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="py-20 md:py-32 border-t border-border bg-foreground text-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Por Que Escolher A Gente</h2>
+            <p className="text-background/70 text-lg max-w-2xl mx-auto">
+              Oferecemos uma experiência de compra premium com qualidade incomparável
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: 'Compra Segura', desc: 'Transações criptografadas com tecnologia SSL' },
+              { title: 'Entrega Rápida', desc: 'Envio para todo Brasil em até 7 dias' },
+              { title: 'Produtos Premium', desc: 'Curadoria exclusiva de marcas selecionadas' },
+              { title: 'Suporte 24/7', desc: 'Equipe humanizada disponível sempre' },
+            ].map((item, i) => (
+              <div key={i} className="text-center">
+                <div className="w-14 h-14 bg-accent rounded-full mx-auto mb-4 flex items-center justify-center text-xl font-bold">
+                  ✓
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-background/70">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 md:py-32 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">O Que Nossos Clientes Dizem</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Confira as experiências de quem já compra com a gente
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, i) => (
+              <div key={i} className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow">
+                <div className="flex items-center gap-4 mb-4">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, j) => (
+                        <Star
+                          key={j}
+                          className="w-4 h-4 fill-accent text-accent"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-muted-foreground italic">"{testimonial.text}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Instagram Gallery */}
+      <section className="py-20 md:py-32 border-t border-border">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Acompanhe Nossas Atualizações</h2>
+            <p className="text-muted-foreground text-lg">@premiumstore</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {instagramGallery.map((image, i) => (
+              <div
+                key={i}
+                className="aspect-square rounded-lg overflow-hidden bg-muted hover:shadow-lg transition-shadow cursor-pointer group"
+              >
+                <img
+                  src={image}
+                  alt={`Instagram ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-20 md:py-32 border-t border-border">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Perguntas Frequentes</h2>
+            <p className="text-muted-foreground text-lg">
+              Encontre respostas para suas dúvidas
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <div key={i} className="border border-border rounded-lg overflow-hidden">
+                <button
+                  onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
+                  className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted transition-colors"
+                >
+                  <span className="font-semibold text-left">{faq.question}</span>
+                  <ChevronDown
+                    className={`w-5 h-5 flex-shrink-0 transition-transform ${
+                      expandedFaq === i ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {expandedFaq === i && (
+                  <div className="px-6 py-4 bg-muted border-t border-border">
+                    <p className="text-muted-foreground">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-20 md:py-32 border-t border-border bg-accent text-white">
+        <div className="container mx-auto px-4 max-w-2xl">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold mb-4">Assine Nossa Newsletter</h2>
+            <p className="text-white/90 text-lg">
+              Receba as melhores ofertas e novidades direto no seu email
+            </p>
+          </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setEmail('');
+            }}
+            className="flex flex-col sm:flex-row gap-3"
           >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="seu@email.com"
+              className="flex-1 px-6 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-white/50"
+              required
             />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+            <button
+              type="submit"
+              className="px-8 py-3 bg-white text-accent rounded-lg font-semibold hover:bg-white/90 transition-all active:scale-95 whitespace-nowrap"
+            >
+              Inscrever
+            </button>
+          </form>
+          <p className="text-center text-white/70 text-sm mt-4">
+            Respeitamos sua privacidade. Cancelar inscrição a qualquer momento.
+          </p>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
-}
+};
+
+export default Index;
