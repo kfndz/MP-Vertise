@@ -1,4 +1,5 @@
 import { Heart, Truck, Lock, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
@@ -54,7 +55,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-6">Empresa</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Sobre nós</a></li>
+              <li><Link to="/sobre" className="text-background/70 hover:text-background transition-colors">Sobre nós</Link></li>
               <li><a href="#" className="text-background/70 hover:text-background transition-colors">Carreiras</a></li>
               <li><a href="#" className="text-background/70 hover:text-background transition-colors">Blog</a></li>
               <li><a href="#" className="text-background/70 hover:text-background transition-colors">Imprensa</a></li>
@@ -65,10 +66,10 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-6">Produtos</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Tecnologia</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Casa</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Bem-estar</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Utilidades</a></li>
+              <li><Link to="/categoria/tecnologia" className="text-background/70 hover:text-background transition-colors">Tecnologia</Link></li>
+              <li><Link to="/categoria/casa" className="text-background/70 hover:text-background transition-colors">Casa</Link></li>
+              <li><Link to="/categoria/bem-estar" className="text-background/70 hover:text-background transition-colors">Bem-estar</Link></li>
+              <li><Link to="/categoria/utilidades" className="text-background/70 hover:text-background transition-colors">Utilidades</Link></li>
             </ul>
           </div>
 
@@ -76,10 +77,10 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-6">Suporte</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Central de Ajuda</a></li>
+              <li><Link to="/faq" className="text-background/70 hover:text-background transition-colors">Central de Ajuda</Link></li>
               <li><a href="#" className="text-background/70 hover:text-background transition-colors">Rastrear Pedido</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Devoluções</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Contato</a></li>
+              <li><Link to="/devolucoes" className="text-background/70 hover:text-background transition-colors">Devoluções</Link></li>
+              <li><Link to="/contato" className="text-background/70 hover:text-background transition-colors">Contato</Link></li>
             </ul>
           </div>
 
@@ -87,10 +88,10 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-6">Legal</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Privacidade</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Termos de Uso</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Cookies</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Accessibility</a></li>
+              <li><Link to="/privacidade" className="text-background/70 hover:text-background transition-colors">Privacidade</Link></li>
+              <li><Link to="/termos" className="text-background/70 hover:text-background transition-colors">Termos de Uso</Link></li>
+              <li><Link to="/entrega" className="text-background/70 hover:text-background transition-colors">Entrega</Link></li>
+              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Acessibilidade</a></li>
             </ul>
           </div>
 

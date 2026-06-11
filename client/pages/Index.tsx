@@ -1,7 +1,8 @@
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { Star, ShoppingCart, ChevronRight, Plus, Minus, ChevronDown } from 'lucide-react';
+import { Star, ShoppingCart, ChevronRight, Plus, Minus, ChevronDown, Lock, Truck, Award, Headphones } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
@@ -184,8 +185,9 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((cat) => (
-              <div
+              <Link
                 key={cat.name}
+                to={`/categoria/${cat.name.toLowerCase()}`}
                 className="group relative overflow-hidden rounded-xl bg-card hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
                 <div className="aspect-square overflow-hidden">
@@ -199,7 +201,7 @@ const Index = () => {
                   <h3 className="text-xl font-semibold text-white mb-1">{cat.name}</h3>
                   <p className="text-white/80 text-sm">{cat.description}</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -295,40 +297,48 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 md:py-32 border-t border-border">
+      {/* Nossos Diferenciais */}
+      <section className="py-20 md:py-32 border-t border-border bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">O Que Nossos Clientes Dizem</h2>
+            <h2 className="text-4xl font-bold mb-4">Nossos Diferenciais</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Confira as experiências de quem já compra com a gente
+              O que nos torna a escolha ideal para sua compra
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, i) => (
-              <div key={i} className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow">
-                <div className="flex items-center gap-4 mb-4">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-semibold">{testimonial.name}</h4>
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, j) => (
-                        <Star
-                          key={j}
-                          className="w-4 h-4 fill-accent text-accent"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-muted-foreground italic">"{testimonial.text}"</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
+              <div className="w-14 h-14 bg-accent/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <Lock className="w-7 h-7 text-accent" />
               </div>
-            ))}
+              <h3 className="text-xl font-semibold mb-2">Compra Segura</h3>
+              <p className="text-muted-foreground">Transações criptografadas com tecnologia SSL de última geração para sua proteção.</p>
+            </div>
+
+            <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
+              <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <Truck className="w-7 h-7 text-accent-secondary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Entrega para Todo o Brasil</h3>
+              <p className="text-muted-foreground">Envio rápido e confiável para qualquer lugar do país com rastreamento em tempo real.</p>
+            </div>
+
+            <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
+              <div className="w-14 h-14 bg-accent/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <Award className="w-7 h-7 text-accent" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Produtos Selecionados</h3>
+              <p className="text-muted-foreground">Curadoria exclusiva de marcas premium com garantia de qualidade em cada item.</p>
+            </div>
+
+            <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
+              <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                <Headphones className="w-7 h-7 text-accent-secondary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Atendimento Especializado</h3>
+              <p className="text-muted-foreground">Equipe humanizada disponível 24/7 para esclarecer dúvidas e resolver problemas.</p>
+            </div>
           </div>
         </div>
       </section>
