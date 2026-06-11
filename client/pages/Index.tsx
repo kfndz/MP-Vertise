@@ -1,135 +1,116 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Star, ShoppingCart, ChevronRight, Plus, Minus, ChevronDown, Lock, Truck, Award, Headphones } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import {
+  Star,
+  ShoppingCart,
+  ChevronRight,
+  Plus,
+  Minus,
+  ChevronDown,
+  Lock,
+  Truck,
+  Award,
+  Headphones,
+} from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { products } from "@/lib/products";
 
 const Index = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
-  const [email, setEmail] = useState('');
-
-  // Product data
-  const products = [
-    {
-      id: 1,
-      name: 'Fone de Ouvido Wireless Premium',
-      price: 'R$ 299,90',
-      originalPrice: 'R$ 399,90',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-      rating: 4.8,
-      reviews: 324,
-      badge: 'Bestseller',
-    },
-    {
-      id: 2,
-      name: 'Luminária LED Inteligente',
-      price: 'R$ 149,90',
-      originalPrice: 'R$ 199,90',
-      image: 'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=500&h=500&fit=crop',
-      rating: 4.9,
-      reviews: 156,
-      badge: 'Top Vendido',
-    },
-    {
-      id: 3,
-      name: 'Garrafa Térmica Aço Inoxidável',
-      price: 'R$ 89,90',
-      originalPrice: 'R$ 129,90',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-      rating: 4.7,
-      reviews: 412,
-      badge: 'Novo',
-    },
-    {
-      id: 4,
-      name: 'Almofada de Espuma Ergonômica',
-      price: 'R$ 179,90',
-      originalPrice: 'R$ 249,90',
-      image: 'https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=500&h=500&fit=crop',
-      rating: 4.6,
-      reviews: 289,
-      badge: 'Bestseller',
-    },
-  ];
+  const [email, setEmail] = useState("");
 
   const categories = [
     {
-      name: 'Tecnologia',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop',
-      description: 'Gadgets e acessórios inovadores',
+      name: "Tecnologia",
+      image:
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+      description: "Gadgets e acessórios inovadores",
     },
     {
-      name: 'Casa',
-      image: 'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=400&h=400&fit=crop',
-      description: 'Decoração e utilidades',
+      name: "Casa",
+      image:
+        "/images/images.jfif",
+      description: "Decoração e utilidades",
     },
     {
-      name: 'Bem-estar',
-      image: 'https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=400&h=400&fit=crop',
-      description: 'Saúde e bem-estar',
+      name: "Bem-estar",
+      image:
+        "/images/bemestar.jfif",
+      description: "Saúde e bem-estar",
     },
     {
-      name: 'Utilidades',
-      image: 'https://images.unsplash.com/photo-1560088014-8785e5aff617?w=400&h=400&fit=crop',
-      description: 'Produtos do dia a dia',
+      name: "Utilidades",
+      image:
+        "/images/utilidade.png",
+      description: "Produtos do dia a dia",
     },
   ];
 
   const testimonials = [
     {
-      name: 'Marina Santos',
-      text: 'Produto de excelente qualidade e entrega rápida! Recomendo muito.',
+      name: "Marina Santos",
+      text: "Produto de excelente qualidade e entrega rápida! Recomendo muito.",
       rating: 5,
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+      image:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
     },
     {
-      name: 'João Pedro',
-      text: 'Atendimento humanizado de verdade. A equipe me ajudou com tudo.',
+      name: "João Pedro",
+      text: "Atendimento humanizado de verdade. A equipe me ajudou com tudo.",
       rating: 5,
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     },
     {
-      name: 'Ana Costa',
-      text: 'Surpreendida com a qualidade premium dos produtos. Vale cada centavo.',
+      name: "Ana Costa",
+      text: "Surpreendida com a qualidade premium dos produtos. Vale cada centavo.",
       rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
     },
   ];
 
   const faqs = [
     {
-      question: 'Como funciona o envio?',
-      answer: 'Oferecemos envio para todo o Brasil. A entrega é feita dentro de 7 dias úteis. Frete grátis para compras acima de R$199.',
+      question: "Como funciona o envio?",
+      answer:
+        "Oferecemos envio para todo o Brasil. A entrega é feita dentro de 7 dias úteis. Frete grátis para compras acima de R$199.",
     },
     {
-      question: 'Qual é a política de devolução?',
-      answer: 'Você tem até 30 dias para devolver um produto em perfeitas condições. Oferecemos reembolso total ou troca.',
+      question: "Qual é a política de devolução?",
+      answer:
+        "Você tem até 30 dias para devolver um produto em perfeitas condições. Oferecemos reembolso total ou troca.",
     },
     {
-      question: 'Como rastrear meu pedido?',
-      answer: 'Após a confirmação do pedido, você receberá um código de rastreamento via email para acompanhar sua entrega.',
+      question: "Como rastrear meu pedido?",
+      answer:
+        "Após a confirmação do pedido, você receberá um código de rastreamento via email para acompanhar sua entrega.",
     },
     {
-      question: 'Os produtos têm garantia?',
-      answer: 'Sim! Todos os nossos produtos têm garantia de 1 ano contra defeitos de fabricação.',
+      question: "Os produtos têm garantia?",
+      answer:
+        "Sim! Todos os nossos produtos têm garantia de 1 ano contra defeitos de fabricação.",
     },
     {
-      question: 'Como faço para entrar em contato?',
-      answer: 'Você pode nos contatar via email, chat, ou telefone. Nosso suporte está disponível 24/7.',
+      question: "Como faço para entrar em contato?",
+      answer:
+        "Você pode nos contatar via email, chat, ou telefone. Nosso suporte está disponível 24/7.",
     },
     {
-      question: 'Vocês oferecem parcelamento?',
-      answer: 'Sim! Aceitamos parcelamento em até 12 vezes sem juros no cartão de crédito.',
+      question: "Vocês oferecem parcelamento?",
+      answer:
+        "Sim! Aceitamos parcelamento em até 12 vezes sem juros no cartão de crédito.",
     },
   ];
 
   const instagramGallery = [
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=300&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=300&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1560088014-8785e5aff617?w=300&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=300&h=300&fit=crop',
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=300&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=300&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1560088014-8785e5aff617?w=300&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=300&h=300&fit=crop",
   ];
 
   return (
@@ -198,7 +179,9 @@ const Index = () => {
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-xl font-semibold text-white mb-1">{cat.name}</h3>
+                  <h3 className="text-xl font-semibold text-white mb-1">
+                    {cat.name}
+                  </h3>
                   <p className="text-white/80 text-sm">{cat.description}</p>
                 </div>
               </Link>
@@ -223,7 +206,7 @@ const Index = () => {
                 <div className="relative bg-card rounded-lg overflow-hidden mb-4">
                   <div className="aspect-square overflow-hidden bg-muted">
                     <img
-                      src={product.image}
+                      src={product.image[0]}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -240,7 +223,9 @@ const Index = () => {
                   </button>
                 </div>
 
-                <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{product.name}</h3>
+                <h3 className="font-semibold text-foreground mb-2 line-clamp-2">
+                  {product.name}
+                </h3>
 
                 <div className="flex items-center gap-2 mb-3">
                   <div className="flex items-center gap-1">
@@ -251,12 +236,19 @@ const Index = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-xs text-muted-foreground">({product.reviews})</span>
+                  <span className="text-xs text-muted-foreground">
+                    ({product.reviews})
+                  </span>
                 </div>
 
                 <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-xl font-bold text-foreground">{product.price}</span>
-                  <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+                  <span className="text-xl font-bold text-foreground">
+                    R$ {product.price.toFixed(2).replace(".", ",")}
+                  </span>
+
+                  <span className="text-sm text-muted-foreground line-through">
+                    R$ {product.originalPrice.toFixed(2).replace(".", ",")}
+                  </span>
                 </div>
 
                 <button className="w-full py-2.5 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95">
@@ -272,18 +264,33 @@ const Index = () => {
       <section className="py-20 md:py-32 border-t border-border bg-foreground text-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Por Que Escolher A Gente</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Por Que Escolher A Gente
+            </h2>
             <p className="text-background/70 text-lg max-w-2xl mx-auto">
-              Oferecemos uma experiência de compra premium com qualidade incomparável
+              Oferecemos uma experiência de compra premium com qualidade
+              incomparável
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: 'Compra Segura', desc: 'Transações criptografadas com tecnologia SSL' },
-              { title: 'Entrega Rápida', desc: 'Envio para todo Brasil em até 7 dias' },
-              { title: 'Produtos Premium', desc: 'Curadoria exclusiva de marcas selecionadas' },
-              { title: 'Suporte 24/7', desc: 'Equipe humanizada disponível sempre' },
+              {
+                title: "Compra Segura",
+                desc: "Transações criptografadas com tecnologia SSL",
+              },
+              {
+                title: "Entrega Rápida",
+                desc: "Envio para todo Brasil em até 7 dias",
+              },
+              {
+                title: "Produtos Premium",
+                desc: "Curadoria exclusiva de marcas selecionadas",
+              },
+              {
+                title: "Suporte 24/7",
+                desc: "Equipe humanizada disponível sempre",
+              },
             ].map((item, i) => (
               <div key={i} className="text-center">
                 <div className="w-14 h-14 bg-accent rounded-full mx-auto mb-4 flex items-center justify-center text-xl font-bold">
@@ -313,31 +320,49 @@ const Index = () => {
                 <Lock className="w-7 h-7 text-accent" />
               </div>
               <h3 className="text-xl font-semibold mb-2">Compra Segura</h3>
-              <p className="text-muted-foreground">Transações criptografadas com tecnologia SSL de última geração para sua proteção.</p>
+              <p className="text-muted-foreground">
+                Transações criptografadas com tecnologia SSL de última geração
+                para sua proteção.
+              </p>
             </div>
 
             <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
               <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Truck className="w-7 h-7 text-accent-secondary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Entrega para Todo o Brasil</h3>
-              <p className="text-muted-foreground">Envio rápido e confiável para qualquer lugar do país com rastreamento em tempo real.</p>
+              <h3 className="text-xl font-semibold mb-2">
+                Entrega para Todo o Brasil
+              </h3>
+              <p className="text-muted-foreground">
+                Envio rápido e confiável para qualquer lugar do país com
+                rastreamento em tempo real.
+              </p>
             </div>
 
             <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
               <div className="w-14 h-14 bg-accent/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Award className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Produtos Selecionados</h3>
-              <p className="text-muted-foreground">Curadoria exclusiva de marcas premium com garantia de qualidade em cada item.</p>
+              <h3 className="text-xl font-semibold mb-2">
+                Produtos Selecionados
+              </h3>
+              <p className="text-muted-foreground">
+                Curadoria exclusiva de marcas premium com garantia de qualidade
+                em cada item.
+              </p>
             </div>
 
             <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
               <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Headphones className="w-7 h-7 text-accent-secondary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Atendimento Especializado</h3>
-              <p className="text-muted-foreground">Equipe humanizada disponível 24/7 para esclarecer dúvidas e resolver problemas.</p>
+              <h3 className="text-xl font-semibold mb-2">
+                Atendimento Especializado
+              </h3>
+              <p className="text-muted-foreground">
+                Equipe humanizada disponível 24/7 para esclarecer dúvidas e
+                resolver problemas.
+              </p>
             </div>
           </div>
         </div>
@@ -347,7 +372,9 @@ const Index = () => {
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Acompanhe Nossas Atualizações</h2>
+            <h2 className="text-4xl font-bold mb-4">
+              Acompanhe Nossas Atualizações
+            </h2>
             <p className="text-muted-foreground text-lg">@premiumstore</p>
           </div>
 
@@ -380,15 +407,20 @@ const Index = () => {
 
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={i} className="border border-border rounded-lg overflow-hidden">
+              <div
+                key={i}
+                className="border border-border rounded-lg overflow-hidden"
+              >
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
                   className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted transition-colors"
                 >
-                  <span className="font-semibold text-left">{faq.question}</span>
+                  <span className="font-semibold text-left">
+                    {faq.question}
+                  </span>
                   <ChevronDown
                     className={`w-5 h-5 flex-shrink-0 transition-transform ${
-                      expandedFaq === i ? 'rotate-180' : ''
+                      expandedFaq === i ? "rotate-180" : ""
                     }`}
                   />
                 </button>
@@ -416,7 +448,7 @@ const Index = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              setEmail('');
+              setEmail("");
             }}
             className="flex flex-col sm:flex-row gap-3"
           >
