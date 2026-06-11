@@ -28,9 +28,9 @@ export function Header() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
               {categories.map((cat) => (
-                <a key={cat} href="#" className="text-sm font-medium hover:text-accent transition-colors">
+                <Link key={cat} to={`/categoria/${cat.toLowerCase()}`} className="text-sm font-medium hover:text-accent transition-colors">
                   {cat}
-                </a>
+                </Link>
               ))}
             </nav>
 
@@ -65,10 +65,10 @@ export function Header() {
               </button>
 
               {/* Cart */}
-              <button className="p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <Link to="/carrinho" className="p-2 hover:bg-muted rounded-lg transition-colors relative">
                 <ShoppingCart className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full text-white text-xs flex items-center justify-center" />
-              </button>
+              </Link>
 
               {/* Mobile Menu */}
               <button
@@ -92,9 +92,9 @@ export function Header() {
                 <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
               </div>
               {categories.map((cat) => (
-                <a key={cat} href="#" className="block py-2 text-sm font-medium hover:text-accent transition-colors">
+                <Link key={cat} to={`/categoria/${cat.toLowerCase()}`} className="block py-2 text-sm font-medium hover:text-accent transition-colors">
                   {cat}
-                </a>
+                </Link>
               ))}
             </div>
           )}
