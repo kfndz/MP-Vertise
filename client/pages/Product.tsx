@@ -14,12 +14,13 @@ import { useParams, Link } from "react-router-dom";
 import { products } from "@/lib/products";
 
 const Product = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  const productData = products.find((product) => product.id === Number(id));
+  const productId = id ? Number(id) : NaN;
+  const productData = products.find((product) => product.id === productId);
 
   if (!productData) {
     return <div>Produto não encontrado</div>;
@@ -30,6 +31,8 @@ const Product = () => {
       (p) => p.category === productData.category && p.id !== productData.id,
     )
     .slice(0, 4);
+
+  const specifications = Object.entries(productData.specifications);
 
   const frequentlyBought = [
     {
@@ -82,7 +85,7 @@ const Product = () => {
             <div className="space-y-4">
               <div className="aspect-square bg-muted rounded-lg overflow-hidden">
                 <img
-                  src={productData.images[selectedImage]}
+                  src={productData.images[selectedImage] ?? productData.images[0]}
                   alt={productData.name}
                   className="w-full h-full object-cover"
                 />

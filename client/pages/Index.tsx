@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { products } from "@/lib/products";
+import { Description } from "@radix-ui/react-toast";
 
 const Index = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
@@ -24,51 +25,52 @@ const Index = () => {
     {
       name: "Tecnologia",
       image:
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
+        "/images/tecnologia-image.png",
       description: "Gadgets e acessórios inovadores",
     },
     {
       name: "Casa",
       image:
-        "/images/images.jfif",
+        "/images/casa-image.png",
       description: "Decoração e utilidades",
     },
     {
-      name: "Bem-estar",
+      name: "Produtos de Beleza",
       image:
-        "/images/bemestar.jfif",
-      description: "Saúde e bem-estar",
+        "/images/produtos-beleza-image.png",
+      description: "Produtos de Beleza",
     },
     {
       name: "Utilidades",
       image:
-        "/images/utilidade.png",
+        "/images/utilidades-image.png",
       description: "Produtos do dia a dia",
     },
-  ];
-
-  const testimonials = [
     {
-      name: "Marina Santos",
-      text: "Produto de excelente qualidade e entrega rápida! Recomendo muito.",
-      rating: 5,
-      image:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+      name: "Esporte e Fitness",
+      image: 
+        "/images/esportes-image.png",
+      description: "Melhores produtos para você praticar seu esporte favorito"
     },
     {
-      name: "João Pedro",
-      text: "Atendimento humanizado de verdade. A equipe me ajudou com tudo.",
-      rating: 5,
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+      name: "Saúde",
+      image: 
+        "/images/saude-image.png",
+      description: "Produtos para sua saúde e bem-estar"
     },
     {
-      name: "Ana Costa",
-      text: "Surpreendida com a qualidade premium dos produtos. Vale cada centavo.",
-      rating: 4.8,
+      name: "Indústria e Comércio",
       image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+        "/images/comercio-image.png",
+      description:"Produtos especialmente para o seu negócio"
     },
+    {
+      name: "Pet Shop",
+      image: 
+        "/images/petshop-image.png",
+      description: "Produtos para o seu Pet"
+    }
+    
   ];
 
   const faqs = [
@@ -105,12 +107,12 @@ const Index = () => {
   ];
 
   const instagramGallery = [
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=300&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=300&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1560088014-8785e5aff617?w=300&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=300&h=300&fit=crop",
+    "/images/fone.png",
+    "/images/casa-image.png",
+    "/images/esportes-image.png",
+    "/images/saude-image.png",
+    "/images/tecnologia-image.png",
+    "/images/utilidades-image.png",
   ];
 
   return (
@@ -143,7 +145,7 @@ const Index = () => {
             <div className="relative hidden md:block">
               <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
                 <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop"
+                  src="/images/esportes-image.png"
                   alt="Hero"
                   className="w-full h-full object-cover"
                 />
@@ -202,11 +204,11 @@ const Index = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="group">
+              <div key={product.id} className="group flex flex-col h-full">
                 <div className="relative bg-card rounded-lg overflow-hidden mb-4">
                   <div className="aspect-square overflow-hidden bg-muted">
                     <img
-                      src={product.image[0]}
+                      src={product.images?.[0] ?? product.image}
                       alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -223,37 +225,39 @@ const Index = () => {
                   </button>
                 </div>
 
-                <h3 className="font-semibold text-foreground mb-2 line-clamp-2">
-                  {product.name}
-                </h3>
+                <div className="flex flex-col flex-1">
+                  <h3 className="font-semibold text-foreground mb-2 line-clamp-2 min-h-[3rem]">
+                    {product.name}
+                  </h3>
 
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-4 h-4 fill-accent text-accent"
-                      />
-                    ))}
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-4 h-4 fill-accent text-accent"
+                        />
+                      ))}
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      ({product.reviews})
+                    </span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    ({product.reviews})
-                  </span>
+
+                  <div className="flex items-baseline gap-2 mb-4">
+                    <span className="text-xl font-bold text-foreground">
+                      R$ {product.price.toFixed(2).replace(".", ",")}
+                    </span>
+
+                    <span className="text-sm text-muted-foreground line-through">
+                      R$ {product.originalPrice.toFixed(2).replace(".", ",")}
+                    </span>
+                  </div>
+
+                  <button className="mt-auto w-full py-2.5 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95">
+                    Adicionar ao Carrinho
+                  </button>
                 </div>
-
-                <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-xl font-bold text-foreground">
-                    R$ {product.price.toFixed(2).replace(".", ",")}
-                  </span>
-
-                  <span className="text-sm text-muted-foreground line-through">
-                    R$ {product.originalPrice.toFixed(2).replace(".", ",")}
-                  </span>
-                </div>
-
-                <button className="w-full py-2.5 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95">
-                  Adicionar ao Carrinho
-                </button>
               </div>
             ))}
           </div>

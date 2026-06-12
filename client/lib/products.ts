@@ -55,11 +55,10 @@ export const products = [
 
     description: "Luminária LED inteligente com controle por aplicativo.",
 
-    image:
-      "https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=500&h=500&fit=crop",
+    image: "/images/casa-image.png",
 
     images: [
-      "https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=500&h=500&fit=crop",
+      "/images/casa-image.png",
     ],
 
     specifications: {
@@ -88,11 +87,10 @@ export const products = [
 
     description: "Garrafa térmica premium de aço inox.",
 
-    image:
-      "https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=500&h=500&fit=crop",
+    image: "/images/utilidade.png",
 
     images: [
-      "https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=500&h=500&fit=crop",
+      "/images/utilidade.png",
     ],
 
     specifications: {
@@ -120,11 +118,10 @@ export const products = [
 
     description: "Almofada ergonômica para postura correta.",
 
-    image:
-      "https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=500&h=500&fit=crop",
+    image: "/images/produtos-beleza-image.png",
 
     images: [
-      "https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=500&h=500&fit=crop",
+      "/images/produtos-beleza-image.png",
     ],
 
     specifications: {
