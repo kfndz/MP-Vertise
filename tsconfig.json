@@ -6,10 +6,10 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "isolatedModules": true,
     "moduleDetection": "force",
+    "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,

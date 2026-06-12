@@ -5,7 +5,7 @@ import { Search, ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const categories = ['Tecnologia', 'Casa', 'Bem-estar', 'Utilidades'];
+  const categories = ['Tecnologia', 'Casa', 'Produtos de Beleza', 'Utilidades'];
 
   return (
     <>
