@@ -19,6 +19,9 @@ import TermsOfUse from "./pages/TermsOfUse";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/Login";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminProducts from "./pages/admin/Products";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +44,11 @@ const App = () => (
           <Route path="/termos" element={<TermsOfUse />} />
           <Route path="/entrega" element={<ShippingPolicy />} />
           <Route path="/devolucoes" element={<ReturnPolicy />} />
+          {/* Admin area - keep separated from public routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/produtos" element={<AdminProducts />} />
+          <Route path="/admin/produtos/:id/editar" element={<AdminProducts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
