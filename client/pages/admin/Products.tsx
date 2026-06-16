@@ -72,10 +72,15 @@ export default function AdminProducts() {
 
   return (
     <AdminLayout title="Produtos">
-      <div className="mb-4 flex justify-between">
-        <div></div>
+      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <button onClick={handleAddNew} className="px-3 py-1 bg-green-600 text-white rounded">
+          <p className="text-sm text-muted-foreground">Gerencie seus produtos com facilidade.</p>
+        </div>
+        <div>
+          <button
+            onClick={handleAddNew}
+            className="rounded-2xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground shadow-sm shadow-accent/20 transition hover:bg-accent/90"
+          >
             Adicionar Produto
           </button>
         </div>

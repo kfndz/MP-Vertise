@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Search, ShoppingCart, Heart, User, Menu, X } from "lucide-react";
+import { CategoryDropdown } from "./CategoryDropdown";
+import { CategoryAccordion } from "./CategoryAccordion";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const categories = ['Tecnologia', 'Casa', 'Produtos de Beleza', 'Utilidades'];
 
   return (
     <>
       {/* Announcement Bar */}
       <div className="bg-accent text-white text-center py-2.5 text-sm font-medium sticky top-0 z-50">
-        Frete grátis para compras acima de R$199
+        Produtos Exclusivos com as melhores ofertas! Aproveite agora!
       </div>
 
       {/* Main Header */}
@@ -27,11 +27,21 @@ export function Header() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              {categories.map((cat) => (
-                <Link key={cat} to={`/categoria/${cat.toLowerCase()}`} className="text-sm font-medium hover:text-accent transition-colors">
-                  {cat}
-                </Link>
-              ))}
+              <CategoryDropdown />
+
+              <Link
+                to="/ofertas"
+                className="text-sm font-medium hover:text-accent transition-colors"
+              >
+                Ofertas
+              </Link>
+
+              <Link
+                to="/mais-vendidos"
+                className="text-sm font-medium hover:text-accent transition-colors"
+              >
+                Mais Vendidos
+              </Link>
             </nav>
 
             {/* Search Bar - Hidden on small screens */}
@@ -40,7 +50,7 @@ export function Header() {
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
-                  className="w-full px-4 py-2 bg-muted rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:bg-card transition-all"
+                  className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent focus:bg-card transition-all"
                 />
                 <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
               </div>
@@ -65,7 +75,10 @@ export function Header() {
               </button>
 
               {/* Cart */}
-              <Link to="/carrinho" className="p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <Link
+                to="/carrinho"
+                className="p-2 hover:bg-muted rounded-lg transition-colors relative"
+              >
                 <ShoppingCart className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full text-white text-xs flex items-center justify-center" />
               </Link>
@@ -75,7 +88,11 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
               >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
@@ -83,19 +100,37 @@ export function Header() {
           {/* Mobile Menu */}
           {mobileMenuOpen && (
             <div className="md:hidden border-t border-border py-4 space-y-3">
-              <div className="relative">
+              <div className="relative px-4 pb-4">
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
-                  className="w-full px-4 py-2 bg-muted rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 />
-                <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
+                <Search className="absolute right-7 top-6 w-4 h-4 text-muted-foreground" />
               </div>
-              {categories.map((cat) => (
-                <Link key={cat} to={`/categoria/${cat.toLowerCase()}`} className="block py-2 text-sm font-medium hover:text-accent transition-colors">
-                  {cat}
-                </Link>
-              ))}
+
+              <div className="px-0">
+                <p className="px-4 py-2 text-xs font-semibold uppercase text-muted-foreground mb-2">
+                  Categorias
+                </p>
+                <CategoryAccordion />
+              </div>
+
+              <hr className="my-3 border-border" />
+
+              <Link
+                to="/ofertas"
+                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
+              >
+                Ofertas
+              </Link>
+
+              <Link
+                to="/mais-vendidos"
+                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
+              >
+                Mais Vendidos
+              </Link>
             </div>
           )}
         </div>

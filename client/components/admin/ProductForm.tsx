@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Product, ProductCreateInput } from "../../types/product";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import ImageUpload from "./ImageUpload";
 
 type Props = {
   product?: Product | null;
@@ -55,58 +59,54 @@ export default function ProductForm({ product, onCancel, onSave }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 bg-white p-4 border rounded">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Nome</label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="mt-1 block w-full border px-2 py-1 rounded"
-          required
-        />
+    <form onSubmit={handleSubmit} className="space-y-5 rounded-[28px] border border-border bg-card p-6 shadow-sm">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <label className="mb-2 block text-sm font-medium text-muted-foreground">Nome</label>
+          <Input value={name} onChange={(e) => setName(e.target.value)} required />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium text-muted-foreground">Preço</label>
+          <Input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} step="0.01" required />
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <label className="mb-2 block text-sm font-medium text-muted-foreground">Categoria</label>
+          <Input value={category} onChange={(e) => setCategory(e.target.value)} />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium text-muted-foreground">Estoque</label>
+          <Input
+            type="number"
+            value={stock ?? ""}
+            onChange={(e) => setStock(e.target.value ? Number(e.target.value) : undefined)}
+          />
+        </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Preço</label>
-        <input
-          type="number"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-          className="mt-1 block w-full border px-2 py-1 rounded"
-          step="0.01"
-          required
-        />
+        <label className="mb-2 block text-sm font-medium text-muted-foreground">Descrição</label>
+        <Textarea value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Categoria</label>
-        <input value={category} onChange={(e) => setCategory(e.target.value)} className="mt-1 block w-full border px-2 py-1 rounded" />
+        <label className="mb-2 block text-sm font-medium text-muted-foreground">Imagem do Produto</label>
+        <ImageUpload value={image} onChange={setImage} />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Descrição</label>
-        <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="mt-1 block w-full border px-2 py-1 rounded" />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">Estoque</label>
-        <input type="number" value={stock ?? ""} onChange={(e) => setStock(e.target.value ? Number(e.target.value) : undefined)} className="mt-1 block w-full border px-2 py-1 rounded" />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700">URL da imagem</label>
-        <input value={image} onChange={(e) => setImage(e.target.value)} className="mt-1 block w-full border px-2 py-1 rounded" />
-      </div>
-
-      <div className="flex gap-2">
-        <button type="submit" className="px-3 py-1 bg-green-600 text-white rounded">
-          Salvar
-        </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
         {onCancel && (
-          <button type="button" onClick={onCancel} className="px-3 py-1 bg-gray-300 rounded">
+          <Button variant="outline" type="button" className="w-full sm:w-auto" onClick={onCancel}>
             Cancelar
-          </button>
+          </Button>
         )}
+        <Button type="submit" className="w-full sm:w-auto">
+          Salvar
+        </Button>
       </div>
     </form>
   );
