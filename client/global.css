@@ -44,9 +44,9 @@
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  /* Bordas suaves */
-  --border: 220 13% 90%;
-  --input: 220 14% 96%;
+  /* Bordas mais visíveis */
+  --border: 220 11% 80%;
+  --input: 220 13% 92%;
 
   --ring: 47 67% 47%;
 
