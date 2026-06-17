@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/admin/(.*)",
+      "destination": "/"
+    },
+    {
       "source": "/admin",
       "destination": "/"
     }
