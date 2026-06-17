@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
+import { ProtectedRoute } from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -47,7 +48,7 @@ const App = () => (
           <Route path="/devolucoes" element={<ReturnPolicy />} />
           {/* Admin area - keep separated from public routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard/> </ProtectedRoute>} />
           <Route path="/admin/produtos" element={<AdminProducts />} />
           <Route path="/admin/produtos/:id/editar" element={<AdminProducts />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
