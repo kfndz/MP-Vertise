@@ -70,9 +70,12 @@ export function Header() {
               </button>
 
               {/* User Account */}
-              <button className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors">
+              <Link
+                to="/admin/login"
+                className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors"
+              >
                 <User className="w-5 h-5" />
-              </button>
+              </Link>
 
               {/* Cart */}
               <Link
