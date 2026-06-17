@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/teste",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
+}
