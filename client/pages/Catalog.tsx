@@ -1,99 +1,19 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Star, ShoppingCart, ChevronRight, Sliders } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { Star, ShoppingCart, ChevronRight, Sliders } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Product } from "@/types/product";
+import { ProductService } from "@/services/ProductService";
 
 const Catalog = () => {
-  const [sortBy, setSortBy] = useState('relevancia');
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [sortBy, setSortBy] = useState("relevancia");
   const [showFilters, setShowFilters] = useState(false);
 
-  const allProducts = [
-    {
-      id: 1,
-      name: 'Fone de Ouvido Wireless Premium',
-      price: 'R$ 299,90',
-      originalPrice: 'R$ 399,90',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-      rating: 4.8,
-      reviews: 324,
-      category: 'Tecnologia',
-      badge: 'Bestseller',
-    },
-    {
-      id: 2,
-      name: 'Luminária LED Inteligente',
-      price: 'R$ 149,90',
-      originalPrice: 'R$ 199,90',
-      image: 'https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=500&h=500&fit=crop',
-      rating: 4.9,
-      reviews: 156,
-      category: 'Casa',
-      badge: 'Top Vendido',
-    },
-    {
-      id: 3,
-      name: 'Garrafa Térmica Aço Inoxidável',
-      price: 'R$ 89,90',
-      originalPrice: 'R$ 129,90',
-      image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-      rating: 4.7,
-      reviews: 412,
-      category: 'Utilidades',
-      badge: 'Novo',
-    },
-    {
-      id: 4,
-      name: 'Almofada de Espuma Ergonômica',
-      price: 'R$ 179,90',
-      originalPrice: 'R$ 249,90',
-      image: 'https://images.unsplash.com/photo-1563070733882-b7cb579dc08c?w=500&h=500&fit=crop',
-      rating: 4.6,
-      reviews: 289,
-      category: 'Bem-estar',
-      badge: 'Bestseller',
-    },
-    {
-      id: 5,
-      name: 'Mousepad Ergonômico Premium',
-      price: 'R$ 89,90',
-      originalPrice: 'R$ 129,90',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop',
-      rating: 4.8,
-      reviews: 198,
-      category: 'Tecnologia',
-    },
-    {
-      id: 6,
-      name: 'Suporte de Celular Articulado',
-      price: 'R$ 59,90',
-      originalPrice: 'R$ 89,90',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=500&fit=crop',
-      rating: 4.7,
-      reviews: 267,
-      category: 'Tecnologia',
-    },
-    {
-      id: 7,
-      name: 'Tapete de Yoga Premium',
-      price: 'R$ 129,90',
-      originalPrice: 'R$ 179,90',
-      image: 'https://images.unsplash.com/photo-1556821552-7d9a8f6f6f0f?w=500&h=500&fit=crop',
-      rating: 4.9,
-      reviews: 143,
-      category: 'Bem-estar',
-    },
-    {
-      id: 8,
-      name: 'Cesto Organizador Minimalista',
-      price: 'R$ 79,90',
-      originalPrice: 'R$ 119,90',
-      image: 'https://images.unsplash.com/photo-1560088014-8785e5aff617?w=500&h=500&fit=crop',
-      rating: 4.8,
-      reviews: 189,
-      category: 'Casa',
-    },
-  ];
+  useEffect(() => {
+  ProductService.getAll().then(setAllProducts);
+}, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,7 +23,9 @@ const Catalog = () => {
       <div className="border-b border-border bg-muted/30">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-2 text-sm">
-            <Link to="/" className="hover:text-accent transition-colors">Início</Link>
+            <Link to="/" className="hover:text-accent transition-colors">
+              Início
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-accent font-medium">Catálogo</span>
           </div>
@@ -113,7 +35,9 @@ const Catalog = () => {
       {/* Header */}
       <section className="py-12 md:py-20 border-b border-border bg-gradient-to-br from-muted/50 to-background">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Catálogo de Produtos</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Catálogo de Produtos
+          </h1>
           <p className="text-muted-foreground text-lg">
             Explore nossa seleção completa de produtos premium
           </p>
@@ -125,7 +49,9 @@ const Catalog = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Filters */}
-            <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden'} lg:block`}>
+            <div
+              className={`lg:col-span-1 ${showFilters ? "block" : "hidden"} lg:block`}
+            >
               <div className="bg-card border border-border rounded-lg p-6 sticky top-32">
                 <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
                   <Sliders className="w-5 h-5" />
@@ -134,21 +60,40 @@ const Catalog = () => {
 
                 {/* Category Filter */}
                 <div className="mb-8">
-                  <label className="text-sm font-semibold block mb-4">Categorias</label>
+                  <label className="text-sm font-semibold block mb-4">
+                    Categorias
+                  </label>
                   <div className="space-y-2">
-                    {['Tecnologia', 'Casa', 'Bem-estar', 'Utilidades'].map((cat) => (
-                      <label key={cat} className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="rounded" defaultChecked={false} />
-                        <span className="text-sm">{cat}</span>
-                      </label>
-                    ))}
+                    {["Tecnologia", "Casa", "Bem-estar", "Utilidades"].map(
+                      (cat) => (
+                        <label
+                          key={cat}
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            className="rounded"
+                            defaultChecked={false}
+                          />
+                          <span className="text-sm">{cat}</span>
+                        </label>
+                      ),
+                    )}
                   </div>
                 </div>
 
                 {/* Price Filter */}
                 <div className="mb-8">
-                  <label className="text-sm font-semibold block mb-4">Faixa de Preço</label>
-                  <input type="range" min="0" max="500" defaultValue="500" className="w-full" />
+                  <label className="text-sm font-semibold block mb-4">
+                    Faixa de Preço
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="500"
+                    defaultValue="500"
+                    className="w-full"
+                  />
                   <div className="flex gap-2 mt-3">
                     <input
                       type="number"
@@ -165,20 +110,31 @@ const Catalog = () => {
 
                 {/* Rating Filter */}
                 <div className="mb-8">
-                  <label className="text-sm font-semibold block mb-4">Classificação</label>
+                  <label className="text-sm font-semibold block mb-4">
+                    Classificação
+                  </label>
                   <div className="space-y-3">
                     {[5, 4, 3, 2, 1].map((star) => (
-                      <label key={star} className="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" className="rounded" defaultChecked={star >= 4} />
+                      <label
+                        key={star}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          className="rounded"
+                          defaultChecked={star >= 4}
+                        />
                         <div className="flex items-center gap-1">
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${i < star ? 'fill-accent text-accent' : 'text-muted'}`}
+                              className={`w-4 h-4 ${i < star ? "fill-accent text-accent" : "text-muted"}`}
                             />
                           ))}
                         </div>
-                        <span className="text-sm text-muted-foreground">para cima</span>
+                        <span className="text-sm text-muted-foreground">
+                          para cima
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -221,7 +177,11 @@ const Catalog = () => {
               {/* Products */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {allProducts.map((product) => (
-                  <Link key={product.id} to={`/produto/${product.id}`} className="group">
+                  <Link
+                    key={product.id}
+                    to={`/produto/${product.id}`}
+                    className="group"
+                  >
                     <div className="relative bg-card rounded-lg overflow-hidden mb-4">
                       <div className="aspect-square overflow-hidden bg-muted">
                         <img
@@ -242,7 +202,9 @@ const Catalog = () => {
                       </button>
                     </div>
 
-                    <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{product.name}</h3>
+                    <h3 className="font-semibold text-foreground mb-2 line-clamp-2">
+                      {product.name}
+                    </h3>
 
                     <div className="flex items-center gap-2 mb-3">
                       <div className="flex items-center gap-1">
@@ -253,12 +215,18 @@ const Catalog = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-xs text-muted-foreground">({product.reviews})</span>
+                      <span className="text-xs text-muted-foreground">
+                        ({product.reviews})
+                      </span>
                     </div>
 
                     <div className="flex items-baseline gap-2">
-                      <span className="text-xl font-bold text-foreground">{product.price}</span>
-                      <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+                      <span className="text-xl font-bold text-foreground">
+                        {product.price}
+                      </span>
+                      <span className="text-sm text-muted-foreground line-through">
+                        {product.originalPrice}
+                      </span>
                     </div>
                   </Link>
                 ))}
