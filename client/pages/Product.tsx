@@ -11,22 +11,38 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { products } from "@/lib/products";
+import { ProductService } from "@/services/ProductService";
+import type { Product as ProductType } from "@/types/product";
+import { useEffect } from "react";
 
 const Product = () => {
   const { id } = useParams<{ id: string }>();
+
+  const [productData, setProductData] = useState<ProductType | null>(null);
+
+  const [allProducts, setAllProducts] = useState<ProductType[]>([]);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
-
-  const productId = id ? Number(id) : NaN;
-  const productData = products.find((product) => product.id === productId);
 
   if (!productData) {
     return <div>Produto não encontrado</div>;
   }
 
-  const relatedProducts = products
+  useEffect(() => {
+    if (!id) return;
+
+    ProductService.getById(Number(id)).then((product) => {
+      if (product) {
+        setProductData(product);
+      }
+    });
+
+    ProductService.getAll().then(setAllProducts);
+  }, [id]);
+
+  const relatedProducts = allProducts
     .filter(
       (p) => p.category === productData.category && p.id !== productData.id,
     )
@@ -85,7 +101,9 @@ const Product = () => {
             <div className="space-y-4">
               <div className="aspect-square bg-muted rounded-lg overflow-hidden">
                 <img
-                  src={productData.images[selectedImage] ?? productData.images[0]}
+                  src={
+                    productData.images[selectedImage] ?? productData.images[0]
+                  }
                   alt={productData.name}
                   className="w-full h-full object-cover"
                 />
@@ -136,7 +154,7 @@ const Product = () => {
                   R$ {productData.price.toFixed(2).replace(".", ",")}
                 </span>
                 <span className="text-lg text-muted-foreground line-through">
-                  R$ {productData.originalPrice.toFixed(2).replace(".", ",")}
+                  R$ {productData.originalPrice?.toFixed(2).replace(".", ",")}
                 </span>
                 <span className="text-sm font-semibold text-accent ml-2">
                   {Math.round(

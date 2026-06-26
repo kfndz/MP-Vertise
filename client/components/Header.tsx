@@ -18,11 +18,10 @@ export function Header() {
       <header className="sticky top-10 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
+
             {/* Logo */}
             <Link to="/" className="flex-shrink-0">
-              <div className="w-10 h-10 bg-foreground rounded-lg flex items-center justify-center">
-                <span className="text-background font-bold text-lg">∞</span>
-              </div>
+              <img src="/logo-mp.png" alt="MP Vertise" className="h-16 w-auto" />
             </Link>
 
             {/* Desktop Navigation */}

@@ -9,13 +9,21 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { products } from "@/lib/products";
+import { ProductService } from "@/services/ProductService";
+import { Product } from "@/types/product";
+import { useEffect } from "react";
 
 const Category = () => {
   const { category } = useParams();
+
+  const [products, setProducts] = useState<Product[]>([]);
   const [sortBy, setSortBy] = useState("relevancia");
   const [priceRange, setPriceRange] = useState({ min: 0, max: 500 });
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+  ProductService.getAll().then(setProducts);
+}, []);
 
   const categoryData: Record<
     string,
