@@ -9,46 +9,81 @@ import {
   RotateCcw,
   Shield,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductService } from "@/services/ProductService";
 import type { Product as ProductType } from "@/types/product";
-import { useEffect } from "react";
+import { ProductCard } from "@/components/ProductCard"
 
 const Product = () => {
   const { id } = useParams<{ id: string }>();
 
   const [productData, setProductData] = useState<ProductType | null>(null);
-
+  const [loading, setLoading] = useState(true);
   const [allProducts, setAllProducts] = useState<ProductType[]>([]);
-
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
-
-  if (!productData) {
-    return <div>Produto não encontrado</div>;
-  }
+  const images = productData.images ?? [];
 
   useEffect(() => {
-    if (!id) return;
+    async function loadProduct() {
+       if (!id) return;
+ 
+       setLoading(true);
+ 
+       const product = await ProductService.getById(Number(id));
+ 
+       setProductData(product ?? null);
+ 
+       const products = await ProductService.getAll();
+       setAllProducts(products);
+ 
+       setLoading(false);
 
-    ProductService.getById(Number(id)).then((product) => {
-      if (product) {
-        setProductData(product);
-      }
-    });
+       setSelectedImage(0);
+    }
+ 
+    loadProduct();
+ }, [id]);
 
-    ProductService.getAll().then(setAllProducts);
-  }, [id]);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Carregando...
+      </div>
+    );
+  }
 
-  const relatedProducts = allProducts
-    .filter(
-      (p) => p.category === productData.category && p.id !== productData.id,
-    )
-    .slice(0, 4);
+  if (!productData) {
+    return <div className="min-h-screen flex items-center justify-center">
+      Produto não encontrado. </div>
+  };
 
-  const specifications = Object.entries(productData.specifications);
+  let relatedProducts = allProducts.filter (
+    p => 
+      p.subcategory === productData.subcategory &&
+      p.id !== productData.id
+  );
+
+  if (relatedProducts.length < 4) {
+    relatedProducts = allProducts.filter(
+      p => 
+        p.category === productData.category &&
+        p.id !== productData.id
+    );
+  }
+
+  relatedProducts = relatedProducts.slice(0,4);
+
+  const specifications = Object.entries(productData.specifications ?? {});
+
+  const discount = 
+    productData.originalPrice && productData.originalPrice > productData.price
+      ? Math.round(
+        ((productData.originalPrice - productData.price) / productData.originalPrice) * 100
+      )
+      : 0;
 
   const frequentlyBought = [
     {
@@ -82,10 +117,9 @@ const Product = () => {
             </Link>
             <ChevronRight className="w-4 h-4" />
             <Link
-              to="/categoria/tecnologia"
-              className="hover:text-accent transition-colors"
+              to={`/categoria/${productData.category}`}
             >
-              Tecnologia
+              {productData.category}
             </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-accent font-medium">Produto</span>
@@ -102,14 +136,14 @@ const Product = () => {
               <div className="aspect-square bg-muted rounded-lg overflow-hidden">
                 <img
                   src={
-                    productData.images[selectedImage] ?? productData.images[0]
+                    images[selectedImage] ?? images[0]
                   }
-                  alt={productData.name}
+                  alt={productData.name ?? "Produto"}
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="grid grid-cols-4 gap-2">
-                {productData.images.map((img, idx) => (
+                {images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
@@ -143,8 +177,7 @@ const Product = () => {
                   ))}
                 </div>
                 <span className="text-sm">
-                  <strong>{productData.rating}</strong> ({productData.reviews}{" "}
-                  avaliações)
+                  <strong>{productData.rating ?? 0}</strong> ({productData.reviews ?? 0} avaliações)
                 </span>
               </div>
 
@@ -153,17 +186,20 @@ const Product = () => {
                 <span className="text-4xl font-bold">
                   R$ {productData.price.toFixed(2).replace(".", ",")}
                 </span>
-                <span className="text-lg text-muted-foreground line-through">
-                  R$ {productData.originalPrice?.toFixed(2).replace(".", ",")}
-                </span>
-                <span className="text-sm font-semibold text-accent ml-2">
-                  {Math.round(
-                    ((productData.originalPrice - productData.price) /
-                      productData.originalPrice) *
-                      100,
-                  )}
-                  % OFF
-                </span>
+
+                {productData.originalPrice && (
+                  <>
+                    <span className="text-lg text-muted-foreground line-through">
+                      R$ {productData.originalPrice.toFixed(2).replace(".", ",")}
+                    </span>
+
+                    {discount > 0 && (
+                      <span className="text-sm font-semibold text-accent ml-2">
+                        {discount}% OFF
+                      </span>
+                    )}
+                    </>
+                )}
               </div>
 
               {/* Description */}
@@ -180,7 +216,7 @@ const Product = () => {
                         ✓ Em Estoque
                       </span>
                       <span className="text-muted-foreground ml-2">
-                        ({productData.stock} unidades disponíveis)
+                        ({productData.stock ?? 0} unidades disponíveis)
                       </span>
                     </>
                   ) : (
@@ -208,7 +244,7 @@ const Product = () => {
                   </span>
                   <button
                     onClick={() =>
-                      setQuantity(Math.min(productData.stock, quantity + 1))
+                      setQuantity(Math.min(productData.stock ?? 1, quantity + 1))
                     }
                     className="w-10 h-10 border border-border rounded-lg hover:bg-muted transition-colors"
                   >
@@ -283,13 +319,13 @@ const Product = () => {
             <h2 className="text-2xl font-bold mb-8">Especificações</h2>
             <div className="bg-card border border-border rounded-lg overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2">
-                {Object.entries(productData.specifications).map(
+                {specifications.map(
                   ([key, value], idx) => (
                     <div
                       key={key}
                       className={`p-4 ${idx % 2 === 1 ? "bg-muted/30" : ""} ${
                         idx >=
-                        Object.entries(productData.specifications).length - 2
+                        specifications.length - 2
                           ? "border-t border-border"
                           : ""
                       }`}
@@ -345,41 +381,11 @@ const Product = () => {
           <div className="border-t border-border pt-12">
             <h2 className="text-2xl font-bold mb-8">Produtos Relacionados</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedProducts.map((product) => (
-                <Link
+              {relatedProducts.map(product => (
+                <ProductCard
                   key={product.id}
-                  to={`/produto/${product.id}`}
-                  className="group"
-                >
-                  <div className="bg-card rounded-lg overflow-hidden mb-4">
-                    <div className="aspect-square bg-muted overflow-hidden">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
-                  <h3 className="font-semibold mb-2 line-clamp-2">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-3 h-3 fill-accent text-accent"
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-muted-foreground">
-                      ({product.reviews})
-                    </span>
-                  </div>
-                  <p className="text-accent font-bold">
-                    R$ {product.price.toFixed(2).replace(".", ",")}
-                  </p>
-                </Link>
+                  product={product}
+                />
               ))}
             </div>
           </div>
