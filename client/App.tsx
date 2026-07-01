@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Category from "./pages/Category";
 import Catalog from "./pages/Catalog";
@@ -23,6 +24,9 @@ import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/Products";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
+import MaisVendidos from "./pages/MaisVendidos";
+import Ofertas from "./pages/Ofertas";
+import Favoritos from "./pages/Favoritos";
 
 const queryClient = new QueryClient();
 
@@ -32,12 +36,16 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/catalogo" element={<Catalog />} />
           <Route path="/categoria/:category" element={<Category />} />
           <Route path="/categoria/:category/:subcategory" element={<Category />} />
           <Route path="/produto/:id" element={<Product />} />
+          <Route path="/mais-vendidos" element={<MaisVendidos />} />
+          <Route path="/ofertas" element={<Ofertas />} />
+          <Route path="/favoritos" element={<Favoritos />} />
           <Route path="/carrinho" element={<Cart />} />
           <Route path="/sobre" element={<About />} />
           <Route path="/contato" element={<Contact />} />

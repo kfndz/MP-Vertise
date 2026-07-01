@@ -21,22 +21,22 @@ const Index = () => {
 
   const categories = [
     {
-      name: "Tecnologia",
+      name: "Moda & Estilo",
       image:
-        "/images/tecnologia-image.png",
-      description: "Gadgets e acessórios inovadores",
+        "/images/moda-estilo-image.png",
+      description: "Roupas, acessórios e tendências de moda",
     },
     {
-      name: "Casa",
-      image:
-        "/images/casa-image.png",
-      description: "Decoração e utilidades",
-    },
-    {
-      name: "Produtos de Beleza",
+      name: "Beleza & Cuidados pessoais",
       image:
         "/images/produtos-beleza-image.png",
-      description: "Produtos de Beleza",
+      description: "Maquiagem, perfumes, cosméticos e produtos para sua beleza pessoal",
+    },
+    {
+      name: "Casa & Decoração",
+      image:
+        "/images/casa-image.png",
+      description: "Móveis, decoração e utensílios para o seu lar",
     },
     {
       name: "Utilidades",
@@ -51,16 +51,16 @@ const Index = () => {
       description: "Melhores produtos para você praticar seu esporte favorito"
     },
     {
-      name: "Saúde",
+      name: "Saúde & Bem-estar",
       image: 
         "/images/saude-image.png",
       description: "Produtos para sua saúde e bem-estar"
     },
     {
-      name: "Indústria e Comércio",
+      name: "Tecnologia & Gadgets",
       image:
-        "/images/comercio-image.png",
-      description:"Produtos especialmente para o seu negócio"
+        "/images/tecnologia-image.png",
+      description:"Smartphones, Notebooks e Acessórios"
     },
     {
       name: "Pet Shop",
@@ -143,7 +143,7 @@ const Index = () => {
             <div className="relative hidden md:block">
               <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
                 <img
-                  src="/images/esportes-image.png"
+                  src="/images/home-image.png"
                   alt="Hero"
                   className="w-full h-full object-cover"
                 />
@@ -367,7 +367,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
       <Footer />
     </div>
   );
