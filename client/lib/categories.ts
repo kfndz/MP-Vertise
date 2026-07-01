@@ -1,6 +1,6 @@
 import {
   Smartphone,
-  Laptop,
+  Monitor,
   Headphones,
   Home,
   Utensils,
@@ -8,21 +8,20 @@ import {
   Wind,
   Heart,
   Dumbbell,
-  Running,
-  Yoga,
+  Footprints,
+  Sparkles,
   Activity,
   PawPrint,
   Dog,
   Cat,
-  Toy,
+  Gamepad2,
   Droplets,
   Shirt,
   Watch,
-  Bag,
+  ShoppingBag,
   Eye,
   Wrench,
   Settings,
-  ShoppingBag,
   LucideIcon,
 } from "lucide-react";
 
@@ -36,6 +35,7 @@ export type Category = {
   id: string;
   name: string;
   slug: string;
+  description: string;
   icon: LucideIcon;
   subcategories: Subcategory[];
 };
@@ -45,6 +45,7 @@ export const categories: Category[] = [
     id: "tecnologia",
     name: "Tecnologia",
     slug: "tecnologia",
+    description: "Gadgets e acessórios inovadores para o seu estilo de vida digital",
     icon: Smartphone,
     subcategories: [
       { id: "smartphones", name: "Smartphones", slug: "smartphones" },
@@ -58,6 +59,7 @@ export const categories: Category[] = [
     id: "casa",
     name: "Casa",
     slug: "casa",
+    description: "Decoração e utilidades para tornar seu lar ainda mais especial",
     icon: Home,
     subcategories: [
       { id: "cozinha", name: "Cozinha", slug: "cozinha" },
@@ -70,6 +72,7 @@ export const categories: Category[] = [
     id: "moda-acessorios",
     name: "Moda e Acessórios",
     slug: "moda-acessorios",
+    description: "Peças e acessórios para complementar seu estilo com sofisticação",
     icon: Shirt,
     subcategories: [
       { id: "relogios", name: "Relógios", slug: "relogios" },
@@ -82,6 +85,7 @@ export const categories: Category[] = [
     id: "saude-beleza",
     name: "Saúde e Beleza",
     slug: "saude-beleza",
+    description: "Produtos premium para sua saúde e bem-estar com conforto e praticidade",
     icon: Heart,
     subcategories: [
       { id: "cuidados-pessoais", name: "Cuidados Pessoais", slug: "cuidados-pessoais" },
@@ -94,6 +98,7 @@ export const categories: Category[] = [
     id: "esporte-fitness",
     name: "Esporte e Fitness",
     slug: "esporte-fitness",
+    description: "Itens premium para treinos e rotina ativa com desempenho e estilo",
     icon: Dumbbell,
     subcategories: [
       { id: "musculacao", name: "Musculação", slug: "musculacao" },
@@ -106,6 +111,7 @@ export const categories: Category[] = [
     id: "pet-shop",
     name: "Pet Shop",
     slug: "pet-shop",
+    description: "Essenciais e acessórios para o cuidado e o bem-estar do seu pet",
     icon: PawPrint,
     subcategories: [
       { id: "caes", name: "Cães", slug: "caes" },
@@ -118,6 +124,7 @@ export const categories: Category[] = [
     id: "automotivo",
     name: "Automotivo",
     slug: "automotivo",
+    description: "Proteção e organização para o seu carro com acabamento premium",
     icon: Settings,
     subcategories: [
       { id: "interior", name: "Interior", slug: "interior" },

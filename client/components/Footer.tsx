@@ -114,7 +114,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t border-background/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-background/70">© 2024 Premium Store. Todos os direitos reservados.</p>
+          <p className="text-sm text-background/70">© 2026 MP Vertise. Todos os direitos reservados.</p>
           <div className="flex gap-6">
             <span className="text-xs text-background/50">Segurança SSL</span>
             <span className="text-xs text-background/50">Compra Protegida</span>

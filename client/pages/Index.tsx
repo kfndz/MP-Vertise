@@ -1,11 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
-  Star,
-  ShoppingCart,
   ChevronRight,
-  Plus,
-  Minus,
   ChevronDown,
   Lock,
   Truck,
@@ -14,10 +10,12 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "@/lib/products";
-import { Description } from "@radix-ui/react-toast";
+import { SectionHeader } from "@/components/catalog/SectionHeader";
+import { ProductCard } from "@/components/catalog/ProductCard";
+import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
+  const { products } = useProducts();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [email, setEmail] = useState("");
 
@@ -159,12 +157,10 @@ const Index = () => {
       {/* Featured Categories */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Categorias Destacadas</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Explore nossas seleções especiais em cada categoria
-            </p>
-          </div>
+          <SectionHeader
+            title="Categorias Destacadas"
+            description="Explore nossas seleções especiais em cada categoria"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {categories.map((cat) => (
@@ -195,70 +191,14 @@ const Index = () => {
       {/* Best Sellers */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Mais Vendidos</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Os favoritos dos nossos clientes
-            </p>
-          </div>
+          <SectionHeader
+            title="Mais Vendidos"
+            description="Os favoritos dos nossos clientes"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="group flex flex-col h-full">
-                <div className="relative bg-card rounded-lg overflow-hidden mb-4">
-                  <div className="aspect-square overflow-hidden bg-muted">
-                    <img
-                      src={product.images?.[0] ?? product.image}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  {product.badge && (
-                    <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {product.badge}
-                    </div>
-                  )}
-                  <button className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <div className="bg-white rounded-full p-3">
-                      <ShoppingCart className="w-6 h-6 text-foreground" />
-                    </div>
-                  </button>
-                </div>
-
-                <div className="flex flex-col flex-1">
-                  <h3 className="font-semibold text-foreground mb-2 line-clamp-2 min-h-[3rem]">
-                    {product.name}
-                  </h3>
-
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-4 h-4 fill-accent text-accent"
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-muted-foreground">
-                      ({product.reviews})
-                    </span>
-                  </div>
-
-                  <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-xl font-bold text-foreground">
-                      R$ {product.price.toFixed(2).replace(".", ",")}
-                    </span>
-
-                    <span className="text-sm text-muted-foreground line-through">
-                      R$ {product.originalPrice.toFixed(2).replace(".", ",")}
-                    </span>
-                  </div>
-
-                  <button className="mt-auto w-full py-2.5 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95">
-                    Adicionar ao Carrinho
-                  </button>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
@@ -267,15 +207,10 @@ const Index = () => {
       {/* Why Choose Us */}
       <section className="py-20 md:py-32 border-t border-border bg-foreground text-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Por Que Escolher A Gente
-            </h2>
-            <p className="text-background/70 text-lg max-w-2xl mx-auto">
-              Oferecemos uma experiência de compra premium com qualidade
-              incomparável
-            </p>
-          </div>
+          <SectionHeader
+            title="Por Que Escolher A Gente"
+            description="Oferecemos uma experiência de compra premium com qualidade incomparável"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
@@ -311,12 +246,10 @@ const Index = () => {
       {/* Nossos Diferenciais */}
       <section className="py-20 md:py-32 border-t border-border bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Nossos Diferenciais</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              O que nos torna a escolha ideal para sua compra
-            </p>
-          </div>
+          <SectionHeader
+            title="Nossos Diferenciais"
+            description="O que nos torna a escolha ideal para sua compra"
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-card p-8 rounded-lg border border-border hover:shadow-lg transition-shadow text-center">
@@ -375,12 +308,10 @@ const Index = () => {
       {/* Instagram Gallery */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Acompanhe Nossas Atualizações
-            </h2>
-            <p className="text-muted-foreground text-lg">@premiumstore</p>
-          </div>
+          <SectionHeader
+            title="Acompanhe Nossas Atualizações"
+            description="@premiumstore"
+          />
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {instagramGallery.map((image, i) => (
@@ -402,12 +333,10 @@ const Index = () => {
       {/* FAQ */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Perguntas Frequentes</h2>
-            <p className="text-muted-foreground text-lg">
-              Encontre respostas para suas dúvidas
-            </p>
-          </div>
+          <SectionHeader
+            title="Perguntas Frequentes"
+            description="Encontre respostas para suas dúvidas"
+          />
 
           <div className="space-y-3">
             {faqs.map((faq, i) => (
@@ -438,45 +367,7 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <section className="py-20 md:py-32 border-t border-border bg-accent text-white">
-        <div className="container mx-auto px-4 max-w-2xl">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-4">Assine Nossa Newsletter</h2>
-            <p className="text-white/90 text-lg">
-              Receba as melhores ofertas e novidades direto no seu email
-            </p>
-          </div>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setEmail("");
-            }}
-            className="flex flex-col sm:flex-row gap-3"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
-              className="flex-1 px-6 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 outline-none focus:ring-2 focus:ring-white/50"
-              required
-            />
-            <button
-              type="submit"
-              className="px-8 py-3 bg-white text-accent rounded-lg font-semibold hover:bg-white/90 transition-all active:scale-95 whitespace-nowrap"
-            >
-              Inscrever
-            </button>
-          </form>
-          <p className="text-center text-white/70 text-sm mt-4">
-            Respeitamos sua privacidade. Cancelar inscrição a qualquer momento.
-          </p>
-        </div>
-      </section>
-
+      
       <Footer />
     </div>
   );
