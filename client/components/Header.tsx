@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, ShoppingCart, Heart, User, Menu, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { CategoryDropdown } from "./CategoryDropdown";
 import { CategoryAccordion } from "./CategoryAccordion";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  function handleSearchSubmit(term: string) {
+    const q = term.trim();
+    if (!q) return;
+    navigate(`/catalogo?q=${encodeURIComponent(q)}`);
+  }
 
   return (
     <>
@@ -49,6 +57,9 @@ export function Header() {
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleSearchSubmit((e.target as HTMLInputElement).value);
+                  }}
                   className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent focus:bg-card transition-all"
                 />
                 <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
@@ -63,12 +74,12 @@ export function Header() {
               </button>
 
               {/* Wishlist */}
-              <button className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <Link to="/favoritos" className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors relative">
                 <Heart className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
-              </button>
+              </Link>
 
-              {/* User Account */}
+              {/* User / Admin (back to admin login) */}
               <Link
                 to="/admin/login"
                 className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors"
@@ -106,6 +117,9 @@ export function Header() {
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleSearchSubmit((e.target as HTMLInputElement).value);
+                  }}
                   className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 />
                 <Search className="absolute right-7 top-6 w-4 h-4 text-muted-foreground" />
@@ -121,6 +135,13 @@ export function Header() {
               <hr className="my-3 border-border" />
 
               <Link
+                to="/favoritos"
+                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
+              >
+                Favoritos
+              </Link>
+
+              <Link
                 to="/ofertas"
                 className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
               >
@@ -132,6 +153,13 @@ export function Header() {
                 className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
               >
                 Mais Vendidos
+              </Link>
+
+              <Link
+                to="/admin/login"
+                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
+              >
+                Painel Administrativo
               </Link>
             </div>
           )}

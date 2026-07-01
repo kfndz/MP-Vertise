@@ -6,19 +6,23 @@ import { ProductFilters } from "@/components/catalog/ProductFilters";
 import { ProductGrid } from "@/components/catalog/ProductGrid";
 import { useProducts } from "@/hooks/useProducts";
 import { DEFAULT_PRODUCT_FILTERS, filterProducts } from "@/utils/productFilters";
+import { useLocation } from "react-router-dom";
 import { sortProducts, type ProductSortOption } from "@/utils/productSorting";
 import type { Product } from "@/types/product";
 
 const Catalog = () => {
   const { products, loading } = useProducts();
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const q = params.get("q") ?? undefined;
   const [sortBy, setSortBy] = useState<ProductSortOption>("relevancia");
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState(DEFAULT_PRODUCT_FILTERS);
 
   const filteredProducts = useMemo(() => {
-    const filtered = filterProducts(products as Product[], filters);
+    const filtered = filterProducts(products as Product[], filters, q);
     return sortProducts(filtered, sortBy);
-  }, [filters, products, sortBy]);
+  }, [filters, products, sortBy, q]);
 
   const categoryOptions = useMemo(() => {
     const categories = Array.from(new Set(products.map((product) => product.category).filter(Boolean)));

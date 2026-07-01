@@ -15,7 +15,10 @@ export const DEFAULT_PRODUCT_FILTERS: ProductFilterState = {
 export function filterProducts(
   products: Product[],
   filters: ProductFilterState,
+  searchTerm?: string,
 ): Product[] {
+  const term = searchTerm?.trim().toLowerCase() || "";
+
   return products.filter((product) => {
     const matchesCategory =
       filters.categories.length === 0 ||
@@ -27,6 +30,12 @@ export function filterProducts(
 
     const matchesRating = (product.rating ?? 0) >= filters.minRating;
 
-    return matchesCategory && matchesPrice && matchesRating;
+    const matchesTerm =
+      !term ||
+      [product.name, product.description, product.category, product.subcategory]
+        .filter(Boolean)
+        .some((v) => v!.toLowerCase().includes(term));
+
+    return matchesCategory && matchesPrice && matchesRating && matchesTerm;
   });
 }
