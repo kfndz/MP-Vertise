@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductService } from "@/services/ProductService";
 import type { Product as ProductType } from "@/types/product";
-import { ProductCard } from "@/components/ProductCard"
+import { ProductCard } from "@/components/catalog/ProductCard"
 
 const Product = () => {
   const { id } = useParams<{ id: string }>();
