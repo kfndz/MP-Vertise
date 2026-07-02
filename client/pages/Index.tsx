@@ -72,34 +72,34 @@ const Index = () => {
 
   const faqs = [
     {
-      question: "Como funciona o envio?",
+      question: "Como o site funciona?",
       answer:
-        "Oferecemos envio para todo o Brasil. A entrega é feita dentro de 7 dias úteis. Frete grátis para compras acima de R$199.",
+        "Nós selecionamos e organizamos as melhores ofertas e produtos de grandes lojas em úm só lugar para facilitar sua busca. Quando você clica em um produto, você é redirecionado para concluir sua compra com total segurança na loja oficial.",
     },
     {
-      question: "Qual é a política de devolução?",
+      question: "Eu pago algo a mais para comprar por aqui?",
       answer:
-        "Você tem até 30 dias para devolver um produto em perfeitas condições. Oferecemos reembolso total ou troca.",
+        "Não! Você paga o mesmo valor do produto na loja oficial. O site funciona apenas como um indicador de ofertas, nós não cobramos nenhuma taxa extra dos usuários.",
     },
     {
-      question: "Como rastrear meu pedido?",
+      question: "Como funciona o envio e o rastreamento do meu pedido?",
       answer:
-        "Após a confirmação do pedido, você receberá um código de rastreamento via email para acompanhar sua entrega.",
+        "Como nós apenas indicamos os produtos, todo o processo de envio, entrega e rastreamento é de responsabilidade da loja onde você finalizou a compra.",
     },
     {
-      question: "Os produtos têm garantia?",
+      question: "Onde vejo o prazo de entrega e o valor do frete?",
       answer:
-        "Sim! Todos os nossos produtos têm garantia de 1 ano contra defeitos de fabricação.",
+        "Você consegue calcular o frete e ver o prazo de entrega diretamente na página da loja oficial, antes de finalizar o seu pagamento, inserindo o seu CEP.",
     },
     {
-      question: "Como faço para entrar em contato?",
+      question: "Se eu precisar devolver ou trocar o produto, o que eu faço?",
       answer:
-        "Você pode nos contatar via email, chat, ou telefone. Nosso suporte está disponível 24/7.",
+        "Qualquer troca, devolução ou pedido de reembolso deve ser feito diretamente através do suporta da loja onde o produto foi comprado, seguindo as políticas de devolução deles.",
     },
     {
-      question: "Vocês oferecem parcelamento?",
+      question: "O site é seguro?",
       answer:
-        "Sim! Aceitamos parcelamento em até 12 vezes sem juros no cartão de crédito.",
+        "Sim, totalmente. Você não insere dados de cartão de crédito ou dados pessoais sensíveis no nosso site. Toda a parte de pagamento e cadastro é feita dentro do ambiente seguro das maiores e mais confiáveis plataformas de e-commerce do Brasil.",
     },
   ];
 
