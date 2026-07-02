@@ -13,13 +13,18 @@
     "typecheck": "tsc",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "prisma:generate": "prisma generate --schema=server/prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema=server/prisma/schema.prisma",
+    "prisma:seed": "tsx server/prisma/seed.ts",
     "ci:guard-no-drizzle-push": "node scripts/guard-no-drizzle-push.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "@prisma/client": "^6.1.0",
     "dotenv": "^17.2.1",
     "drizzle-orm": "0.45.2",
     "express": "^5.1.0",
+    "prisma": "^6.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

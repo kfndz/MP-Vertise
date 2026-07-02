@@ -2,4 +2,7 @@ ignoredBuiltDependencies:
   - esbuild
 
 onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
   - '@swc/core'
+  - prisma
