@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star } from "lucide-react";
 import type { Product } from "@/types/product";
@@ -6,7 +7,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const discount =
     product.originalPrice && product.originalPrice > (product.price ?? 0)
       ? Math.round(
@@ -14,13 +15,18 @@ export function ProductCard({ product }: ProductCardProps) {
         )
       : 0;
 
+  const imageUrl = product.images?.find(Boolean) ?? product.image ?? "/images/home-image.png";
+
   return (
     <Link to={`/produto/${product.id}`} className="group flex flex-col h-full">
       <div className="relative bg-card rounded-lg overflow-hidden mb-4">
         <div className="aspect-square overflow-hidden bg-muted">
           <img
-            src={product.images?.[0] ?? product.image}
+            src={imageUrl}
             alt={product.name}
+            onError={(event) => {
+              event.currentTarget.src = "/images/home-image.png";
+            }}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -29,11 +35,11 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.badge}
           </div>
         )}
-        <button className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
           <div className="bg-white rounded-full p-3">
             <ShoppingCart className="w-6 h-6 text-foreground" />
           </div>
-        </button>
+        </div>
       </div>
 
       <div className="flex flex-col flex-1">
@@ -68,4 +74,4 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
     </Link>
   );
-}
+});

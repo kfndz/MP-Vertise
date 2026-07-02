@@ -22,53 +22,52 @@ const Index = () => {
   const categories = [
     {
       name: "Moda & Estilo",
-      image:
-        "/images/moda-estilo-image.png",
+      slug: "moda-acessorios",
+      image: "/images/moda-estilo-image.png",
       description: "Roupas, acessórios e tendências de moda",
     },
     {
       name: "Beleza & Cuidados pessoais",
-      image:
-        "/images/produtos-beleza-image.png",
+      slug: "saude-beleza",
+      image: "/images/produtos-beleza-image.png",
       description: "Maquiagem, perfumes, cosméticos e produtos para sua beleza pessoal",
     },
     {
       name: "Casa & Decoração",
-      image:
-        "/images/casa-image.png",
+      slug: "casa",
+      image: "/images/casa-image.png",
       description: "Móveis, decoração e utensílios para o seu lar",
     },
     {
       name: "Utilidades",
-      image:
-        "/images/utilidades-image.png",
+      slug: "casa",
+      image: "/images/utilidades-image.png",
       description: "Produtos do dia a dia",
     },
     {
       name: "Esporte e Fitness",
-      image: 
-        "/images/esportes-image.png",
-      description: "Melhores produtos para você praticar seu esporte favorito"
+      slug: "esporte-fitness",
+      image: "/images/esportes-image.png",
+      description: "Melhores produtos para você praticar seu esporte favorito",
     },
     {
       name: "Saúde & Bem-estar",
-      image: 
-        "/images/saude-image.png",
-      description: "Produtos para sua saúde e bem-estar"
+      slug: "saude-beleza",
+      image: "/images/saude-image.png",
+      description: "Produtos para sua saúde e bem-estar",
     },
     {
       name: "Tecnologia & Gadgets",
-      image:
-        "/images/tecnologia-image.png",
-      description:"Smartphones, Notebooks e Acessórios"
+      slug: "tecnologia",
+      image: "/images/tecnologia-image.png",
+      description: "Smartphones, Notebooks e Acessórios",
     },
     {
       name: "Pet Shop",
-      image: 
-        "/images/petshop-image.png",
-      description: "Produtos para o seu Pet"
-    }
-    
+      slug: "pet-shop",
+      image: "/images/petshop-image.png",
+      description: "Produtos para o seu Pet",
+    },
   ];
 
   const faqs = [
@@ -129,13 +128,13 @@ const Index = () => {
                 Seleção exclusiva com qualidade, praticidade e entrega segura.
               </p>
               <div className="flex gap-4">
-                <button className="px-8 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center gap-2">
+                <Link to="/catalogo" className="px-8 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center gap-2">
                   Explorar Produtos
                   <ChevronRight className="w-4 h-4" />
-                </button>
-                <button className="px-8 py-4 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-all">
+                </Link>
+                <Link to="/mais-vendidos" className="px-8 py-4 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-all">
                   Mais Vendidos
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -166,7 +165,7 @@ const Index = () => {
             {categories.map((cat) => (
               <Link
                 key={cat.name}
-                to={`/categoria/${cat.name.toLowerCase()}`}
+                to={`/categoria/${cat.slug}`}
                 className="group relative overflow-hidden rounded-xl bg-card hover:shadow-xl transition-all duration-300 cursor-pointer"
               >
                 <div className="aspect-square overflow-hidden">

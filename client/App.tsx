@@ -56,9 +56,9 @@ const App = () => (
           <Route path="/devolucoes" element={<ReturnPolicy />} />
           {/* Admin area - keep separated from public routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard/> </ProtectedRoute>} />
-          <Route path="/admin/produtos" element={<AdminProducts />} />
-          <Route path="/admin/produtos/:id/editar" element={<AdminProducts />} />
+          <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+          <Route path="/admin/produtos" element={<ProtectedRoute><AdminProducts /></ProtectedRoute>} />
+          <Route path="/admin/produtos/:id/editar" element={<ProtectedRoute><AdminProducts /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

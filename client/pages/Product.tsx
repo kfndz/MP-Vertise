@@ -9,7 +9,7 @@ import {
   RotateCcw,
   Shield,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductService } from "@/services/ProductService";
 import type { Product as ProductType } from "@/types/product";
@@ -24,28 +24,62 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const images = productData.images ?? [];
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function loadProduct() {
-       if (!id) return;
- 
-       setLoading(true);
- 
-       const product = await ProductService.getById(Number(id));
- 
-       setProductData(product ?? null);
- 
-       const products = await ProductService.getAll();
-       setAllProducts(products);
- 
-       setLoading(false);
+    let isMounted = true;
 
-       setSelectedImage(0);
+    async function loadProduct() {
+      if (!id) {
+        if (isMounted) {
+          setProductData(null);
+          setAllProducts([]);
+          setError("Produto não encontrado.");
+          setLoading(false);
+          setSelectedImage(0);
+        }
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [product, products] = await Promise.all([
+          ProductService.getById(Number(id)),
+          ProductService.getAll(),
+        ]);
+
+        if (!isMounted) return;
+
+        setProductData(product ?? null);
+        setAllProducts(products);
+        setSelectedImage(0);
+      } catch (err) {
+        if (!isMounted) return;
+        setProductData(null);
+        setAllProducts([]);
+        setError(err instanceof Error ? err.message : "Não foi possível carregar o produto.");
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
- 
-    loadProduct();
- }, [id]);
+
+    void loadProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  const images = useMemo(() => {
+    const baseImages = productData?.images?.filter(Boolean) ?? [];
+    if (baseImages.length > 0) return baseImages;
+    if (productData?.image) return [productData.image];
+    return ["/images/home-image.png"];
+  }, [productData]);
 
   if (loading) {
     return (
@@ -56,21 +90,34 @@ const Product = () => {
   }
 
   if (!productData) {
-    return <div className="min-h-screen flex items-center justify-center">
-      Produto não encontrado. </div>
-  };
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-24 text-center">
+          <h1 className="text-3xl font-semibold mb-4">Produto não encontrado</h1>
+          <p className="text-muted-foreground mb-8">
+            {error ?? "Este produto não está mais disponível ou a URL informada é inválida."}
+          </p>
+          <Link to="/catalogo" className="inline-flex items-center rounded-lg bg-accent px-6 py-3 font-semibold text-white">
+            Voltar ao catálogo
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
-  let relatedProducts = allProducts.filter (
-    p => 
-      p.subcategory === productData.subcategory &&
-      p.id !== productData.id
+  let relatedProducts = allProducts.filter(
+    (product) =>
+      product.subcategory === productData.subcategory &&
+      product.id !== productData.id,
   );
 
   if (relatedProducts.length < 4) {
     relatedProducts = allProducts.filter(
-      p => 
-        p.category === productData.category &&
-        p.id !== productData.id
+      (product) =>
+        product.category === productData.category &&
+        product.id !== productData.id,
     );
   }
 
@@ -116,10 +163,8 @@ const Product = () => {
               Início
             </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link
-              to={`/categoria/${productData.category}`}
-            >
-              {productData.category}
+            <Link to={productData.category ? `/categoria/${productData.category}` : "/catalogo"}>
+              {productData.category ?? "Catálogo"}
             </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-accent font-medium">Produto</span>
@@ -135,10 +180,11 @@ const Product = () => {
             <div className="space-y-4">
               <div className="aspect-square bg-muted rounded-lg overflow-hidden">
                 <img
-                  src={
-                    images[selectedImage] ?? images[0]
-                  }
+                  src={images[selectedImage] ?? images[0]}
                   alt={productData.name ?? "Produto"}
+                  onError={(event) => {
+                    event.currentTarget.src = "/images/home-image.png";
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -156,6 +202,9 @@ const Product = () => {
                     <img
                       src={img}
                       alt={`${productData.name} ${idx + 1}`}
+                      onError={(event) => {
+                        event.currentTarget.src = "/images/home-image.png";
+                      }}
                       className="w-full h-full object-cover"
                     />
                   </button>

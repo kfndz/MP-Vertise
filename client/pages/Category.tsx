@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import { ArrowUpDown, Sliders } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowUpDown } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 import { Breadcrumb } from "@/components/catalog/Breadcrumb";
 import { CategoryPageLayout } from "@/components/catalog/CategoryPageLayout";
 import { Pagination } from "@/components/catalog/Pagination";
@@ -21,8 +21,17 @@ const Category = () => {
 
   const categoryData = getCategoryBySlug(category ?? "");
   const currentSubcategory = subcategory ? getSubcategoryBySlug(category ?? "", subcategory) : undefined;
+  const hasValidRoute = Boolean(categoryData) && (!subcategory || Boolean(currentSubcategory));
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [category, subcategory]);
 
   const filteredProducts = useMemo(() => {
+    if (!hasValidRoute) {
+      return [];
+    }
+
     const categoryProducts = (products ?? []).filter((product) => {
       const matchesCategory = product.category === categoryData?.slug;
       const matchesSubcategory = currentSubcategory
@@ -33,7 +42,7 @@ const Category = () => {
     });
 
     return sortProducts(filterProducts(categoryProducts, filters), sortBy);
-  }, [categoryData?.slug, currentSubcategory, filters, products, sortBy]);
+  }, [categoryData?.slug, currentSubcategory, filters, hasValidRoute, products, sortBy]);
 
   const paginatedProducts = useMemo(() => {
     return paginateProducts(filteredProducts, 8, currentPage);
@@ -79,7 +88,9 @@ const Category = () => {
                 <span className="text-sm text-muted-foreground">
                   {loading
                     ? "Carregando produtos..."
-                    : `Exibindo ${paginatedProducts.items.length} de ${filteredProducts.length} produtos`}
+                    : hasValidRoute
+                      ? `Exibindo ${paginatedProducts.items.length} de ${filteredProducts.length} produtos`
+                      : "Categoria não encontrada"}
                 </span>
                 <div className="flex items-center gap-2">
                   <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
@@ -100,8 +111,27 @@ const Category = () => {
                 </div>
               </div>
 
-              <ProductGrid products={paginatedProducts.items} className="mb-12" />
-              <Pagination currentPage={currentPage} totalPages={paginatedProducts.totalPages} onPageChange={setCurrentPage} />
+              {!loading && !hasValidRoute ? (
+                <div className="rounded-2xl border border-border bg-card p-8 text-center">
+                  <h2 className="text-xl font-semibold mb-3">Esta categoria ainda não está disponível</h2>
+                  <p className="text-muted-foreground mb-6">
+                    A rota informada não corresponde a uma categoria ou subcategoria válida.
+                  </p>
+                  <Link to="/catalogo" className="inline-flex items-center rounded-lg bg-accent px-6 py-3 font-semibold text-white">
+                    Ver catálogo completo
+                  </Link>
+                </div>
+              ) : !loading && filteredProducts.length === 0 ? (
+                <div className="rounded-2xl border border-border bg-card p-8 text-center">
+                  <h2 className="text-xl font-semibold mb-3">Nenhum produto encontrado</h2>
+                  <p className="text-muted-foreground">Tente outra categoria ou volte ao catálogo completo.</p>
+                </div>
+              ) : (
+                <>
+                  <ProductGrid products={paginatedProducts.items} className="mb-12" />
+                  <Pagination currentPage={currentPage} totalPages={paginatedProducts.totalPages} onPageChange={setCurrentPage} />
+                </>
+              )}
             </div>
           </div>
         </div>
