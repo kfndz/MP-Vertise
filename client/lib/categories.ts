@@ -1,26 +1,11 @@
 import {
-  Smartphone,
-  Monitor,
-  Headphones,
+  Shirt,
+  Heart,
   Home,
   Utensils,
-  Package,
-  Wind,
-  Heart,
   Dumbbell,
-  Footprints,
-  Sparkles,
-  Activity,
+  Smartphone,
   PawPrint,
-  Dog,
-  Cat,
-  Gamepad2,
-  Droplets,
-  Shirt,
-  Watch,
-  ShoppingBag,
-  Eye,
-  Wrench,
   Settings,
   LucideIcon,
 } from "lucide-react";
@@ -40,39 +25,13 @@ export type Category = {
   subcategories: Subcategory[];
 };
 
+// Ordem exata desejada na Home e refletida dinamicamente no Header
 export const categories: Category[] = [
   {
-    id: "tecnologia",
-    name: "Tecnologia",
-    slug: "tecnologia",
-    description: "Gadgets e acessórios inovadores para o seu estilo de vida digital",
-    icon: Smartphone,
-    subcategories: [
-      { id: "smartphones", name: "Smartphones", slug: "smartphones" },
-      { id: "informatica", name: "Informática", slug: "informatica" },
-      { id: "audio", name: "Áudio", slug: "audio" },
-      { id: "smart-home", name: "Smart Home", slug: "smart-home" },
-      { id: "acessorios-tech", name: "Acessórios", slug: "acessorios-tech" },
-    ],
-  },
-  {
-    id: "casa",
-    name: "Casa",
-    slug: "casa",
-    description: "Decoração e utilidades para tornar seu lar ainda mais especial",
-    icon: Home,
-    subcategories: [
-      { id: "cozinha", name: "Cozinha", slug: "cozinha" },
-      { id: "decoracao", name: "Decoração", slug: "decoracao" },
-      { id: "organizacao", name: "Organização", slug: "organizacao" },
-      { id: "limpeza", name: "Limpeza", slug: "limpeza" },
-    ],
-  },
-  {
     id: "moda-acessorios",
-    name: "Moda e Acessórios",
+    name: "Moda & Estilo",
     slug: "moda-acessorios",
-    description: "Peças e acessórios para complementar seu estilo com sofisticação",
+    description: "Roupas e acessórios para todas as ocasiões",
     icon: Shirt,
     subcategories: [
       { id: "relogios", name: "Relógios", slug: "relogios" },
@@ -83,15 +42,39 @@ export const categories: Category[] = [
   },
   {
     id: "saude-beleza",
-    name: "Saúde e Beleza",
+    name: "Beleza & Cuidados Pessoais",
     slug: "saude-beleza",
-    description: "Produtos premium para sua saúde e bem-estar com conforto e praticidade",
+    description: "Produtos para sua rotina de autocuidado",
     icon: Heart,
     subcategories: [
       { id: "cuidados-pessoais", name: "Cuidados Pessoais", slug: "cuidados-pessoais" },
       { id: "cosmeticos", name: "Cosméticos", slug: "cosmeticos" },
       { id: "bem-estar", name: "Bem-estar", slug: "bem-estar" },
       { id: "higiene", name: "Higiene", slug: "higiene" },
+    ],
+  },
+  {
+    id: "casa",
+    name: "Casa & Decoração",
+    slug: "casa",
+    description: "Tudo para deixar seu lar aconchegante",
+    icon: Home,
+    subcategories: [
+      { id: "cozinha", name: "Cozinha", slug: "cozinha" },
+      { id: "decoracao", name: "Decoração", slug: "decoracao" },
+      { id: "organizacao", name: "Organização", slug: "organizacao" },
+      { id: "limpeza", name: "Limpeza", slug: "limpeza" },
+    ],
+  },
+  {
+    id: "utilidades",
+    name: "Utilidades",
+    slug: "utilidades", // Corrigido para não usar mais o slug "casa"
+    description: "Praticidade e inovação para o seu dia a dia",
+    icon: Utensils,
+    subcategories: [
+      { id: "organizadores", name: "Organizadores", slug: "organizadores" },
+      { id: "ferramentas", name: "Ferramentas", slug: "ferramentas" },
     ],
   },
   {
@@ -105,6 +88,20 @@ export const categories: Category[] = [
       { id: "corrida", name: "Corrida", slug: "corrida" },
       { id: "yoga", name: "Yoga", slug: "yoga" },
       { id: "acessorios-esporte", name: "Acessórios", slug: "acessorios-esporte" },
+    ],
+  },
+  {
+    id: "tecnologia",
+    name: "Tecnologia",
+    slug: "tecnologia",
+    description: "Gadgets e acessórios inovadores para o seu estilo de vida digital",
+    icon: Smartphone,
+    subcategories: [
+      { id: "smartphones", name: "Smartphones", slug: "smartphones" },
+      { id: "informatica", name: "Informática", slug: "informatica" },
+      { id: "audio", name: "Áudio", slug: "audio" },
+      { id: "smart-home", name: "Smart Home", slug: "smart-home" },
+      { id: "acessorios-tech", name: "Acessórios", slug: "acessorios-tech" },
     ],
   },
   {
@@ -135,27 +132,15 @@ export const categories: Category[] = [
   },
 ];
 
-/**
- * Busca uma categoria pelo slug
- */
 export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((cat) => cat.slug === slug);
 }
 
-/**
- * Busca uma subcategoria dentro de uma categoria
- */
-export function getSubcategoryBySlug(
-  categorySlug: string,
-  subcategorySlug: string,
-): Subcategory | undefined {
+export function getSubcategoryBySlug(categorySlug: string, subcategorySlug: string): Subcategory | undefined {
   const category = getCategoryBySlug(categorySlug);
   return category?.subcategories.find((sub) => sub.slug === subcategorySlug);
 }
 
-/**
- * Busca categoria pelo ID (para compatibilidade)
- */
 export function getCategoryById(id: string): Category | undefined {
   return categories.find((cat) => cat.id === id);
 }

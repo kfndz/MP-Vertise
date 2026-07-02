@@ -19,7 +19,7 @@ const Index = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [email, setEmail] = useState("");
 
-  const categories = [
+ const categories = [
     {
       name: "Moda & Estilo",
       slug: "moda-acessorios",
@@ -40,7 +40,7 @@ const Index = () => {
     },
     {
       name: "Utilidades",
-      slug: "casa",
+      slug: "utilidades", // <-- CORRIGIDO: Agora vai para a página certa
       image: "/images/utilidades-image.png",
       description: "Produtos do dia a dia",
     },
@@ -52,7 +52,7 @@ const Index = () => {
     },
     {
       name: "Saúde & Bem-estar",
-      slug: "saude-beleza",
+      slug: "saude-beleza", // Nota: Como divide o mesmo slug, o Category.tsx vai renderizar o layout de Beleza & Cuidados Pessoais.
       image: "/images/saude-image.png",
       description: "Produtos para sua saúde e bem-estar",
     },
