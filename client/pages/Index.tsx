@@ -16,7 +16,7 @@ import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
   const { products } = useProducts();
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
+  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [email, setEmail] = useState("");
 
  const categories = [
@@ -40,12 +40,12 @@ const Index = () => {
     },
     {
       name: "Utilidades",
-      slug: "utilidades", // <-- CORRIGIDO: Agora vai para a página certa
+      slug: "utilidades", 
       image: "/images/utilidades-image.png",
       description: "Produtos do dia a dia",
     },
     {
-      name: "Esporte e Fitness",
+      name: "Esporte & Fitness",
       slug: "esporte-fitness",
       image: "/images/esportes-image.png",
       description: "Melhores produtos para você praticar seu esporte favorito",
@@ -122,10 +122,10 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
-                Descubra produtos que fazem diferença no seu dia a dia
+                MP Vertise: Sua vitrine inteligente de ofertas 
               </h1>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Seleção exclusiva com qualidade, praticidade e entrega segura.
+                O ponto de partida para suas compras inteligentes - Encontre produtos selecionados, promoções verificadas e links diretos para os ambientes seguros do varejo brasileiro.
               </p>
               <div className="flex gap-4">
                 <Link to="/catalogo" className="px-8 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center gap-2">
@@ -208,26 +208,26 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Por Que Escolher A Gente"
-            description="Oferecemos uma experiência de compra premium com qualidade incomparável"
+            description="Simplificamos sua busca encontrando as melhores oportunidades com total segurança."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               {
-                title: "Compra Segura",
-                desc: "Transações criptografadas com tecnologia SSL",
+                title: "Curadoria Inteligente",
+                desc: "Filtramos a internet diariamente para selecionar apenas produtos altamente avaliados e de procedência comprovada pelas maiores lojas.",
               },
               {
-                title: "Entrega Rápida",
-                desc: "Envio para todo Brasil em até 7 dias",
+                title: "Economia de Verdade",
+                desc: "Encontramos os menores preços, promoções reais e cupons de desconto válidos para você não gastar um centavo a mais.",
               },
               {
-                title: "Produtos Premium",
-                desc: "Curadoria exclusiva de marcas selecionadas",
+                title: "Direcionamento Seguro",
+                desc: "Livre de fraudes. Garantimos que você clique apenas em links oficiais e termine sua compra nos ambientes mais protegidos do país.",
               },
               {
-                title: "Suporte 24/7",
-                desc: "Equipe humanizada disponível sempre",
+                title: "Ganho de Tempo",
+                desc: "Esqueça as horas gastas comparando sites. Reunimos as melhores ofertas de diversos nichos em um único catálogo organizado.",
               },
             ].map((item, i) => (
               <div key={i} className="text-center">
@@ -247,7 +247,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Nossos Diferenciais"
-            description="O que nos torna a escolha ideal para sua compra"
+            description="O que nos torna a escolha ideal para suas pesquisas e compras"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -255,10 +255,9 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Lock className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Compra Segura</h3>
+              <h3 className="text-xl font-semibold mb-2">Redirecionamento Seguro</h3>
               <p className="text-muted-foreground">
-                Transações criptografadas com tecnologia SSL de última geração
-                para sua proteção.
+                Livre de fraudes. Garantimos links verificados para que você finalize suas compras apenas nos ambientes oficiais e protegidos das maiores lojas do país.
               </p>
             </div>
 
@@ -267,11 +266,10 @@ const Index = () => {
                 <Truck className="w-7 h-7 text-accent-secondary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
-                Entrega para Todo o Brasil
+                As Melhores Plataformas
               </h3>
               <p className="text-muted-foreground">
-                Envio rápido e confiável para qualquer lugar do país com
-                rastreamento em tempo real.
+                Parcerias com gigantes do mercado. Indicamos ofertas de grandes redes que possuem logística de entrega rápida e abrangência para todo o Brasil.
               </p>
             </div>
 
@@ -280,11 +278,10 @@ const Index = () => {
                 <Award className="w-7 h-7 text-accent" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
-                Produtos Selecionados
+                Curadoria Rigorosa
               </h3>
               <p className="text-muted-foreground">
-                Curadoria exclusiva de marcas premium com garantia de qualidade
-                em cada item.
+                Filtramos a internet diariamente para reunir apenas produtos com excelentes avaliações dos consumidores e garantia de procedência
               </p>
             </div>
 
@@ -293,11 +290,10 @@ const Index = () => {
                 <Headphones className="w-7 h-7 text-accent-secondary" />
               </div>
               <h3 className="text-xl font-semibold mb-2">
-                Atendimento Especializado
+                Foco na Economia
               </h3>
               <p className="text-muted-foreground">
-                Equipe humanizada disponível 24/7 para esclarecer dúvidas e
-                resolver problemas.
+                Pesquisa inteligente que poupa seu tempo. Cruzamos informações para trazer promoções reais e cupons válidos em uma interface limpa e direta.
               </p>
             </div>
           </div>
@@ -309,7 +305,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Acompanhe Nossas Atualizações"
-            description="@premiumstore"
+            description="@mpvertise"
           />
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">

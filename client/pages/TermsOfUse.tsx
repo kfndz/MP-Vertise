@@ -22,138 +22,85 @@ const TermsOfUse = () => {
       {/* Content */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h1 className="text-4xl font-bold mb-12">Termos de Uso</h1>
+          <h1 className="text-4xl font-bold mb-12">Termos de Uso - MP Vertise </h1>
 
           <div className="prose prose-sm max-w-none space-y-8 text-muted-foreground">
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Aceitação dos Termos</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">1. Natureza do Serviço </h2>
               <p>
-                Ao acessar e usar o site da Premium Store, você concorda em estar vinculado a estes Termos de Uso. Se não concorda com qualquer parte destes termos, não continue usando o site.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">2. Uso Licenciado</h2>
-              <p>
-                É concedida a você uma licença limitada, não exclusiva e revogável para acessar e usar o site para fins pessoais e não comerciais. Você não pode:
+                A MP Vertise opera estritamente como um catálogo digital independente e agregador de ofertas.
               </p>
               <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>Reproduzir ou distribuir conteúdo sem permissão</li>
-                <li>Usar para fins comerciais sem autorização</li>
-                <li>Tentar obter acesso não autorizado</li>
-                <li>Causar dano ou interferir no funcionamento do site</li>
-                <li>Usar de forma que viole leis aplicáveis</li>
+                <li>Nós não realizamos vendas diretas, não faturamos pedidos, não estocamos produtos e não somos responsáveis pela entrega física de mercadorias.</li>
+                <li>Nossa função limita-se a pesquisar, selecionar e redirecionar os usuários, por meio de links de afiliados, para os ambientes seguros das grandes lojas oficiais, onde a transação comercial de fato ocorre.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">3. Produtos e Preços</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">2. Isenção de Responsabilidade sobre Preços e Estoques</h2>
               <p>
-                Fazemos nosso melhor para manter informações precisas sobre produtos e preços. Reservamos o direito de:
+                Embora façamos o máximo de esforço para manter as promoções e valores atualizados em tempo real:
               </p>
               <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>Corrigir erros nos preços anunciados</li>
-                <li>Recusar ou cancelar pedidos devido a erros</li>
-                <li>Alterar ou descontinuar produtos</li>
-                <li>Limitar quantidades compradas</li>
+                <li>Os preços, a disponibilidade de estoque e as condições de frete/parcelamento são determinados exclusivamente pelas lojas e podem mudar sem qualquer aviso prévio.</li>
+                <li>O valor válido para a compra será sempre o exigido na página de finalização do site oficial para onde você foi redirecionado. Não nos responsabilizamos por divergências de preços causadas por atualizações pendentes em nosso sistema.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Pagamento</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">3. Licença de Uso Limitada</h2>
               <p>
-                Ao fazer um pedido, você autoriza cobrança no método de pagamento fornecido. Você garante que:
+                É concedida a você uma licença limitada, não exclusiva e revogável para acessar e utilizar a nossa vitrine digital estritamente para fins pessoais e não comerciais. É expressamente proibido: 
               </p>
               <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>Tem direito legal de usar o método de pagamento</li>
-                <li>As informações são precisas e atualizadas</li>
-                <li>Não está envolvido em fraude</li>
-                <li>Aceita todas as taxas e encargos</li>
+                <li>Reproduzir, copiar, extrair dados ou distribuir o conteúdo da plataforma sem autorização prévia.</li>
+                <li>Tentar burlar os sistemas de segurança, obter acesso não autorizado ao painel administrativo ou interferir no bom funcionamento do site.</li>
+                <li>Utilizar nossa marca e nossas seleções para fins comerciais de terceiros.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Entrega</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">4. Links Externos e Compras em Plataformas Parceiras</h2>
               <p>
-                Os prazos de entrega são estimativas. A Premium Store não é responsável por atrasos causados por transportadoras, fenômenos naturais ou outros fatores fora de seu controle. Você assume o risco de perda uma vez que o produto é entregue à transportadora.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Devoluções e Trocas</h2>
-              <p>
-                Consulte nossa Política de Devoluções para informações completas. Em resumo:
+                Ao clicar em "Comprar" ou em qualquer oferta listada, você sairá do ambiente da MP Vertise.
               </p>
               <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>30 dias para devolver produtos não utilizados</li>
-                <li>Frete de retorno é gratuito</li>
-                <li>Reembolso processado em 7 dias úteis</li>
+                <li>Não possuímos controle, ingerência ou responsabilidade sobre as práticas, termos, políticas de privacidade, processamento de pagamentos ou suporte técnico das lojas de destino.</li>
+                <li>Qualquer problema relacionado ao fechamento do pedido, pagamento recusado, atraso na transportadora, troca ou devolução do produto deve ser tratado diretamente e exclusivamente com o atendimento ao cliente da loja oficial onde  a compra foi efetuada.</li>
               </ul>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">7. Conteúdo do Usuário</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">5. Propriedade Intelectual</h2>
               <p>
-                Ao enviar comentários, avaliações ou conteúdo para nosso site, você concede permissão para usarmos esse conteúdo. Você declara que:
-              </p>
-              <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>O conteúdo é original e de sua propriedade</li>
-                <li>Não infringe direitos de terceiros</li>
-                <li>Não é difamatório ou obsceno</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">8. Isenção de Responsabilidade</h2>
-              <p>
-                O site é fornecido "como está" sem garantias. A Premium Store não se responsabiliza por:
-              </p>
-              <ul className="list-disc pl-6 mt-3 space-y-2">
-                <li>Danos diretos, indiretos ou consequenciais</li>
-                <li>Lucros cessantes ou perda de dados</li>
-                <li>Interrupções de serviço</li>
-                <li>Erros ou omissões no conteúdo</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">9. Limitação de Responsabilidade</h2>
-              <p>
-                A responsabilidade total da Premium Store não excederá o valor pago por você em um pedido. Algumas jurisdições não permitem limitações de responsabilidade, portanto, este parágrafo pode não se aplicar a você.
+                Todo o design da interface, códigos, estrutura de curadoria, textos conceituais e a marca da MP Vertise são de nossa propriedade intelectual ou devidamente licenciados. As imagens dos produtos, logos das marcas e nomes comerciais exibidos pertencem aos seus respectivos fabricantes e lojistas oficiais, sendo utilizados em nosso site estritamente para fins de identificação, divulgação e indicação de afiliados.
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">10. Links Externos</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">6. Limitação Geral de Responsabilidade</h2>
               <p>
-                Nosso site pode conter links para sites de terceiros. Não somos responsáveis pelo conteúdo, precisão ou práticas desses sites. O acesso é por sua conta e risco.
+                A MP Vertise fornece o site "como está" e não oferece garantias de funcionamento ininterrupto ou livre de pequenos erros de digitação. Em nenhuma circunstância seremos responsáveis por quaisquer danos diretos, indiretos ou lucros cessantes decorrentes do uso da plataforma, de instabilidades na navegação ou de compras realizadas em sites de terceiros a partir de nossas indicações.
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">11. Propriedade Intelectual</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">7. Alteração nos Termos</h2>
               <p>
-                Todo o conteúdo do site, incluindo textos, gráficos, logos e imagens, é propriedade da Premium Store ou de seus fornecedores. Protegido por leis de direitos autorais.
+               Reservamos o direito de atualizar e modificar estes Termos de Uso a qualquer momento, visando refletir melhorias técnicas ou mudanças em nosso modelo de agregação. O uso contínuo da plataforma após a publicação das alterações constituirá sua aceitação tácita dos novos termos.
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">12. Alterações nos Termos</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-4">8. Lei Aplicável e Foro</h2>
               <p>
-                Reservamos o direito de alterar estes termos a qualquer momento. Continuando a usar o site após as alterações, você concorda com os novos termos.
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-4">13. Lei Aplicável</h2>
-              <p>
-                Estes termos são regidos pelas leis da República Federativa do Brasil, especificamente do Estado de São Paulo. Qualquer disputa será resolvida nos tribunais competentes.
+                Estes termos são regidos e interpretados de acordo com as leis da República Federativa do Brasil, especificamente do Estado de Mato Grosso.
               </p>
             </div>
 
             <div className="bg-muted/30 border border-border rounded-lg p-6 mt-8">
               <p className="text-sm">
-                <strong>Última atualização:</strong> Janeiro de 2024
+                <strong>Última atualização:</strong> Julho de 2026
               </p>
               <p className="text-sm mt-2">
                 Para questões sobre estes Termos, entre em contato: termos@premiumstore.com

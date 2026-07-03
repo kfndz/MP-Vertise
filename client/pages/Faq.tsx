@@ -16,158 +16,93 @@ const Faq = () => {
 
   const [expandedFaq, setExpandedFaq] = useState<Record<string, boolean>>({});
 
-  const faqData = {
-    entrega: {
-      title: 'Entrega',
-      faqs: [
-        {
-          id: 'entrega-1',
-          question: 'Como funciona a entrega?',
-          answer: 'Oferecemos envio para todo o Brasil. A entrega é feita dentro de 7 dias úteis. Frete grátis para compras acima de R$199. Você receberá um código de rastreamento para acompanhar seu pedido em tempo real.',
-        },
-        {
-          id: 'entrega-2',
-          question: 'Qual é o prazo de entrega para minha região?',
-          answer: 'O prazo varia conforme a região. Geralmente é de 5-7 dias úteis. Para cidades mais afastadas, pode levar até 10 dias úteis. Você verá a estimativa exata ao finalizar a compra.',
-        },
-        {
-          id: 'entrega-3',
-          question: 'Como posso rastrear meu pedido?',
-          answer: 'Após confirmar o pagamento, você receberá um email com o código de rastreamento. Acesse a seção "Meus Pedidos" ou use o código na página de rastreamento. Também pode acompanhar via WhatsApp.',
-        },
-        {
-          id: 'entrega-4',
-          question: 'Entregam em cidades pequenas?',
-          answer: 'Sim! Entregamos em qualquer município do Brasil através de parcerias com as principais transportadoras. O frete pode variar conforme a localização.',
-        },
-      ],
-    },
-    pagamento: {
-      title: 'Pagamento',
-      faqs: [
-        {
-          id: 'pagamento-1',
-          question: 'Quais formas de pagamento vocês aceitam?',
-          answer: 'Aceitamos cartão de crédito (Visa, Mastercard, Elo, American Express), cartão de débito, PIX e boleto bancário. Também oferecemos parcelamento de até 12 vezes sem juros no cartão.',
-        },
-        {
-          id: 'pagamento-2',
-          question: 'Como funciona o parcelamento?',
-          answer: 'Oferecemos parcelamento de até 12 vezes sem juros no cartão de crédito. Cada parcela será cobrada na data do seu vencimento. O PIX oferece descontos especiais!',
-        },
-        {
-          id: 'pagamento-3',
-          question: 'Meu pagamento foi rejeitado, o que faço?',
-          answer: 'Verifique se seus dados estão corretos, o limite disponível do cartão e a data de validade. Se o problema persistir, entre em contato com seu banco ou tente outra forma de pagamento.',
-        },
-        {
-          id: 'pagamento-4',
-          question: 'Posso pagar com outra pessoa?',
-          answer: 'Sim, você pode usar um cartão ou PIX de outra pessoa. Certifique-se de que tem autorização para usar esse meio de pagamento.',
-        },
-      ],
-    },
-    pedidos: {
-      title: 'Pedidos',
-      faqs: [
-        {
-          id: 'pedidos-1',
-          question: 'Como acompanhar meu pedido?',
-          answer: 'Acesse sua conta e clique em "Meus Pedidos". Lá você verá o status de todos os seus pedidos. Você também pode usar o código de rastreamento enviado por email.',
-        },
-        {
-          id: 'pedidos-2',
-          question: 'Posso modificar ou cancelar um pedido?',
-          answer: 'Se o pedido ainda não foi despachado, podemos modificar ou cancelar. Entre em contato conosco por WhatsApp, telefone ou email assim que possível. Após o despacho, será necessário fazer uma devolução.',
-        },
-        {
-          id: 'pedidos-3',
-          question: 'Quanto tempo leva para confirmar o pedido?',
-          answer: 'A confirmação é imediata após a aprovação do pagamento. O pedido é preparado e despachado em até 24 horas. Você receberá notificação por email e SMS.',
-        },
-        {
-          id: 'pedidos-4',
-          question: 'Posso escolher a data de entrega?',
-          answer: 'Não oferecemos escolha de data exata, mas você pode ver o prazo estimado ao finalizar a compra. Para necessidades especiais, entre em contato com nosso suporte.',
-        },
-      ],
-    },
-    devolucao: {
-      title: 'Devolução & Troca',
-      faqs: [
-        {
-          id: 'devolucao-1',
-          question: 'Qual é a política de devolução?',
-          answer: 'Você tem até 30 dias para devolver um produto em perfeitas condições, com embalagem original. Oferecemos reembolso total ou troca pelo produto que desejar.',
-        },
-        {
-          id: 'devolucao-2',
-          question: 'Como faço uma devolução?',
-          answer: 'Acesse "Meus Pedidos", selecione o produto e clique em "Solicitar Devolução". Imprima a etiqueta de postagem e leve para a transportadora. O reembolso é processado em até 7 dias úteis após recebermos.',
-        },
-        {
-          id: 'devolucao-3',
-          question: 'Quem paga pelo frete da devolução?',
-          answer: 'Nós pagamos pelo frete da devolução! Você recebe uma etiqueta de postagem gratuita. Basta levar ao ponto de coleta mais próximo.',
-        },
-        {
-          id: 'devolucao-4',
-          question: 'Posso trocar por outro tamanho ou cor?',
-          answer: 'Sim! Oferecemos troca gratuita. Selecione "Trocar" ao invés de "Devolver" e escolha o novo produto. O frete é por nossa conta.',
-        },
-      ],
-    },
-    produtos: {
-      title: 'Produtos',
-      faqs: [
-        {
-          id: 'produtos-1',
-          question: 'Os produtos são originais?',
-          answer: 'Sim! Todos os nossos produtos são originais e vêm de fornecedores autorizados. Oferecemos garantia de autenticidade em todos os itens.',
-        },
-        {
-          id: 'produtos-2',
-          question: 'Os produtos têm garantia?',
-          answer: 'Sim! Todos os produtos têm garantia de 1 ano contra defeitos de fabricação. A garantia é válida mediante apresentação da nota fiscal.',
-        },
-        {
-          id: 'produtos-3',
-          question: 'Como saber se um produto está em estoque?',
-          answer: 'Na página do produto, você verá "Em Estoque" ou "Fora de Estoque". Se não está disponível, você pode solicitar notificação para quando chegar.',
-        },
-        {
-          id: 'produtos-4',
-          question: 'Vocês têm produtos similares mais baratos?',
-          answer: 'Nossa seleção prioriza qualidade. Se encontrar um preço menor em outro lugar, entre em contato - podemos analisar uma igualdade de preço para produtos idênticos.',
-        },
-      ],
-    },
-    seguranca: {
-      title: 'Segurança',
-      faqs: [
-        {
-          id: 'seguranca-1',
-          question: 'Meus dados estão seguros?',
-          answer: 'Sim! Usamos criptografia SSL de 256 bits para proteger todos os dados. Seguimos as normas PCI-DSS de segurança de pagamento.',
-        },
-        {
-          id: 'seguranca-2',
-          question: 'Minhas informações serão compartilhadas?',
-          answer: 'Nunca compartilhamos seus dados com terceiros sem consentimento. Veja nossa política de privacidade para mais detalhes.',
-        },
-        {
-          id: 'seguranca-3',
-          question: 'O site é seguro para comprar?',
-          answer: 'Sim! Temos certificado de segurança, proteção contra fraude e todas as transações são criptografadas. Confie na gente!',
-        },
-        {
-          id: 'seguranca-4',
-          question: 'Como protejo minha conta?',
-          answer: 'Use uma senha forte com letras, números e símbolos. Não compartilhe suas credenciais. Faça logout ao usar computadores públicos.',
-        },
-      ],
-    },
-  };
+ const faqData = {
+  funcionamento: {
+    title: 'Como Funciona',
+    faqs: [
+      {
+        id: 'func-1',
+        question: 'O que é a MP Vertise?',
+        answer: 'Nós somos uma plataforma independente de curadoria de ofertas. Nosso trabalho é vasculhar a internet para encontrar as melhores promoções, cupons e produtos bem avaliados das maiores lojas do Brasil, reunindo tudo em um só lugar para você economizar tempo e dinheiro.',
+      },
+      {
+        id: 'func-2',
+        question: 'Eu pago alguma taxa ou valor a mais para comprar por aqui?',
+        answer: 'Não! O uso do nosso site é 100% gratuito. Você paga exatamente o preço anunciado pela loja parceira. Nós recebemos uma pequena comissão deles por indicar o produto, sem nenhum custo extra para você.',
+      },
+      {
+        id: 'func-3',
+        question: 'Como faço para comprar um produto listado?',
+        answer: 'Ao encontrar o produto desejado, basta clicar no botão de compra. Você será redirecionado de forma automática e segura para o site oficial da loja parceira (como Amazon, Mercado Livre, Magalu, etc.) para concluir seu pedido.',
+      },
+    ],
+  },
+   entrega: {
+    title: 'Envio & Entrega',
+    faqs: [
+      {
+        id: 'entrega-1',
+        question: 'Quem é responsável pela entrega do meu produto?',
+        answer: 'Toda a logística de separação, envio e transporte é de responsabilidade exclusiva da loja parceira oficial onde você finalizou a sua compra.',
+      },
+      {
+        id: 'entrega-2',
+        question: 'Qual é o prazo de entrega e o valor do frete?',
+        answer: 'Os prazos e valores de frete variam de acordo com o lojista e a sua região. Você poderá consultar a estimativa exata informando seu CEP diretamente na página de fechamento do pedido da loja parceira.',
+      },
+      {
+        id: 'entrega-3',
+        question: 'Como posso rastrear o meu pedido?',
+        answer: 'Assim que o pagamento for aprovado pela loja onde você comprou, ela enviará o código de rastreamento diretamente para o seu e-mail cadastrado. Você poderá acompanhar o envio pelo painel de pedidos dessa respectiva loja.',
+      },
+    ],
+  },
+  pagamento: {
+    title: 'Pagamento & Valores',
+    faqs: [
+      {
+        id: 'pagamento-1',
+        question: 'Quais formas de pagamento são aceitas?',
+        answer: 'As opções de pagamento (Cartão de Crédito, PIX, Boleto Bancário ou parcelamento) variam conforme as regras da plataforma oficial de destino onde você concluirá a compra.',
+      },
+      {
+        id: 'pagamento-2',
+        question: 'Por que o preço na loja de destino está diferente do anúncio daqui?',
+        answer: 'As grandes lojas alteram seus preços e estoques frequentemente. Embora atualizemos nosso catálogo com regularidade, o valor final e válido será sempre o exibido no carrinho de compras da loja oficial parceira.',
+      },
+    ],
+  },
+  posVenda: {
+    title: 'Trocas & Devoluções',
+    faqs: [
+      {
+        id: 'pos-1',
+        question: 'Como faço para solicitar uma troca ou devolução?',
+        answer: 'Qualquer solicitação de cancelamento, troca, devolução ou reembolso deve ser realizada diretamente com o canal de atendimento e suporte da loja onde a transação foi concluída, respeitando as políticas internas deles.',
+      },
+      {
+        id: 'pos-2',
+        question: 'Os produtos indicados possuem garantia?',
+        answer: 'Sim! Todos os produtos recomendados contam com as garantias legais de fábrica e do próprio varejista oficial que efetua a venda.',
+      },
+    ],
+  },
+  seguranca: {
+    title: 'Segurança & Dados',
+    faqs: [
+      {
+        id: 'seguranca-1',
+        question: 'É seguro clicar nos links e comprar através do site?',
+        answer: 'Totalmente seguro. Nós filtramos e checamos rigorosamente cada link para garantir que você seja direcionado apenas para as lojas oficiais e ambientes protegidos, eliminando riscos de páginas falsas ou golpes.',
+      },
+      {
+        id: 'seguranca-2',
+        question: 'Vocês guardam meus dados de cartão ou documentos?',
+        answer: 'Não. A MP Vertise não possui sistema de checkout. Suas informações cadastrais e financeiras nunca passam pelo nosso servidor, permanecendo totalmente protegidas sob os protocolos de segurança bancária das grandes redes varejistas.',
+      },
+    ],
+  },
+};
 
   const toggleCategory = (category: string) => {
     setExpandedCategories({

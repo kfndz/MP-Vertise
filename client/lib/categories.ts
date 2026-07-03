@@ -79,7 +79,7 @@ export const categories: Category[] = [
   },
   {
     id: "esporte-fitness",
-    name: "Esporte e Fitness",
+    name: "Esporte & Fitness",
     slug: "esporte-fitness",
     description: "Itens premium para treinos e rotina ativa com desempenho e estilo",
     icon: Dumbbell,
@@ -108,7 +108,7 @@ export const categories: Category[] = [
     id: "pet-shop",
     name: "Pet Shop",
     slug: "pet-shop",
-    description: "Essenciais e acessórios para o cuidado e o bem-estar do seu pet",
+    description: "Produtos e Acessórios essenciais para o cuidado e o bem-estar do seu pet.",
     icon: PawPrint,
     subcategories: [
       { id: "caes", name: "Cães", slug: "caes" },

@@ -13,8 +13,8 @@ export function Footer() {
                 <Lock className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-semibold mb-1">Compra Segura</h4>
-                <p className="text-sm text-background/70">Transações criptografadas</p>
+                <h4 className="font-semibold mb-1">Economia Inteligente</h4>
+                <p className="text-sm text-background/70">Reunimos as melhores ofertas, promoções reais das grandes lojas em um só lugar.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -22,8 +22,8 @@ export function Footer() {
                 <Truck className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-semibold mb-1">Entrega Rápida</h4>
-                <p className="text-sm text-background/70">Toda Brasil em até 7 dias</p>
+                <h4 className="font-semibold mb-1">Lojas Oficiais</h4>
+                <p className="text-sm text-background/70">Você é redirecionado para concluir a compra comm a estrutura e a segurança das maiores plataformas do país. </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -31,8 +31,8 @@ export function Footer() {
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-semibold mb-1">Produtos Selecionados</h4>
-                <p className="text-sm text-background/70">Qualidade garantida</p>
+                <h4 className="font-semibold mb-1">Curadoria Rigorosa</h4>
+                <p className="text-sm text-background/70">Filtramos apenas produtos bem avaliados, com selo de segurança e estoques verificados contra golpes. </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -40,8 +40,8 @@ export function Footer() {
                 <Heart className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-semibold mb-1">Atendimento Humanizado</h4>
-                <p className="text-sm text-background/70">Suporte 24/7</p>
+                <h4 className="font-semibold mb-1">Compra 100% Segura</h4>
+                <p className="text-sm text-background/70">Seus dados de pagamento e cadastro ficam totalmente protegidos dentro do ambiente da loja oficial escolhida. </p>
               </div>
             </div>
           </div>
@@ -51,25 +51,27 @@ export function Footer() {
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
+
           {/* Company */}
           <div>
             <h3 className="font-semibold mb-6">Empresa</h3>
             <ul className="space-y-3">
               <li><Link to="/sobre" className="text-background/70 hover:text-background transition-colors">Sobre nós</Link></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Carreiras</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Blog</a></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Imprensa</a></li>
             </ul>
           </div>
 
           {/* Products */}
           <div>
-            <h3 className="font-semibold mb-6">Produtos</h3>
+            <h3 className="font-semibold mb-6">Categorias </h3>
             <ul className="space-y-3">
-              <li><Link to="/categoria/tecnologia" className="text-background/70 hover:text-background transition-colors">Tecnologia</Link></li>
-              <li><Link to="/categoria/casa" className="text-background/70 hover:text-background transition-colors">Casa</Link></li>
-              <li><Link to="/categoria/bem-estar" className="text-background/70 hover:text-background transition-colors">Bem-estar</Link></li>
+              <li><Link to="/categoria/moda-acessorios" className="text-background/70 hover:text-background transition-colors">Moda & Estilo </Link></li>
+              <li><Link to="/categoria/saude-beleza" className="text-background/70 hover:text-background transition-colors">Beleza & Cuidados pessoais</Link></li>
+              <li><Link to="/categoria/casa" className="text-background/70 hover:text-background transition-colors">Casa & Decoração</Link></li>
               <li><Link to="/categoria/utilidades" className="text-background/70 hover:text-background transition-colors">Utilidades</Link></li>
+              <li><Link to="/categoria/esporte-fitness" className="text-background/70 hover:text-background transition-colors">Esporte & Fitness</Link></li>
+              <li><Link to="/categoria/saude-beleza" className="text-background/70 hover:text-background transition-colors">Saúde & Bem-estar</Link></li>
+              <li><Link to="/categoria/tecnologia" className="text-background/70 hover:text-background transition-colors">Tecnologia & Gadgets</Link></li>
+              <li><Link to="/categoria/pet-shop" className="text-background/70 hover:text-background transition-colors">Pet Shop</Link></li>
             </ul>
           </div>
 
@@ -77,9 +79,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-6">Suporte</h3>
             <ul className="space-y-3">
-              <li><Link to="/faq" className="text-background/70 hover:text-background transition-colors">Central de Ajuda</Link></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Rastrear Pedido</a></li>
-              <li><Link to="/devolucoes" className="text-background/70 hover:text-background transition-colors">Devoluções</Link></li>
+              <li><Link to="/faq" className="text-background/70 hover:text-background transition-colors">FAQ (Perguntas Frequentes) </Link></li>
               <li><Link to="/contato" className="text-background/70 hover:text-background transition-colors">Contato</Link></li>
             </ul>
           </div>
@@ -90,8 +90,6 @@ export function Footer() {
             <ul className="space-y-3">
               <li><Link to="/privacidade" className="text-background/70 hover:text-background transition-colors">Privacidade</Link></li>
               <li><Link to="/termos" className="text-background/70 hover:text-background transition-colors">Termos de Uso</Link></li>
-              <li><Link to="/entrega" className="text-background/70 hover:text-background transition-colors">Entrega</Link></li>
-              <li><a href="#" className="text-background/70 hover:text-background transition-colors">Acessibilidade</a></li>
             </ul>
           </div>
 
