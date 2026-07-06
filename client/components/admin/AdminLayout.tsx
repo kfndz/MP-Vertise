@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthService } from "@/services/AuthService";
 
 type Props = {
@@ -9,34 +9,68 @@ type Props = {
 
 export default function AdminLayout({ children, title }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   function handleLogout() {
     AuthService.logout();
-    navigate("/admin/login");
+
+    // Remove completamente o painel do histórico
+    navigate("/admin/login", {
+      replace: true,
+    });
+
+    // Limpa o histórico restante do navegador
+    window.history.pushState(null, "", "/admin/login");
   }
+
+  const isActive = (path: string) => {
+    if (path === "/admin") {
+      return location.pathname === "/admin";
+    }
+
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div className="min-h-screen bg-muted text-foreground">
       <div className="flex min-h-screen">
+
         <aside className="w-72 border-r border-border bg-card px-6 py-8 shadow-sm">
+
           <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">Gerenciamento</p>
-            <h2 className="mt-3 text-2xl font-semibold text-foreground">Admin</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Gerenciamento
+            </p>
+
+            <h2 className="mt-3 text-2xl font-semibold text-foreground">
+              Admin
+            </h2>
           </div>
 
           <nav className="flex flex-col gap-3 text-sm">
+
             <Link
               to="/admin"
-              className="rounded-2xl px-4 py-3 text-foreground transition-colors hover:bg-muted hover:text-accent"
+              className={`rounded-2xl px-4 py-3 transition-colors ${
+                isActive("/admin") && location.pathname === "/admin"
+                  ? "bg-accent text-accent-foreground"
+                  : "text-foreground hover:bg-muted hover:text-accent"
+              }`}
             >
               Dashboard
             </Link>
+
             <Link
               to="/admin/produtos"
-              className="rounded-2xl px-4 py-3 text-foreground transition-colors hover:bg-muted hover:text-accent"
+              className={`rounded-2xl px-4 py-3 transition-colors ${
+                isActive("/admin/produtos")
+                  ? "bg-accent text-accent-foreground"
+                  : "text-foreground hover:bg-muted hover:text-accent"
+              }`}
             >
               Produtos
             </Link>
+
           </nav>
 
           <button
@@ -45,12 +79,23 @@ export default function AdminLayout({ children, title }: Props) {
           >
             Sair
           </button>
+
         </aside>
 
         <main className="flex-1 p-8">
-          {title && <h1 className="text-3xl font-bold text-foreground mb-4">{title}</h1>}
-          <div className="space-y-6">{children}</div>
+
+          {title && (
+            <h1 className="mb-4 text-3xl font-bold text-foreground">
+              {title}
+            </h1>
+          )}
+
+          <div className="space-y-6">
+            {children}
+          </div>
+
         </main>
+
       </div>
     </div>
   );

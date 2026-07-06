@@ -7,8 +7,9 @@ import {
   Truck,
   Award,
   Headphones,
+  ChevronLeft, 
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { SectionHeader } from "@/components/catalog/SectionHeader";
 import { ProductCard } from "@/components/catalog/ProductCard";
@@ -19,7 +20,32 @@ const Index = () => {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [email, setEmail] = useState("");
 
- const categories = [
+  // --- CONFIGURAÇÃO DO CARROSSEL ---
+  const carouselImages = [
+    { src: "/images/home-image.png", alt: "Vitrine Inteligente MP Vertise" },
+    { src: "/images/tecnologia-image.png", alt: "As Melhores Ofertas de Tecnologia" },
+    { src: "/images/moda-estilo-image.png", alt: "Tendências de Moda e Estilo" },
+  ];
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Efeito para passar os slides automaticamente a cada 5 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1));
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [carouselImages.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? carouselImages.length - 1 : prev - 1));
+  };
+  // ---------------------------------
+
+  const categories = [
     {
       name: "Moda & Estilo",
       slug: "moda-acessorios",
@@ -52,7 +78,7 @@ const Index = () => {
     },
     {
       name: "Saúde & Bem-estar",
-      slug: "saude-beleza", // Nota: Como divide o mesmo slug, o Category.tsx vai renderizar o layout de Beleza & Cuidados Pessoais.
+      slug: "saude-beleza",
       image: "/images/saude-image.png",
       description: "Produtos para sua saúde e bem-estar",
     },
@@ -74,7 +100,7 @@ const Index = () => {
     {
       question: "Como o site funciona?",
       answer:
-        "Nós selecionamos e organizamos as melhores ofertas e produtos de grandes lojas em úm só lugar para facilitar sua busca. Quando você clica em um produto, você é redirecionado para concluir sua compra com total segurança na loja oficial.",
+        "Nós selecionamos e organizamos as melhores ofertas e produtos de grandes lojas em um só lugar para facilitar sua busca. Quando você clica em um produto, você é redirecionado para concluir sua compra com total segurança na loja oficial.",
     },
     {
       question: "Eu pago algo a mais para comprar por aqui?",
@@ -94,7 +120,7 @@ const Index = () => {
     {
       question: "Se eu precisar devolver ou trocar o produto, o que eu faço?",
       answer:
-        "Qualquer troca, devolução ou pedido de reembolso deve ser feito diretamente através do suporta da loja onde o produto foi comprado, seguindo as políticas de devolução deles.",
+        "Qualquer troca, devolução ou pedido de reembolso deve ser feito diretamente através do suporte da loja onde o produto foi comprado, seguindo as políticas de devolução deles.",
     },
     {
       question: "O site é seguro?",
@@ -122,14 +148,14 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-up">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
-                MP Vertise: Sua vitrine inteligente de ofertas 
+                MP Vertise: Sua Vitrine Inteligente de Ofertas 
               </h1>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 O ponto de partida para suas compras inteligentes - Encontre produtos selecionados, promoções verificadas e links diretos para os ambientes seguros do varejo brasileiro.
               </p>
               <div className="flex gap-4">
                 <Link to="/catalogo" className="px-8 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center gap-2">
-                  Explorar Produtos
+                  Explore Produtos
                   <ChevronRight className="w-4 h-4" />
                 </Link>
                 <Link to="/mais-vendidos" className="px-8 py-4 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-all">
@@ -138,27 +164,64 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Hero Image */}
-            <div className="relative hidden md:block">
-              <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
-                <img
-                  src="/images/home-image.png"
-                  alt="Hero"
-                  className="w-full h-full object-cover"
-                />
+            {/* Hero Interactive Carousel */}
+            <div className="relative hidden md:block group">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-muted relative">
+                {carouselImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                    }`}
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+
+                {/* Botões de Navegação (Visíveis ao passar o mouse) */}
+                <button
+                  onClick={prevSlide}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-background/80 hover:bg-background text-foreground p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all active:scale-90"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-background/80 hover:bg-background text-foreground p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all active:scale-90"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+
+                {/* Indicadores de bolinha (Dots) */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                  {carouselImages.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentSlide ? "w-6 bg-accent" : "w-2 bg-background/60"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
               <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-accent-secondary rounded-2xl opacity-20 blur-3xl" />
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Featured Categories */}
+      {/* Categorias Destacadas */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Categorias Destacadas"
-            description="Explore nossas seleções especiais em cada categoria"
+            description="Explore nossas seleções especiais in cada categoria"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -187,7 +250,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Best Sellers */}
+      {/* Mais Vendidos */}
       <section className="py-20 md:py-32 border-t border-border">
         <div className="container mx-auto px-4">
           <SectionHeader
@@ -203,7 +266,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Por Que Escolher A Gente */}
       <section className="py-20 md:py-32 border-t border-border bg-foreground text-background">
         <div className="container mx-auto px-4">
           <SectionHeader
@@ -265,9 +328,7 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Truck className="w-7 h-7 text-accent-secondary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                As Melhores Plataformas
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">As Melhores Plataformas</h3>
               <p className="text-muted-foreground">
                 Parcerias com gigantes do mercado. Indicamos ofertas de grandes redes que possuem logística de entrega rápida e abrangência para todo o Brasil.
               </p>
@@ -277,9 +338,7 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Award className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Curadoria Rigorosa
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Curadoria Rigorosa</h3>
               <p className="text-muted-foreground">
                 Filtramos a internet diariamente para reunir apenas produtos com excelentes avaliações dos consumidores e garantia de procedência
               </p>
@@ -289,9 +348,7 @@ const Index = () => {
               <div className="w-14 h-14 bg-accent-secondary/10 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <Headphones className="w-7 h-7 text-accent-secondary" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Foco na Economia
-              </h3>
+              <h3 className="text-xl font-semibold mb-2">Foco na Economia</h3>
               <p className="text-muted-foreground">
                 Pesquisa inteligente que poupa seu tempo. Cruzamos informações para trazer promoções reais e cupons válidos em uma interface limpa e direta.
               </p>

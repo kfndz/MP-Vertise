@@ -306,7 +306,7 @@ const Product = () => {
               <div className="flex gap-3 mb-8">
                 <button className="flex-1 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center justify-center gap-2">
                   <ShoppingCart className="w-5 h-5" />
-                  Adicionar ao Carrinho
+                  Comprar
                 </button>
                 <button
                   onClick={() => setIsWishlisted(!isWishlisted)}

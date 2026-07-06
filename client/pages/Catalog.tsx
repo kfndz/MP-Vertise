@@ -26,8 +26,22 @@ const Catalog = () => {
 
   const categoryOptions = useMemo(() => {
     const categories = Array.from(new Set(products.map((product) => product.category).filter(Boolean)));
-    return categories.map((category) => ({ id: category ?? "", name: category ?? "" }));
-  }, [products]);
+   return categories.map((category) => {
+
+    let formattedName = category.replace(/-/g, " ");
+    
+    formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+
+    if (category === "saude-beleza") formattedName = "Saúde & Bem-estar";
+    if (category === "moda-acessorios") formattedName = "Moda & Estilo";
+    if (category === "tecnologia") formattedName = "Tecnologia";
+
+    return { 
+      id: category ?? "", 
+      name: formattedName 
+    };
+  });
+}, [products]);
 
   return (
     <CategoryPageLayout>
@@ -42,16 +56,21 @@ const Catalog = () => {
 
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <ProductFilters
-              filters={filters}
-              onFiltersChange={setFilters}
-              categories={categoryOptions}
-              showFilters={showFilters}
-              onClear={() => setFilters(DEFAULT_PRODUCT_FILTERS)}
-            />
+          {/* TRAVA 1: Adicionado 'min-w-0' para forçar o grid a respeitar as frações exatas e não expandir com quebras internas */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 min-w-0">
+            
+            {/* TRAVA 2: Envolvendo o filtro em uma div controladora com largura total regulada e overflow protegido */}
+            <div className="w-full max-w-full overflow-hidden lg:col-span-1">
+              <ProductFilters
+                filters={filters}
+                onFiltersChange={setFilters}
+                categories={categoryOptions}
+                showFilters={showFilters}
+                onClear={() => setFilters(DEFAULT_PRODUCT_FILTERS)}
+              />
+            </div>
 
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-3 min-w-0">
               <div className="flex items-center justify-between mb-8 pb-6 border-b border-border flex-wrap gap-4">
                 <span className="text-sm text-muted-foreground">
                   {loading ? "Carregando produtos..." : `Exibindo ${filteredProducts.length} produtos`}
@@ -77,6 +96,7 @@ const Catalog = () => {
                 </div>
               </div>
 
+              {/* TRAVA 3: Grid de produtos também isolada com min-w-0 para evitar empurrões laterais de vizinhos */}
               <ProductGrid products={filteredProducts} />
             </div>
           </div>

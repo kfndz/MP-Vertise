@@ -30,12 +30,17 @@ export function ProductFilters({
   };
 
   const toggleRating = (value: number) => {
-    onFiltersChange({ ...filters, minRating: filters.minRating === value ? 0 : value });
+    // Força a conversão do estado atual para número antes de comparar no clique
+    const currentRating = Number(filters.minRating);
+    onFiltersChange({
+      ...filters,
+      minRating: currentRating === value ? 0 : value,
+    });
   };
 
   return (
     <div className={`${showFilters ? "block" : "hidden"} lg:block`}>
-      <div className="bg-card border border-border rounded-lg p-6 sticky top-32">
+      <div className="bg-card border border-border rounded-lg p-6 sticky top-32 max-w-full overflow-hidden">
         <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
           <Sliders className="w-5 h-5" />
           Filtros
@@ -43,10 +48,15 @@ export function ProductFilters({
 
         {categories.length > 0 && (
           <div className="mb-8">
-            <label className="text-sm font-semibold block mb-4">Categorias</label>
+            <label className="text-sm font-semibold block mb-4">
+              Categorias
+            </label>
             <div className="space-y-2">
               {categories.map((category) => (
-                <label key={category.id} className="flex items-center gap-2 cursor-pointer">
+                <label
+                  key={category.id}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     className="rounded"
@@ -62,7 +72,9 @@ export function ProductFilters({
 
         {!compact && (
           <div className="mb-8">
-            <label className="text-sm font-semibold block mb-4">Faixa de Preço</label>
+            <label className="text-sm font-semibold block mb-4">
+              Faixa de Preço
+            </label>
             <input
               type="range"
               min="0"
@@ -79,7 +91,8 @@ export function ProductFilters({
               }
               className="w-full"
             />
-            <div className="flex gap-2 mt-3">
+
+            <div className="grid grid-cols-2 gap-2 mt-3 w-full">
               <input
                 type="number"
                 placeholder="Min"
@@ -93,7 +106,7 @@ export function ProductFilters({
                     },
                   })
                 }
-                className="flex-1 px-3 py-2 border border-border rounded-lg text-sm"
+                className="w-full min-w-0 px-2 py-2 border border-border rounded-lg text-sm text-center"
               />
               <input
                 type="number"
@@ -108,34 +121,45 @@ export function ProductFilters({
                     },
                   })
                 }
-                className="flex-1 px-3 py-2 border border-border rounded-lg text-sm"
+                className="w-full min-w-0 px-2 py-2 border border-border rounded-lg text-sm text-center"
               />
             </div>
           </div>
         )}
 
         <div className="mb-8">
-          <label className="text-sm font-semibold block mb-4">Classificação</label>
+          <label className="text-sm font-semibold block mb-4">
+            Classificação
+          </label>
           <div className="space-y-3">
-            {ratingOptions.map((star) => (
-              <label key={star} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="rounded"
-                  checked={filters.minRating >= star}
-                  onChange={() => toggleRating(star)}
-                />
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, index) => (
-                    <Star
-                      key={index}
-                      className={`w-4 h-4 ${index < star ? "fill-accent text-accent" : "text-muted"}`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-muted-foreground">para cima</span>
-              </label>
-            ))}
+            {ratingOptions.map((star) => {
+              // TRAVA DE SEGURANÇA: Força o valor do filtro a virar um número limpo antes de testar o checkbox
+              const isChecked = Number(filters.minRating) > 0 && Number(filters.minRating) === star;
+
+              return (
+                <label
+                  key={star}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    className="rounded"
+                    // Agora ele só marca a caixinha exata clicada, sem efeito cascata indesejado
+                    checked={isChecked}
+                    onChange={() => toggleRating(star)}
+                  />
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, index) => (
+                      <Star
+                        key={index}
+                        className={`w-4 h-4 ${index < star ? "fill-accent text-accent" : "text-muted"}`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm text-muted-foreground"></span>
+                </label>
+              );
+            })}
           </div>
         </div>
 

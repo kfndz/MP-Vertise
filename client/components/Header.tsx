@@ -28,8 +28,15 @@ export function Header() {
           <div className="flex items-center justify-between h-22">
 
             {/* Logo */}
-            <Link to="/" className="flex-shrink-0">
-              <img src="/logo-mp.png" alt="MP Vertise" className="h-24 w-auto" />
+            <Link
+              to="/"
+              className="flex-shrink-0 pl-2 sm:pl-6 md:pl-0 lg:mr-4 transition-all"
+            >
+              <img
+                src="/logo-mp.png"
+                alt="MP Vertise"
+                className="h-20 w-auto md:h-24"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -58,7 +65,8 @@ export function Header() {
                   type="text"
                   placeholder="Buscar produtos..."
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSearchSubmit((e.target as HTMLInputElement).value);
+                    if (e.key === "Enter")
+                      handleSearchSubmit((e.target as HTMLInputElement).value);
                   }}
                   className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent focus:bg-card transition-all"
                 />
@@ -74,7 +82,10 @@ export function Header() {
               </button>
 
               {/* Wishlist */}
-              <Link to="/favoritos" className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors relative">
+              <Link
+                to="/favoritos"
+                className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors relative"
+              >
                 <Heart className="w-5 h-5" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
               </Link>
@@ -85,15 +96,6 @@ export function Header() {
                 className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors"
               >
                 <User className="w-5 h-5" />
-              </Link>
-
-              {/* Cart */}
-              <Link
-                to="/carrinho"
-                className="p-2 hover:bg-muted rounded-lg transition-colors relative"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-accent rounded-full text-white text-xs flex items-center justify-center" />
               </Link>
 
               {/* Mobile Menu */}
@@ -118,7 +120,8 @@ export function Header() {
                   type="text"
                   placeholder="Buscar produtos..."
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") handleSearchSubmit((e.target as HTMLInputElement).value);
+                    if (e.key === "Enter")
+                      handleSearchSubmit((e.target as HTMLInputElement).value);
                   }}
                   className="w-full px-4 py-2 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 />

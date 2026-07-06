@@ -5,14 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Faq = () => {
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
-    entrega: true,
-    pagamento: false,
-    pedidos: false,
-    devolucao: false,
-    produtos: false,
-    seguranca: false,
-  });
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
 
   const [expandedFaq, setExpandedFaq] = useState<Record<string, boolean>>({});
 
