@@ -1,10 +1,8 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { createRequire } from "node:module";
 import { handleDemo } from "./routes/demo";
-
-const require = createRequire(import.meta.url);
+import { createApp } from "./src/app";
 
 export function createServer() {
   const app = express();
@@ -20,7 +18,6 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  const { createApp } = require("./src/app") as { createApp: () => express.Express };
   const modularApp = createApp();
   app.use(modularApp);
 

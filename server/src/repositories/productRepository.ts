@@ -1,52 +1,47 @@
-import { prisma } from "../config/prisma";
+import { PrismaClient, Prisma } from "@prisma/client";
 
-export const productRepository = {
-  async list() {
+const prisma = new PrismaClient();
+
+const productRelations = {
+  category: true,
+  subcategory: true,
+} satisfies Prisma.ProductInclude;
+
+export const ProductRepository = {
+  async findAll() {
     return prisma.product.findMany({
-      include: {
-        category: true,
-        subcategory: true,
-        images: true,
+      include: productRelations,
+      orderBy: {
+        createdAt: "desc",
       },
-      orderBy: { createdAt: "desc" },
     });
   },
 
   async findById(id: string) {
     return prisma.product.findUnique({
       where: { id },
-      include: {
-        category: true,
-        subcategory: true,
-        images: true,
-      },
+      include: productRelations,
     });
   },
 
-  async create(data: Parameters<typeof prisma.product.create>[0]["data"]) {
+  async create(data: Prisma.ProductUncheckedCreateInput) {
     return prisma.product.create({
       data,
-      include: {
-        category: true,
-        subcategory: true,
-        images: true,
-      },
+      include: productRelations,
     });
   },
 
-  async update(id: string, data: Parameters<typeof prisma.product.update>[0]["data"]) {
+  async update(id: string, data: Prisma.ProductUncheckedUpdateInput) {
     return prisma.product.update({
       where: { id },
       data,
-      include: {
-        category: true,
-        subcategory: true,
-        images: true,
-      },
+      include: productRelations,
     });
   },
 
-  async remove(id: string) {
-    return prisma.product.delete({ where: { id } });
+  async delete(id: string) {
+    return prisma.product.delete({
+      where: { id },
+    });
   },
 };
