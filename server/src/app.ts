@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { ProductService } from "./services/ProductService";
+import { authRoutes } from "./routes/authRoutes";
 
 export function createApp() {
   const app = express();
@@ -19,6 +20,8 @@ export function createApp() {
       limit: "15mb",
     }),
   );
+
+  app.use("/api/auth", authRoutes);
 
   app.get("/api/products", async (_req, res) => {
     try {
