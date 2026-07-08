@@ -1,11 +1,11 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 const productRelations = {
   category: true,
   subcategory: true,
-} satisfies Prisma.ProductInclude;
+};
 
 export const ProductRepository = {
   async findAll() {
@@ -17,31 +17,49 @@ export const ProductRepository = {
     });
   },
 
-  async findById(id: string) {
-    return prisma.product.findUnique({
-      where: { id },
+  async findById(idOrSlug: string) {
+    return prisma.product.findFirst({
+      where: {
+        OR: [{ id: idOrSlug }, { slug: idOrSlug }],
+      },
       include: productRelations,
     });
   },
 
-  async create(data: Prisma.ProductUncheckedCreateInput) {
+  async create(data: any) {
     return prisma.product.create({
       data,
       include: productRelations,
     });
   },
 
-  async update(id: string, data: Prisma.ProductUncheckedUpdateInput) {
+  async update(idOrSlug: string, data: any) {
+    const product = await this.findById(idOrSlug);
+
+    if (!product) {
+      return null;
+    }
+
     return prisma.product.update({
-      where: { id },
+      where: {
+        id: product.id,
+      },
       data,
       include: productRelations,
     });
   },
 
-  async delete(id: string) {
+  async delete(idOrSlug: string) {
+    const product = await this.findById(idOrSlug);
+
+    if (!product) {
+      return null;
+    }
+
     return prisma.product.delete({
-      where: { id },
+      where: {
+        id: product.id,
+      },
     });
   },
 };

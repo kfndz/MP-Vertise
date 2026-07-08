@@ -1,91 +1,210 @@
-import { products as initialProducts } from "../lib/products";
-import { Product, ProductCreateInput } from "../types/product";
+import type {
+  Product,
+  ProductCreateInput,
+  ProductUpdateInput,
+} from "@/types/product";
 
-const STORAGE_KEY = "admin_products_v1";
-const DEV_MODE =
-  import.meta.env.VITE_DEV_MODE === "true" ||
-  (import.meta.env.DEV && import.meta.env.VITE_DEV_MODE !== "false");
+const API_URL = "/api/products";
 
-function cloneProduct(product: Product): Product {
+type ApiCategory = {
+  id?: string;
+  name?: string;
+  slug?: string;
+};
+
+type ApiSubcategory = {
+  id?: string;
+  name?: string;
+  slug?: string;
+};
+
+type ApiProduct = Omit<
+  Product,
+  | "price"
+  | "originalPrice"
+  | "category"
+  | "subcategory"
+  | "images"
+  | "reviews"
+> & {
+  price: number | string;
+  originalPrice?: number | string | null;
+
+  category?: ApiCategory | string | null;
+  subcategory?: ApiSubcategory | string | null;
+
+  images?: Array<string | { url?: string | null }>;
+
+  reviewCount?: number;
+  reviews?: number;
+};
+
+function normalizeProduct(product: ApiProduct): Product {
+  const normalizedImages =
+    product.images
+      ?.map((image) => {
+        if (typeof image === "string") {
+          return image;
+        }
+
+        return image?.url ?? "";
+      })
+      .filter(Boolean) ?? [];
+
+  const mainImage =
+    product.image ??
+    normalizedImages[0] ??
+    "/images/home-image.png";
+
   return {
     ...product,
-    images: product.images ? [...product.images] : [],
-    image: product.image ?? undefined,
+
+    price: Number(product.price ?? 0),
+
+    originalPrice:
+      product.originalPrice === null ||
+      product.originalPrice === undefined
+        ? null
+        : Number(product.originalPrice),
+
+    image: mainImage,
+
+    images:
+      normalizedImages.length > 0
+        ? normalizedImages
+        : mainImage
+          ? [mainImage]
+          : [],
+
+    rating: Number(product.rating ?? 0),
+
+    reviews: Number(
+      product.reviews ??
+        product.reviewCount ??
+        0,
+    ),
+
+    reviewCount: Number(
+      product.reviewCount ??
+        product.reviews ??
+        0,
+    ),
+
+    stock: Number(product.stock ?? 0),
+
+    inStock: Number(product.stock ?? 0) > 0,
+
+    category:
+      typeof product.category === "string"
+        ? product.category
+        : product.category?.slug ?? null,
+
+    subcategory:
+      typeof product.subcategory === "string"
+        ? product.subcategory
+        : product.subcategory?.slug ?? null,
+
+    categoryId:
+      product.categoryId ??
+      (typeof product.category === "object"
+        ? product.category?.id ?? null
+        : null),
+
+    subcategoryId:
+      product.subcategoryId ??
+      (typeof product.subcategory === "object"
+        ? product.subcategory?.id ?? null
+        : null),
   };
 }
 
-function cloneProducts(products: Product[]): Product[] {
-  return products.map((product) => cloneProduct(product));
-}
+async function request<T>(
+  url: string,
+  options?: RequestInit,
+): Promise<T> {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
 
-function createInitialData(): Product[] {
-  if (!DEV_MODE) return [];
-  return cloneProducts(initialProducts);
-}
+  if (!response.ok) {
+    let message = "Erro ao processar a solicitação.";
 
-function loadData(): Product[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as Product[];
-      if (Array.isArray(parsed)) {
-        return cloneProducts(parsed);
+    try {
+      const data = await response.json();
+
+      if (data?.error) {
+        message = data.error;
+      } else if (data?.message) {
+        message = data.message;
       }
+    } catch {
+      // Mantém a mensagem padrão.
     }
-  } catch {
-    // ignore and fall back to mock data in development mode
+
+    throw new Error(message);
   }
 
-  return createInitialData();
-}
-
-function saveData(data: Product[]) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch {
-    // ignore storage failures
+  if (response.status === 204) {
+    return undefined as T;
   }
-}
 
-let data: Product[] = loadData();
+  return response.json() as Promise<T>;
+}
 
 export const ProductService = {
   async getAll(): Promise<Product[]> {
-    return Promise.resolve(cloneProducts(data));
+    const products = await request<ApiProduct[]>(API_URL);
+
+    return products.map(normalizeProduct);
   },
 
-  async getById(id: number): Promise<Product | undefined> {
-    const found = data.find((product) => product.id === id);
-    return Promise.resolve(found ? cloneProduct(found) : undefined);
+  async getById(id: string | number): Promise<Product> {
+    const product = await request<ApiProduct>(
+      `${API_URL}/${id}`,
+    );
+
+    return normalizeProduct(product);
   },
 
-  async create(input: ProductCreateInput): Promise<Product> {
-    const nextId = data.length ? Math.max(...data.map((product) => product.id)) + 1 : 1;
-    const newProduct: Product = { id: nextId, ...input } as Product;
-    data = [newProduct, ...data];
-    saveData(data);
-    return Promise.resolve(cloneProduct(newProduct));
+  async create(
+    input: ProductCreateInput,
+  ): Promise<Product> {
+    const product = await request<ApiProduct>(API_URL, {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
+
+    return normalizeProduct(product);
   },
 
-  async update(id: number, patch: Partial<ProductCreateInput>): Promise<Product | undefined> {
-    const idx = data.findIndex((product) => product.id === id);
-    if (idx === -1) return Promise.resolve(undefined);
-    data[idx] = { ...data[idx], ...patch };
-    saveData(data);
-    return Promise.resolve(cloneProduct(data[idx]));
+  async update(
+    id: string | number,
+    input: ProductUpdateInput,
+  ): Promise<Product> {
+    const product = await request<ApiProduct>(
+      `${API_URL}/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(input),
+      },
+    );
+
+    return normalizeProduct(product);
   },
 
-  async remove(id: number): Promise<boolean> {
-    const idx = data.findIndex((product) => product.id === id);
-    if (idx === -1) return Promise.resolve(false);
-    data.splice(idx, 1);
-    saveData(data);
-    return Promise.resolve(true);
+  async delete(id: string | number): Promise<void> {
+    await request<void>(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
   },
 
-  async resetToInitial() {
-    data = createInitialData();
-    saveData(data);
-    return Promise.resolve();
+  async remove(id: string | number): Promise<void> {
+    await request<void>(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
   },
 };

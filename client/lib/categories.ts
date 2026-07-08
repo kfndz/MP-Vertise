@@ -25,26 +25,31 @@ export type Category = {
   subcategories: Subcategory[];
 };
 
-// Ordem exata desejada na Home e refletida dinamicamente no Header
 export const categories: Category[] = [
   {
     id: "moda-acessorios",
     name: "Moda & Estilo",
     slug: "moda-acessorios",
-    description: "Roupas e acessórios para todas as ocasiões",
+    description: "Roupas, acessórios e tendências de moda",
     icon: Shirt,
     subcategories: [
       { id: "relogios", name: "Relógios", slug: "relogios" },
       { id: "bolsas", name: "Bolsas", slug: "bolsas" },
       { id: "carteiras", name: "Carteiras", slug: "carteiras" },
       { id: "oculos", name: "Óculos", slug: "oculos" },
+      { id: "joias", name: "Joias", slug: "joias" },
+      { id: "colares", name: "Colares", slug: "colares" },
+      { id: "correntes", name: "Correntes", slug: "correntes" },
+      { id: "pulseiras", name: "Pulseiras", slug: "pulseiras" },
+      { id: "aneis", name: "Anéis", slug: "aneis" },
+      { id: "brincos", name: "Brincos", slug: "brincos" },
     ],
   },
   {
     id: "saude-beleza",
     name: "Beleza & Cuidados Pessoais",
     slug: "saude-beleza",
-    description: "Produtos para sua rotina de autocuidado",
+    description: "Maquiagem, perfumes, cosméticos e produtos de autocuidado",
     icon: Heart,
     subcategories: [
       { id: "cuidados-pessoais", name: "Cuidados Pessoais", slug: "cuidados-pessoais" },
@@ -57,7 +62,7 @@ export const categories: Category[] = [
     id: "casa",
     name: "Casa & Decoração",
     slug: "casa",
-    description: "Tudo para deixar seu lar aconchegante",
+    description: "Móveis, decoração e utensílios para o seu lar",
     icon: Home,
     subcategories: [
       { id: "cozinha", name: "Cozinha", slug: "cozinha" },
@@ -69,8 +74,8 @@ export const categories: Category[] = [
   {
     id: "utilidades",
     name: "Utilidades",
-    slug: "utilidades", // Corrigido para não usar mais o slug "casa"
-    description: "Praticidade e inovação para o seu dia a dia",
+    slug: "utilidades",
+    description: "Produtos úteis e práticos para o dia a dia",
     icon: Utensils,
     subcategories: [
       { id: "organizadores", name: "Organizadores", slug: "organizadores" },
@@ -79,9 +84,9 @@ export const categories: Category[] = [
   },
   {
     id: "esporte-fitness",
-    name: "Esporte & Fitness",
+    name: "Esporte e Fitness",
     slug: "esporte-fitness",
-    description: "Itens premium para treinos e rotina ativa com desempenho e estilo",
+    description: "Produtos para treinos, esportes e rotina ativa",
     icon: Dumbbell,
     subcategories: [
       { id: "musculacao", name: "Musculação", slug: "musculacao" },
@@ -94,7 +99,7 @@ export const categories: Category[] = [
     id: "tecnologia",
     name: "Tecnologia",
     slug: "tecnologia",
-    description: "Gadgets e acessórios inovadores para o seu estilo de vida digital",
+    description: "Smartphones, notebooks, acessórios e gadgets",
     icon: Smartphone,
     subcategories: [
       { id: "smartphones", name: "Smartphones", slug: "smartphones" },
@@ -108,7 +113,7 @@ export const categories: Category[] = [
     id: "pet-shop",
     name: "Pet Shop",
     slug: "pet-shop",
-    description: "Produtos e Acessórios essenciais para o cuidado e o bem-estar do seu pet.",
+    description: "Produtos para cuidado e bem-estar do seu pet",
     icon: PawPrint,
     subcategories: [
       { id: "caes", name: "Cães", slug: "caes" },
@@ -121,7 +126,7 @@ export const categories: Category[] = [
     id: "automotivo",
     name: "Automotivo",
     slug: "automotivo",
-    description: "Proteção e organização para o seu carro com acabamento premium",
+    description: "Acessórios e utilidades para o seu carro",
     icon: Settings,
     subcategories: [
       { id: "interior", name: "Interior", slug: "interior" },
@@ -136,8 +141,12 @@ export function getCategoryBySlug(slug: string): Category | undefined {
   return categories.find((cat) => cat.slug === slug);
 }
 
-export function getSubcategoryBySlug(categorySlug: string, subcategorySlug: string): Subcategory | undefined {
+export function getSubcategoryBySlug(
+  categorySlug: string,
+  subcategorySlug: string,
+): Subcategory | undefined {
   const category = getCategoryBySlug(categorySlug);
+
   return category?.subcategories.find((sub) => sub.slug === subcategorySlug);
 }
 
