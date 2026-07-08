@@ -14,6 +14,7 @@ import { useParams, Link } from "react-router-dom";
 import { ProductService } from "@/services/ProductService";
 import type { Product as ProductType } from "@/types/product";
 import { ProductCard } from "@/components/catalog/ProductCard";
+import { FavoriteService } from "@/services/FavoriteService";
 
 function formatPrice(value?: number | string | null) {
   const numberValue = Number(value ?? 0);
@@ -91,6 +92,12 @@ const Product = () => {
       isMounted = false;
     };
   }, [id]);
+
+  useEffect(() => {
+    if (!productData?.id) return;
+
+    setIsWishlisted(FavoriteService.isFavorite(productData.id));
+  }, [productData?.id]);
 
   const images = useMemo(() => {
     const baseImages = productData?.images?.filter(Boolean) ?? [];
@@ -375,7 +382,15 @@ const Product = () => {
 
                 <button
                   type="button"
-                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  onClick={() => {
+                    const favorited = FavoriteService.toggle(productData.id);
+                    setIsWishlisted(favorited);
+                  }}
+                  aria-label={
+                    isWishlisted
+                      ? "Remover dos favoritos"
+                      : "Adicionar aos favoritos"
+                  }
                   className={`px-6 py-4 rounded-lg font-semibold border-2 transition-colors ${
                     isWishlisted
                       ? "bg-accent/10 border-accent text-accent"
