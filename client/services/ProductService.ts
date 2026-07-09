@@ -7,6 +7,7 @@ import type {
 import { AuthService } from "@/services/AuthService";
 
 const API_URL = "/api/products";
+const PRODUCT_DETAIL_URL = "/api/product";
 
 type ApiCategory = {
   id?: string;
@@ -173,7 +174,7 @@ export const ProductService = {
 
   async getById(id: string | number): Promise<Product> {
     const product = await request<ApiProduct>(
-      `${API_URL}/${id}`,
+      `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(String(id))}`,
     );
 
     return normalizeProduct(product);
@@ -195,7 +196,7 @@ export const ProductService = {
     input: ProductUpdateInput,
   ): Promise<Product> {
     const product = await request<ApiProduct>(
-      `${API_URL}/${id}`,
+      `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(String(id))}`,
       {
         method: "PUT",
         body: JSON.stringify(input),
@@ -205,15 +206,21 @@ export const ProductService = {
     return normalizeProduct(product);
   },
 
-  async delete(id: string | number): Promise<void> {
-    await request<void>(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
+    async delete(id: string | number): Promise<void> {
+    await request<void>(
+      `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(String(id))}`,
+      {
+        method: "DELETE",
+      },
+    );
   },
 
   async remove(id: string | number): Promise<void> {
-    await request<void>(`${API_URL}/${id}`, {
-      method: "DELETE",
-    });
+    await request<void>(
+      `${PRODUCT_DETAIL_URL}?id=${encodeURIComponent(String(id))}`,
+      {
+        method: "DELETE",
+      },
+    );
   },
 };
