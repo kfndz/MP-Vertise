@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/maybe-migrate.mjs && vite",
+    "postinstall": "prisma generate --schema=server/prisma/schema.prisma",
     "build": "prisma generate --schema=./server/prisma/schema.prisma && npm run build:client && npm run build:server",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
@@ -18,6 +19,7 @@
     "prisma:seed": "tsx server/prisma/seed.ts",
     "ci:guard-no-drizzle-push": "node scripts/guard-no-drizzle-push.mjs",
     "prisma:format": "prisma format --schema=server/prisma/schema.prisma"
+    
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
