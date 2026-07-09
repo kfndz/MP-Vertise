@@ -1,5 +1,5 @@
-import { categoryRepository } from "../repositories/categoryRepository";
-import { successResponse, errorResponse } from "../utils/response";
+import { categoryRepository } from "../repositories/categoryRepository.js";
+import { successResponse, errorResponse } from "../utils/response.js";
 
 export const categoryService = {
   async listCategories() {

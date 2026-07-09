@@ -1,4 +1,4 @@
-import type { ApiResponse, ErrorResponse } from "../types/api";
+import type { ApiResponse, ErrorResponse } from "../types/api.js";
 
 export function successResponse<T>(data: T, message = "Success") {
   const response: ApiResponse<T> = {

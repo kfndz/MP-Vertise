@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { categoryService } from "../services/categoryService";
+import { categoryService } from "../services/categoryService.js";
 
 export const categoryController = {
   async list(req: Request, res: Response, next: NextFunction) {
