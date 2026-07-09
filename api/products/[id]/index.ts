@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { prisma } from "../_lib/prisma.js";
-import { requireAdminToken } from "../_lib/auth.js";
+import { prisma } from "../../_lib/prisma.js";
+import { requireAdminToken } from "../../_lib/auth.js";
 
 function createSlug(value: string) {
   return value
