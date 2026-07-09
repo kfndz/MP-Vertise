@@ -1,6 +1,6 @@
 import serverless from "serverless-http";
-import { createServer } from "../server/index.js";
+import { createApp } from "../server/src/app.js";
 
-const app = createServer();
+const app = createApp();
 
 export default serverless(app);
