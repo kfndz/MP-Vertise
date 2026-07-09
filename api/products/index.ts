@@ -12,6 +12,18 @@ function createSlug(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+async function findProduct(idOrSlug: string) {
+  return prisma.product.findFirst({
+    where: {
+      OR: [{ id: idOrSlug }, { slug: idOrSlug }],
+    },
+    include: {
+      category: true,
+      subcategory: true,
+    },
+  });
+}
+
 async function resolveCategoryId(categoryIdOrSlug: string) {
   const category =
     (await prisma.category.findUnique({ where: { id: categoryIdOrSlug } })) ??
@@ -44,53 +56,107 @@ async function resolveSubcategoryId(
   return subcategory.id;
 }
 
-async function prepareProductData(body: any) {
-  const categoryId = await resolveCategoryId(String(body.categoryId ?? ""));
+async function prepareProductData(body: any, existingProduct?: any) {
+  const categoryInput = body.categoryId ?? existingProduct?.categoryId;
+  const categoryId = await resolveCategoryId(String(categoryInput ?? ""));
+
+  const subcategoryInput =
+    body.subcategoryId !== undefined
+      ? body.subcategoryId
+      : existingProduct?.subcategoryId;
+
   const subcategoryId = await resolveSubcategoryId(
-    body.subcategoryId ? String(body.subcategoryId) : null,
+    subcategoryInput ? String(subcategoryInput) : null,
     categoryId,
   );
 
-  const name = String(body.name ?? "").trim();
+  const name = String(body.name ?? existingProduct?.name ?? "").trim();
 
   if (!name) throw new Error("Nome do produto é obrigatório.");
-  if (!body.affiliateUrl) throw new Error("Link de afiliado é obrigatório.");
-  if (!body.marketplace) throw new Error("Marketplace é obrigatório.");
-  if (!body.image) throw new Error("Imagem é obrigatória.");
+
+  const affiliateUrl = String(
+    body.affiliateUrl ?? existingProduct?.affiliateUrl ?? "",
+  ).trim();
+
+  const marketplace = String(
+    body.marketplace ?? existingProduct?.marketplace ?? "",
+  ).trim();
+
+  const image = String(body.image ?? existingProduct?.image ?? "").trim();
+
+  if (!affiliateUrl) throw new Error("Link de afiliado é obrigatório.");
+  if (!marketplace) throw new Error("Marketplace é obrigatório.");
+  if (!image) throw new Error("Imagem é obrigatória.");
 
   return {
     name,
-    slug: String(body.slug ?? "").trim() || createSlug(name),
-    description: body.description ? String(body.description).trim() : null,
-    brand: body.brand ? String(body.brand).trim() : null,
-    price: Number(body.price ?? 0),
+    slug: String(body.slug ?? existingProduct?.slug ?? "").trim() || createSlug(name),
+    description:
+      body.description !== undefined
+        ? body.description
+          ? String(body.description).trim()
+          : null
+        : existingProduct?.description ?? null,
+    brand:
+      body.brand !== undefined
+        ? body.brand
+          ? String(body.brand).trim()
+          : null
+        : existingProduct?.brand ?? null,
+    price: Number(body.price ?? existingProduct?.price ?? 0),
     originalPrice:
-      body.originalPrice === undefined ||
-      body.originalPrice === null ||
-      body.originalPrice === ""
-        ? null
-        : Number(body.originalPrice),
-    affiliateUrl: String(body.affiliateUrl).trim(),
-    marketplace: String(body.marketplace).trim(),
-    image: String(body.image).trim(),
+      body.originalPrice !== undefined
+        ? body.originalPrice === null || body.originalPrice === ""
+          ? null
+          : Number(body.originalPrice)
+        : existingProduct?.originalPrice ?? null,
+    affiliateUrl,
+    marketplace,
+    image,
     rating:
-      body.rating === undefined || body.rating === null || body.rating === ""
-        ? 0
-        : Number(body.rating),
+      body.rating !== undefined
+        ? body.rating === null || body.rating === ""
+          ? 0
+          : Number(body.rating)
+        : existingProduct?.rating ?? 0,
     reviewCount:
-      body.reviewCount === undefined ||
-      body.reviewCount === null ||
-      body.reviewCount === ""
-        ? 0
-        : Number(body.reviewCount),
-    stock: Number(body.stock ?? 0),
-    featured: Boolean(body.featured),
-    isOffer: Boolean(body.isOffer),
-    isBestSeller: Boolean(body.isBestSeller),
-    badge: body.badge ? String(body.badge).trim() : null,
+      body.reviewCount !== undefined
+        ? body.reviewCount === null || body.reviewCount === ""
+          ? 0
+          : Number(body.reviewCount)
+        : existingProduct?.reviewCount ?? 0,
+    stock: Number(body.stock ?? existingProduct?.stock ?? 0),
+    featured:
+      body.featured !== undefined
+        ? Boolean(body.featured)
+        : Boolean(existingProduct?.featured),
+    isOffer:
+      body.isOffer !== undefined
+        ? Boolean(body.isOffer)
+        : Boolean(existingProduct?.isOffer),
+    isBestSeller:
+      body.isBestSeller !== undefined
+        ? Boolean(body.isBestSeller)
+        : Boolean(existingProduct?.isBestSeller),
+    badge:
+      body.badge !== undefined
+        ? body.badge
+          ? String(body.badge).trim()
+          : null
+        : existingProduct?.badge ?? null,
     categoryId,
     subcategoryId,
   };
+}
+
+function getIdFromQuery(req: VercelRequest) {
+  const raw = req.query.id;
+
+  if (Array.isArray(raw)) {
+    return raw[0] ? String(raw[0]) : "";
+  }
+
+  return raw ? String(raw) : "";
 }
 
 export default async function handler(
@@ -98,7 +164,21 @@ export default async function handler(
   res: VercelResponse,
 ) {
   try {
+    const id = getIdFromQuery(req);
+
     if (req.method === "GET") {
+      if (id) {
+        const product = await findProduct(id);
+
+        if (!product) {
+          return res.status(404).json({
+            message: "Produto não encontrado.",
+          });
+        }
+
+        return res.status(200).json(product);
+      }
+
       const products = await prisma.product.findMany({
         include: {
           category: true,
@@ -126,6 +206,65 @@ export default async function handler(
       });
 
       return res.status(201).json(product);
+    }
+
+    if (req.method === "PUT") {
+      requireAdminToken(req);
+
+      if (!id) {
+        return res.status(400).json({
+          message: "ID do produto não informado.",
+        });
+      }
+
+      const existingProduct = await findProduct(id);
+
+      if (!existingProduct) {
+        return res.status(404).json({
+          message: "Produto não encontrado.",
+        });
+      }
+
+      const data = await prepareProductData(req.body, existingProduct);
+
+      const product = await prisma.product.update({
+        where: {
+          id: existingProduct.id,
+        },
+        data,
+        include: {
+          category: true,
+          subcategory: true,
+        },
+      });
+
+      return res.status(200).json(product);
+    }
+
+    if (req.method === "DELETE") {
+      requireAdminToken(req);
+
+      if (!id) {
+        return res.status(400).json({
+          message: "ID do produto não informado.",
+        });
+      }
+
+      const existingProduct = await findProduct(id);
+
+      if (!existingProduct) {
+        return res.status(404).json({
+          message: "Produto não encontrado.",
+        });
+      }
+
+      await prisma.product.delete({
+        where: {
+          id: existingProduct.id,
+        },
+      });
+
+      return res.status(204).send("");
     }
 
     return res.status(405).json({

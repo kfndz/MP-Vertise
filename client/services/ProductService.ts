@@ -7,7 +7,7 @@ import type {
 import { AuthService } from "@/services/AuthService";
 
 const API_URL = "/api/products";
-const PRODUCT_DETAIL_URL = "/api/product";
+const PRODUCT_DETAIL_URL = "/api/products";
 
 type ApiCategory = {
   id?: string;
