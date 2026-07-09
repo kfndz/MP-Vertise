@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { ProductService } from "./services/ProductService";
-import { authRoutes } from "./routes/authRoutes";
-import { requireAdminAuth } from "./middlewares/requireAdminAuth";
+import { ProductService } from "./services/ProductService.js";
+import { authRoutes } from "./routes/authRoutes.js";
+import { requireAdminAuth } from "./middlewares/requireAdminAuth.js";
 
 export function createApp() {
   const app = express();
