@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { ProductService } from "./services/ProductService";
 import { authRoutes } from "./routes/authRoutes";
+import { requireAdminAuth } from "./middlewares/requireAdminAuth";
 
 export function createApp() {
   const app = express();
@@ -57,7 +58,7 @@ export function createApp() {
     }
   });
 
-  app.post("/api/products", async (req, res) => {
+  app.post("/api/products", requireAdminAuth, async (req, res) => {
     try {
       const product = await ProductService.create(req.body);
 
@@ -74,7 +75,7 @@ export function createApp() {
     }
   });
 
-  app.put("/api/products/:id", async (req, res) => {
+  app.put("/api/products/:id", requireAdminAuth, async (req, res) => {
     try {
       const product = await ProductService.update(req.params.id, req.body);
 
@@ -97,7 +98,7 @@ export function createApp() {
     }
   });
 
-  app.delete("/api/products/:id", async (req, res) => {
+  app.delete("/api/products/:id", requireAdminAuth, async (req, res) => {
     try {
       const product = await ProductService.delete(req.params.id);
 

@@ -4,6 +4,8 @@ import type {
   ProductUpdateInput,
 } from "@/types/product";
 
+import { AuthService } from "@/services/AuthService";
+
 const API_URL = "/api/products";
 
 type ApiCategory = {
@@ -63,7 +65,7 @@ function normalizeProduct(product: ApiProduct): Product {
 
     originalPrice:
       product.originalPrice === null ||
-      product.originalPrice === undefined
+        product.originalPrice === undefined
         ? null
         : Number(product.originalPrice),
 
@@ -80,14 +82,14 @@ function normalizeProduct(product: ApiProduct): Product {
 
     reviews: Number(
       product.reviews ??
-        product.reviewCount ??
-        0,
+      product.reviewCount ??
+      0,
     ),
 
     reviewCount: Number(
       product.reviewCount ??
-        product.reviews ??
-        0,
+      product.reviews ??
+      0,
     ),
 
     stock: Number(product.stock ?? 0),
@@ -122,12 +124,19 @@ async function request<T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> {
+  const token = AuthService.getToken();
+
+  const headers = new Headers(options?.headers);
+
+  headers.set("Content-Type", "application/json");
+
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
   const response = await fetch(url, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
+    headers,
   });
 
   if (!response.ok) {
