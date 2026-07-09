@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ProductRepository } from "../repositories/productRepository";
+import { ProductRepository } from "../repositories/productRepository.js";
 
 const prisma = new PrismaClient();
 
