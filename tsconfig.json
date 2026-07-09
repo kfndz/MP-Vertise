@@ -33,6 +33,7 @@
   "include": [
     "client/**/*",
     "server/**/*",
+    "api/**/*",
     "shared/**/*",
     "drizzle/**/*",
     "scripts/**/*.ts",

@@ -19,7 +19,6 @@
     "prisma:seed": "tsx server/prisma/seed.ts",
     "ci:guard-no-drizzle-push": "node scripts/guard-no-drizzle-push.mjs",
     "prisma:format": "prisma format --schema=server/prisma/schema.prisma"
-    
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
@@ -74,6 +73,7 @@
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "@types/three": "^0.176.0",
+    "@vercel/node": "^5.8.22",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
