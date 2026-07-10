@@ -25,25 +25,19 @@ export const ProductCard = memo(function ProductCard({
   const price = Number(product.price ?? 0);
 
   const originalPrice =
-    product.originalPrice !== null &&
-    product.originalPrice !== undefined
+    product.originalPrice !== null && product.originalPrice !== undefined
       ? Number(product.originalPrice)
       : undefined;
 
   const discount =
     originalPrice && originalPrice > price
-      ? Math.round(
-          ((originalPrice - price) / originalPrice) * 100,
-        )
+      ? Math.round(((originalPrice - price) / originalPrice) * 100)
       : 0;
 
   const imageUrl =
-    product.images?.find(Boolean) ??
-    product.image ??
-    "/images/home-image.png";
+    product.images?.find(Boolean) ?? product.image ?? "/images/home-image.png";
 
-  const reviewCount =
-    product.reviews ?? product.reviewCount ?? 0;
+  const reviewCount = product.reviews ?? product.reviewCount ?? 0;
 
   return (
     <Link
@@ -51,20 +45,19 @@ export const ProductCard = memo(function ProductCard({
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
     >
       {/* Imagem */}
-      <div className="relative h-[220px] overflow-hidden bg-muted sm:h-auto sm:aspect-square">
+      <div className="relative flex h-[190px] items-center justify-center overflow-hidden bg-white sm:h-auto sm:aspect-square">
         <img
           src={imageUrl}
           alt={product.name}
           loading="lazy"
           onError={(event) => {
-            event.currentTarget.src =
-              "/images/home-image.png";
+            event.currentTarget.src = "/images/home-image.png";
           }}
-          className="h-full w-full object-cover transition-transform duration-300 md:group-hover:scale-105"
+          className="h-full w-full object-contain p-3 transition-transform duration-300 sm:p-4 md:group-hover:scale-105"
         />
 
         {product.badge && (
-          <span className="absolute right-3 top-3 max-w-[70%] truncate rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white shadow-sm">
+          <span className="absolute right-3 top-3 z-10 max-w-[70%] truncate rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white shadow-sm">
             {product.badge}
           </span>
         )}
@@ -93,9 +86,7 @@ export const ProductCard = memo(function ProductCard({
             ))}
           </div>
 
-          <span className="text-xs text-muted-foreground">
-            ({reviewCount})
-          </span>
+          <span className="text-xs text-muted-foreground">({reviewCount})</span>
         </div>
 
         <div className="mt-auto">
