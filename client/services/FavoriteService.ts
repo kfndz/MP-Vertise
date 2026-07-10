@@ -1,9 +1,15 @@
 const FAVORITES_KEY = "mp_vertise_favorites";
+const FAVORITES_EVENT = "favorites-updated";
+
+function notifyFavoritesUpdated() {
+  window.dispatchEvent(new Event(FAVORITES_EVENT));
+}
 
 export const FavoriteService = {
   getAll(): string[] {
     try {
       const data = localStorage.getItem(FAVORITES_KEY);
+
       return data ? JSON.parse(data) : [];
     } catch {
       return [];
@@ -19,24 +25,39 @@ export const FavoriteService = {
     const id = String(productId);
 
     if (!favorites.includes(id)) {
-      localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites, id]));
+      localStorage.setItem(
+        FAVORITES_KEY,
+        JSON.stringify([...favorites, id]),
+      );
+
+      notifyFavoritesUpdated();
     }
   },
 
   remove(productId: string | number) {
     const id = String(productId);
-    const favorites = this.getAll().filter((item) => item !== id);
 
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    const favorites = this.getAll().filter(
+      (item) => item !== id,
+    );
+
+    localStorage.setItem(
+      FAVORITES_KEY,
+      JSON.stringify(favorites),
+    );
+
+    notifyFavoritesUpdated();
   },
 
   toggle(productId: string | number) {
     if (this.isFavorite(productId)) {
       this.remove(productId);
+
       return false;
     }
 
     this.add(productId);
+
     return true;
   },
 };
