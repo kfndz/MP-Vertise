@@ -1,18 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, User, Menu, X } from "lucide-react";
+
 import { CategoryDropdown } from "./CategoryDropdown";
 import { CategoryAccordion } from "./CategoryAccordion";
 import { ProductService } from "@/services/ProductService";
 import type { Product } from "@/types/product";
 
 export function Header() {
+  const navigate = useNavigate();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileSearchTerm, setMobileSearchTerm] = useState("");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     ProductService.getAll()
@@ -20,14 +21,30 @@ export function Header() {
       .catch(() => setProducts([]));
   }, []);
 
+  /*
+   * Impede o conteúdo atrás do menu mobile de rolar.
+   * O próprio menu continuará tendo scroll.
+   */
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+
   function getProductUrl(product: Product) {
     return `/produto/${product.slug ?? product.id}`;
   }
 
   function filterProducts(term: string) {
-    const q = term.trim().toLowerCase();
+    const normalizedTerm = term.trim().toLowerCase();
 
-    if (!q) return [];
+    if (!normalizedTerm) return [];
 
     return products
       .filter((product) =>
@@ -40,7 +57,9 @@ export function Header() {
           product.marketplace,
         ]
           .filter(Boolean)
-          .some((value) => String(value).toLowerCase().includes(q)),
+          .some((value) =>
+            String(value).toLowerCase().includes(normalizedTerm),
+          ),
       )
       .slice(0, 5);
   }
@@ -55,11 +74,18 @@ export function Header() {
     [mobileSearchTerm, products],
   );
 
-  function handleSearchSubmit(term: string) {
-    const q = term.trim();
-    if (!q) return;
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
+    setMobileSearchTerm("");
+  }
 
-    navigate(`/catalogo?q=${encodeURIComponent(q)}`);
+  function handleSearchSubmit(term: string) {
+    const query = term.trim();
+
+    if (!query) return;
+
+    navigate(`/catalogo?q=${encodeURIComponent(query)}`);
+
     setSearchTerm("");
     setMobileSearchTerm("");
     setMobileMenuOpen(false);
@@ -67,20 +93,17 @@ export function Header() {
 
   function handleProductClick(product: Product) {
     navigate(getProductUrl(product));
+
     setSearchTerm("");
     setMobileSearchTerm("");
     setMobileMenuOpen(false);
   }
 
-  function SearchSuggestions({
-    results,
-  }: {
-    results: Product[];
-  }) {
+  function SearchSuggestions({ results }: { results: Product[] }) {
     if (results.length === 0) return null;
 
     return (
-      <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+      <div className="absolute left-0 right-0 top-full z-[70] mt-2 overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
         {results.map((product) => (
           <button
             key={product.id}
@@ -94,7 +117,7 @@ export function Header() {
               onError={(event) => {
                 event.currentTarget.src = "/images/home-image.png";
               }}
-              className="h-10 w-10 rounded-lg object-cover bg-muted"
+              className="h-11 w-11 flex-shrink-0 rounded-lg bg-muted object-cover"
             />
 
             <div className="min-w-0">
@@ -103,7 +126,8 @@ export function Header() {
               </p>
 
               <p className="truncate text-xs text-muted-foreground">
-                {product.marketplace ?? "Produto"} •{" "}
+                {product.marketplace ?? "Produto"}
+                {" • "}
                 {product.category ?? "Catálogo"}
               </p>
             </div>
@@ -114,163 +138,219 @@ export function Header() {
   }
 
   return (
-    <>
-      <div className="bg-accent text-white text-center py-2.5 text-sm font-medium sticky top-0 z-50">
-        Produtos Exclusivos com as melhores ofertas! Aproveite agora!
+    /*
+     * A faixa amarela e o header agora fazem parte do mesmo
+     * bloco sticky. Isso evita que um elemento cubra o outro.
+     */
+    <div className="sticky top-0 z-50">
+      {/* Announcement Bar */}
+      <div className="bg-accent px-4 py-2 text-center text-xs font-medium leading-snug text-white sm:text-sm">
+        Produtos Exclusivos com as melhores ofertas!
+        <span className="ml-1">Aproveite agora!</span>
       </div>
 
-      <header className="sticky top-10 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+      {/* Main Header */}
+      <header className="relative border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/90">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-22">
+          <div className="flex h-[80px] items-center justify-between md:h-[100px]">
+            {/* Logo */}
             <Link
               to="/"
-              className="flex-shrink-0 pl-2 sm:pl-6 md:pl-0 lg:mr-4 transition-all"
+              onClick={closeMobileMenu}
+              className="flex min-w-0 flex-shrink-0 items-center overflow-hidden"
             >
               <img
                 src="/logo-mp.png"
                 alt="MP Vertise"
-                className="h-20 w-auto md:h-24"
+                className="w-[78px] h-auto object-contain sm:w-[84px] md:w-[92px] lg:w-[96px] xl:w-[108px]"
               />
             </Link>
 
-            <nav className="hidden md:flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <nav className="hidden items-center gap-6 lg:flex lg:gap-8">
               <CategoryDropdown />
 
               <Link
                 to="/ofertas"
-                className="text-sm font-medium hover:text-accent transition-colors"
+                className="text-sm font-medium transition-colors hover:text-accent"
               >
                 Ofertas
               </Link>
 
               <Link
                 to="/mais-vendidos"
-                className="text-sm font-medium hover:text-accent transition-colors"
+                className="text-sm font-medium transition-colors hover:text-accent"
               >
                 Mais Vendidos
               </Link>
             </nav>
 
-            <div className="hidden md:flex items-center flex-1 max-w-xs mx-8">
+            {/* Desktop Search */}
+            <div className="mx-4 hidden min-w-0 max-w-md flex-1 items-center md:flex lg:mx-6">
               <div className="relative w-full">
                 <input
                   type="text"
                   placeholder="Buscar produtos..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleSearchSubmit(e.currentTarget.value);
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      handleSearchSubmit(event.currentTarget.value);
                     }
                   }}
-                  className="w-full px-4 py-2 pr-10 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent focus:bg-card transition-all"
+                  className="h-10 w-full rounded-lg border-2 border-border bg-muted px-4 pr-11 text-sm outline-none transition-all focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent"
                 />
 
-                <Search className="absolute right-3 top-2.5 w-4 h-4 text-muted-foreground" />
+                <button
+                  type="button"
+                  onClick={() => handleSearchSubmit(searchTerm)}
+                  aria-label="Buscar produtos"
+                  className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center text-muted-foreground transition hover:text-accent"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
 
                 <SearchSuggestions results={desktopResults} />
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
+            {/* Right Icons */}
+            <div className="flex flex-shrink-0 items-center gap-1 sm:gap-2">
               <Link
                 to="/favoritos"
-                className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors relative"
+                className="relative hidden rounded-lg p-2 transition-colors hover:bg-muted lg:block"
               >
-                <Heart className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full" />
+                <Heart className="h-5 w-5" />
               </Link>
 
               <Link
                 to="/admin/login"
-                className="hidden sm:block p-2 hover:bg-muted rounded-lg transition-colors"
+                className="hidden rounded-lg p-2 transition-colors hover:bg-muted sm:block"
               >
-                <User className="w-5 h-5" />
+                <User className="h-5 w-5" />
               </Link>
 
+              {/* Mobile Search/Menu */}
               <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Abrir busca"
+                className="rounded-xl p-2.5 transition-colors hover:bg-muted md:hidden"
+              >
+                <Search className="h-5 w-5" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen((current) => !current)}
+                aria-label={mobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={mobileMenuOpen}
+                className="rounded-xl bg-muted p-2.5 transition-colors hover:bg-muted/80 lg:hidden"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-5 h-5" />
+                  <X className="h-5 w-5" />
                 ) : (
-                  <Menu className="w-5 h-5" />
+                  <Menu className="h-5 w-5" />
                 )}
               </button>
             </div>
           </div>
+        </div>
 
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-border py-4 space-y-3">
-              <div className="relative px-4 pb-4">
-                <input
-                  type="text"
-                  placeholder="Buscar produtos..."
-                  value={mobileSearchTerm}
-                  onChange={(e) => setMobileSearchTerm(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleSearchSubmit(e.currentTarget.value);
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <>
+            {/* Fundo escuro atrás do menu */}
+            <button
+              type="button"
+              aria-label="Fechar menu"
+              onClick={closeMobileMenu}
+              className="fixed inset-x-0 bottom-0 top-full z-40 bg-black/25 lg:hidden"
+            />
+
+            {/*
+             * O menu tem scroll próprio.
+             * A home atrás permanece parada.
+             */}
+            <div className="absolute left-0 right-0 top-full z-50 max-h-[calc(100dvh-112px)] overflow-y-auto border-t border-border bg-background shadow-xl lg:hidden">
+              <div className="space-y-3 px-4 py-5">
+                {/* Mobile Search */}
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Buscar produtos..."
+                    value={mobileSearchTerm}
+                    onChange={(event) =>
+                      setMobileSearchTerm(event.target.value)
                     }
-                  }}
-                  className="w-full px-4 py-2 pr-10 bg-muted border-2 border-border rounded-lg text-sm outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-                />
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        handleSearchSubmit(event.currentTarget.value);
+                      }
+                    }}
+                    className="h-11 w-full rounded-xl border-2 border-border bg-muted px-4 pr-12 text-sm outline-none transition-all focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent"
+                  />
 
-                <Search className="absolute right-7 top-6 w-4 h-4 text-muted-foreground" />
+                  <button
+                    type="button"
+                    onClick={() => handleSearchSubmit(mobileSearchTerm)}
+                    aria-label="Buscar produtos"
+                    className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center text-muted-foreground transition hover:text-accent"
+                  >
+                    <Search className="h-5 w-5" />
+                  </button>
 
-                <div className="left-4 right-4">
                   <SearchSuggestions results={mobileResults} />
                 </div>
+
+                <div>
+                  <p className="pb-2 pt-3 text-xs font-semibold uppercase text-muted-foreground">
+                    Categorias
+                  </p>
+
+                  <CategoryAccordion />
+                </div>
+
+                <hr className="border-border" />
+
+                <nav className="space-y-1 pb-4">
+                  <Link
+                    to="/favoritos"
+                    onClick={closeMobileMenu}
+                    className="block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-accent"
+                  >
+                    Favoritos
+                  </Link>
+
+                  <Link
+                    to="/ofertas"
+                    onClick={closeMobileMenu}
+                    className="block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-accent"
+                  >
+                    Ofertas
+                  </Link>
+
+                  <Link
+                    to="/mais-vendidos"
+                    onClick={closeMobileMenu}
+                    className="block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-accent"
+                  >
+                    Mais Vendidos
+                  </Link>
+
+                  <Link
+                    to="/admin/login"
+                    onClick={closeMobileMenu}
+                    className="block rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-accent"
+                  >
+                    Painel Administrativo
+                  </Link>
+                </nav>
               </div>
-
-              <div className="px-0">
-                <p className="px-4 py-2 text-xs font-semibold uppercase text-muted-foreground mb-2">
-                  Categorias
-                </p>
-                <CategoryAccordion />
-              </div>
-
-              <hr className="my-3 border-border" />
-
-              <Link
-                to="/favoritos"
-                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
-              >
-                Favoritos
-              </Link>
-
-              <Link
-                to="/ofertas"
-                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
-              >
-                Ofertas
-              </Link>
-
-              <Link
-                to="/mais-vendidos"
-                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
-              >
-                Mais Vendidos
-              </Link>
-
-              <Link
-                to="/admin/login"
-                className="block px-4 py-2 text-sm font-medium hover:text-accent transition-colors"
-              >
-                Painel Administrativo
-              </Link>
             </div>
-          )}
-        </div>
+          </>
+        )}
       </header>
-    </>
+    </div>
   );
 }

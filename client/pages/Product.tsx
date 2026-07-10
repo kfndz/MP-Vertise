@@ -9,11 +9,14 @@ import {
   RotateCcw,
   Shield,
 } from "lucide-react";
+
+import { getCategoryBySlug, getSubcategoryBySlug } from "@/lib/categories";
+
 import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProductService } from "@/services/ProductService";
 import type { Product as ProductType } from "@/types/product";
-import { ProductCard } from "@/components/catalog/ProductCard";
+import { ProductGrid } from "@/components/catalog/ProductGrid";
 import { FavoriteService } from "@/services/FavoriteService";
 
 function formatPrice(value?: number | string | null) {
@@ -150,8 +153,20 @@ const Product = () => {
   }
 
   const categorySlug = productData.category ?? undefined;
-  const categoryName = productData.category ?? "Catálogo";
   const subcategorySlug = productData.subcategory ?? undefined;
+
+  const categoryData = categorySlug
+    ? getCategoryBySlug(categorySlug)
+    : undefined;
+
+  const subcategoryData =
+    categorySlug && subcategorySlug
+      ? getSubcategoryBySlug(categorySlug, subcategorySlug)
+      : undefined;
+
+  const categoryName = categoryData?.name ?? categorySlug ?? "Catálogo";
+
+  const subcategoryName = subcategoryData?.name ?? subcategorySlug;
 
   let relatedProducts = allProducts.filter((product) => {
     const currentSubcategory = product.subcategory ?? undefined;
@@ -201,42 +216,62 @@ const Product = () => {
 
       {/* Breadcrumb */}
       <div className="border-b border-border bg-muted/30">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-2 text-sm">
-            <Link to="/" className="hover:text-accent transition-colors">
-              Início
-            </Link>
+        <div className="container mx-auto px-4 py-3 md:py-4">
+          <nav aria-label="Navegação estrutural" className="overflow-x-auto">
+            <div className="flex min-w-max items-center gap-1.5 text-xs sm:gap-2 sm:text-sm">
+              <Link
+                to="/"
+                className="whitespace-nowrap transition-colors hover:text-accent"
+              >
+                Início
+              </Link>
 
-            <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="h-4 w-4 flex-shrink-0" />
 
-            <Link
-              to={categorySlug ? `/categoria/${categorySlug}` : "/catalogo"}
-              className="hover:text-accent transition-colors"
-            >
-              {categoryName ?? "Catálogo"}
-            </Link>
+              <Link
+                to={categorySlug ? `/categoria/${categorySlug}` : "/catalogo"}
+                className="whitespace-nowrap transition-colors hover:text-accent"
+              >
+                {categoryName}
+              </Link>
 
-            <ChevronRight className="w-4 h-4" />
+              {categorySlug && subcategorySlug && subcategoryName && (
+                <>
+                  <ChevronRight className="h-4 w-4 flex-shrink-0" />
 
-            <span className="text-accent font-medium">{productData.name}</span>
-          </div>
+                  <Link
+                    to={`/categoria/${categorySlug}/${subcategorySlug}`}
+                    className="whitespace-nowrap transition-colors hover:text-accent"
+                  >
+                    {subcategoryName}
+                  </Link>
+                </>
+              )}
+
+              <ChevronRight className="h-4 w-4 flex-shrink-0" />
+
+              <span className="max-w-[180px] truncate font-medium text-accent sm:max-w-[300px]">
+                {productData.name}
+              </span>
+            </div>
+          </nav>
         </div>
       </div>
 
       {/* Product Section */}
-      <section className="py-12 md:py-20">
+      <section className="py-8 sm:py-12 lg:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+          <div className="mb-14 grid grid-cols-1 gap-8 lg:mb-20 lg:grid-cols-2 lg:gap-12">
             {/* Images */}
             <div className="space-y-4">
-              <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+              <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-muted">
                 <img
                   src={images[selectedImage] ?? images[0]}
                   alt={productData.name ?? "Produto"}
                   onError={(event) => {
                     event.currentTarget.src = "/images/home-image.png";
                   }}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-contain p-2 sm:p-4"
                 />
               </div>
 
@@ -269,30 +304,34 @@ const Product = () => {
 
             {/* Product Info */}
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+              <h1 className="mb-4 text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl">
                 {productData.name}
               </h1>
 
               {/* Rating */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center gap-1">
+              <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 sm:mb-6">
+                <div className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, index) => (
                     <Star
                       key={index}
-                      className="w-5 h-5 fill-accent text-accent"
+                      className="h-4 w-4 fill-accent text-accent sm:h-5 sm:w-5"
                     />
                   ))}
                 </div>
 
                 <span className="text-sm">
-                  <strong>{productData.rating ?? 0}</strong> ({reviewCount}{" "}
-                  avaliações)
+                  <strong>{productData.rating ?? 0}</strong>{" "}
+                  <span className="text-muted-foreground">
+                    ({reviewCount} avaliações)
+                  </span>
                 </span>
               </div>
 
               {/* Price */}
               <div className="flex flex-wrap items-baseline gap-3 mb-6">
-                <span className="text-4xl font-bold">{formatPrice(price)}</span>
+                <span className="text-3xl font-bold sm:text-4xl">
+                  {formatPrice(price)}
+                </span>
 
                 {originalPrice && originalPrice > price && (
                   <>
@@ -369,21 +408,32 @@ const Product = () => {
               )}
 
               {/* Buttons */}
-              <div className="flex gap-3 mb-8">
+              <div className="mb-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={productData.affiliateUrl}
                   target="_blank"
                   rel="noopener noreferrer sponsored"
-                  className="flex-1 py-4 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className={`flex min-h-14 flex-1 items-center justify-center gap-2 rounded-xl px-5 py-4 text-center font-semibold text-white transition-all active:scale-[0.98] ${
+                    isInStock
+                      ? "bg-accent hover:bg-accent/90"
+                      : "pointer-events-none bg-muted-foreground/50"
+                  }`}
+                  aria-disabled={!isInStock}
                 >
-                  <ShoppingCart className="w-5 h-5" />
-                  Comprar na {productData.marketplace ?? "loja oficial"}
+                  <ShoppingCart className="h-5 w-5 flex-shrink-0" />
+
+                  <span>
+                    {isInStock
+                      ? `Comprar na ${productData.marketplace ?? "loja oficial"}`
+                      : "Produto indisponível"}
+                  </span>
                 </a>
 
                 <button
                   type="button"
                   onClick={() => {
                     const favorited = FavoriteService.toggle(productData.id);
+
                     setIsWishlisted(favorited);
                   }}
                   aria-label={
@@ -391,15 +441,21 @@ const Product = () => {
                       ? "Remover dos favoritos"
                       : "Adicionar aos favoritos"
                   }
-                  className={`px-6 py-4 rounded-lg font-semibold border-2 transition-colors ${
+                  className={`flex min-h-14 items-center justify-center gap-2 rounded-xl border-2 px-5 py-4 font-semibold transition-colors sm:w-14 sm:px-0 ${
                     isWishlisted
-                      ? "bg-accent/10 border-accent text-accent"
+                      ? "border-accent bg-accent/10 text-accent"
                       : "border-border text-foreground hover:border-accent"
                   }`}
                 >
                   <Heart
-                    className={`w-5 h-5 ${isWishlisted ? "fill-current" : ""}`}
+                    className={`h-5 w-5 ${isWishlisted ? "fill-current" : ""}`}
                   />
+
+                  <span className="sm:hidden">
+                    {isWishlisted
+                      ? "Remover dos favoritos"
+                      : "Adicionar aos favoritos"}
+                  </span>
                 </button>
               </div>
 
@@ -410,16 +466,17 @@ const Product = () => {
                     Descrição do produto
                   </h2>
 
-                  <div className="text-muted-foreground text-base leading-relaxed whitespace-pre-line">
+                  <div className="whitespace-pre-line break-words text-sm leading-7 text-muted-foreground sm:text-base">
                     {productData.description}
                   </div>
                 </div>
               )}
 
               {/* Trust Elements */}
-              <div className="space-y-4 pt-8 border-t border-border">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-accent/10 rounded-lg flex-shrink-0">
+              <div className="grid grid-cols-1 gap-4 border-t border-border pt-8 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-3">
+                {" "}
+                <div className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+                  <div className="flex-shrink-0 rounded-lg bg-accent/10 p-2.5">
                     <Truck className="w-5 h-5 text-accent" />
                   </div>
 
@@ -431,9 +488,8 @@ const Product = () => {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-accent-secondary/10 rounded-lg flex-shrink-0">
+                  <div className="flex-shrink-0 rounded-lg bg-accent/10 p-2.5">
                     <RotateCcw className="w-5 h-5 text-accent-secondary" />
                   </div>
 
@@ -445,9 +501,8 @@ const Product = () => {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-accent/10 rounded-lg flex-shrink-0">
+                  <div className="flex-shrink-0 rounded-lg bg-accent/10 p-2.5">
                     <Shield className="w-5 h-5 text-accent" />
                   </div>
 
@@ -492,11 +547,7 @@ const Product = () => {
             <div className="border-t border-border pt-12">
               <h2 className="text-2xl font-bold mb-8">Produtos Relacionados</h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {relatedProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
+              <ProductGrid products={relatedProducts} />
             </div>
           )}
         </div>

@@ -221,7 +221,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <SectionHeader
             title="Categorias Destacadas"
-            description="Explore nossas seleções especiais in cada categoria"
+            description="Explore nossas seleções especiais em cada categoria"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star } from "lucide-react";
+
 import type { Product } from "@/types/product";
 
 interface ProductCardProps {
@@ -22,83 +23,100 @@ export const ProductCard = memo(function ProductCard({
   product,
 }: ProductCardProps) {
   const price = Number(product.price ?? 0);
+
   const originalPrice =
-    product.originalPrice !== null && product.originalPrice !== undefined
+    product.originalPrice !== null &&
+    product.originalPrice !== undefined
       ? Number(product.originalPrice)
       : undefined;
 
   const discount =
     originalPrice && originalPrice > price
-      ? Math.round(((originalPrice - price) / originalPrice) * 100)
+      ? Math.round(
+          ((originalPrice - price) / originalPrice) * 100,
+        )
       : 0;
 
   const imageUrl =
-    product.images?.find(Boolean) ?? product.image ?? "/images/home-image.png";
+    product.images?.find(Boolean) ??
+    product.image ??
+    "/images/home-image.png";
+
+  const reviewCount =
+    product.reviews ?? product.reviewCount ?? 0;
 
   return (
     <Link
       to={`/produto/${product.slug ?? product.id}`}
-      className="group flex flex-col h-full"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
     >
-      <div className="relative bg-card rounded-lg overflow-hidden mb-4">
-        <div className="aspect-square overflow-hidden bg-muted">
-          <img
-            src={imageUrl}
-            alt={product.name}
-            onError={(event) => {
-              event.currentTarget.src = "/images/home-image.png";
-            }}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
+      {/* Imagem */}
+      <div className="relative h-[220px] overflow-hidden bg-muted sm:h-auto sm:aspect-square">
+        <img
+          src={imageUrl}
+          alt={product.name}
+          loading="lazy"
+          onError={(event) => {
+            event.currentTarget.src =
+              "/images/home-image.png";
+          }}
+          className="h-full w-full object-cover transition-transform duration-300 md:group-hover:scale-105"
+        />
 
         {product.badge && (
-          <div className="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-xs font-semibold">
+          <span className="absolute right-3 top-3 max-w-[70%] truncate rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white shadow-sm">
             {product.badge}
-          </div>
+          </span>
         )}
 
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-          <div className="bg-white rounded-full p-3">
-            <ShoppingCart className="w-6 h-6 text-foreground" />
+        {/* Efeito apenas em telas com mouse */}
+        <div className="absolute inset-0 hidden items-center justify-center bg-black/0 opacity-0 transition md:flex md:group-hover:bg-black/35 md:group-hover:opacity-100">
+          <div className="rounded-full bg-white p-3 shadow-lg">
+            <ShoppingCart className="h-5 w-5 text-foreground" />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col flex-1">
-        <h3 className="font-semibold text-foreground mb-2 line-clamp-2 min-h-[3rem]">
+      {/* Informações */}
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="mb-2 line-clamp-2 text-base font-semibold leading-snug text-foreground sm:min-h-[2.75rem] sm:text-[17px]">
           {product.name}
         </h3>
 
-        <div className="flex items-center gap-2 mb-3">
-          <div className="flex items-center gap-1">
+        <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, index) => (
-              <Star key={index} className="w-4 h-4 fill-accent text-accent" />
+              <Star
+                key={index}
+                className="h-3.5 w-3.5 fill-accent text-accent sm:h-4 sm:w-4"
+              />
             ))}
           </div>
 
           <span className="text-xs text-muted-foreground">
-            ({product.reviews ?? product.reviewCount ?? 0})
+            ({reviewCount})
           </span>
         </div>
 
-        <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-xl font-bold text-foreground">
-            {formatPrice(price)}
-          </span>
-
-          {originalPrice && (
-            <span className="text-sm text-muted-foreground line-through">
-              {formatPrice(originalPrice)}
+        <div className="mt-auto">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span className="text-xl font-bold leading-none text-foreground">
+              {formatPrice(price)}
             </span>
+
+            {originalPrice && originalPrice > price && (
+              <span className="text-xs text-muted-foreground line-through sm:text-sm">
+                {formatPrice(originalPrice)}
+              </span>
+            )}
+          </div>
+
+          {discount > 0 && (
+            <p className="mt-3 text-xs font-semibold text-accent">
+              {discount}% OFF
+            </p>
           )}
         </div>
-
-        {discount > 0 && (
-          <span className="text-xs font-semibold text-accent">
-            {discount}% OFF
-          </span>
-        )}
       </div>
     </Link>
   );
