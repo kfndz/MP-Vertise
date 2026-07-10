@@ -25,24 +25,30 @@ export const ProductCard = memo(function ProductCard({
   const price = Number(product.price ?? 0);
 
   const originalPrice =
-    product.originalPrice !== null && product.originalPrice !== undefined
+    product.originalPrice !== null &&
+    product.originalPrice !== undefined
       ? Number(product.originalPrice)
       : undefined;
 
   const discount =
     originalPrice && originalPrice > price
-      ? Math.round(((originalPrice - price) / originalPrice) * 100)
+      ? Math.round(
+          ((originalPrice - price) / originalPrice) * 100,
+        )
       : 0;
 
   const imageUrl =
-    product.images?.find(Boolean) ?? product.image ?? "/images/home-image.png";
+    product.images?.find(Boolean) ??
+    product.image ??
+    "/images/home-image.png";
 
-  const reviewCount = product.reviews ?? product.reviewCount ?? 0;
+  const reviewCount =
+    product.reviews ?? product.reviewCount ?? 0;
 
   return (
     <Link
       to={`/produto/${product.slug ?? product.id}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
+      className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border bg-card transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg"
     >
       {/* Imagem */}
       <div className="relative flex h-[190px] items-center justify-center overflow-hidden bg-white sm:h-auto sm:aspect-square">
@@ -51,7 +57,8 @@ export const ProductCard = memo(function ProductCard({
           alt={product.name}
           loading="lazy"
           onError={(event) => {
-            event.currentTarget.src = "/images/home-image.png";
+            event.currentTarget.src =
+              "/images/home-image.png";
           }}
           className="h-full w-full object-contain p-3 transition-transform duration-300 sm:p-4 md:group-hover:scale-105"
         />
@@ -62,7 +69,7 @@ export const ProductCard = memo(function ProductCard({
           </span>
         )}
 
-        {/* Efeito apenas em telas com mouse */}
+        {/* Hover apenas em dispositivos com espaço e mouse */}
         <div className="absolute inset-0 hidden items-center justify-center bg-black/0 opacity-0 transition md:flex md:group-hover:bg-black/35 md:group-hover:opacity-100">
           <div className="rounded-full bg-white p-3 shadow-lg">
             <ShoppingCart className="h-5 w-5 text-foreground" />
@@ -86,12 +93,14 @@ export const ProductCard = memo(function ProductCard({
             ))}
           </div>
 
-          <span className="text-xs text-muted-foreground">({reviewCount})</span>
+          <span className="text-xs text-muted-foreground">
+            ({reviewCount})
+          </span>
         </div>
 
         <div className="mt-auto">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="text-xl font-bold leading-none text-foreground">
+            <span className="text-xl font-bold leading-tight text-foreground">
               {formatPrice(price)}
             </span>
 
