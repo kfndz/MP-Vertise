@@ -1,25 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Heart, User, Menu, X } from "lucide-react";
 
 import { CategoryDropdown } from "./CategoryDropdown";
 import { CategoryAccordion } from "./CategoryAccordion";
-import { ProductService } from "@/services/ProductService";
 import type { Product } from "@/types/product";
+import { useProducts } from "@/hooks/useProducts";
 
 export function Header() {
   const navigate = useNavigate();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileSearchTerm, setMobileSearchTerm] = useState("");
 
-  useEffect(() => {
-    ProductService.getAll()
-      .then(setProducts)
-      .catch(() => setProducts([]));
-  }, []);
+  const { products } = useProducts();
+
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+
+  const deferredMobileSearchTerm = useDeferredValue(mobileSearchTerm);
 
   /*
    * Impede o conteúdo atrás do menu mobile de rolar.
@@ -65,13 +64,13 @@ export function Header() {
   }
 
   const desktopResults = useMemo(
-    () => filterProducts(searchTerm),
-    [searchTerm, products],
+    () => filterProducts(deferredSearchTerm),
+    [deferredSearchTerm, products],
   );
 
   const mobileResults = useMemo(
-    () => filterProducts(mobileSearchTerm),
-    [mobileSearchTerm, products],
+    () => filterProducts(deferredMobileSearchTerm),
+    [deferredMobileSearchTerm, products],
   );
 
   function closeMobileMenu() {
