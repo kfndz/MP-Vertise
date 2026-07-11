@@ -19,15 +19,15 @@ import { sortProducts } from "@/utils/productSorting";
 
 const carouselImages = [
   {
-    src: "/images/home-image.png",
+    src: "/images/hero-geral.webp",
     alt: "Vitrine inteligente da MP Vertise",
   },
   {
-    src: "/images/tecnologia-image.png",
-    alt: "Seleção de produtos de tecnologia",
+    src: "/images/home-image.webp",
+    alt: "Seleção geral de produtos da MP Vertise",
   },
   {
-    src: "/images/moda-estilo-image.png",
+    src: "/images/hero-3.webp",
     alt: "Seleção de produtos de moda e estilo",
   },
 ];
@@ -36,50 +36,49 @@ const categories = [
   {
     name: "Moda & Estilo",
     slug: "moda-acessorios",
-    image: "/images/moda-estilo-image.png",
+    image: "/images/moda-estilo-image.webp",
     description: "Roupas, acessórios e tendências de moda",
   },
   {
     name: "Beleza & Cuidados Pessoais",
     slug: "saude-beleza",
-    image: "/images/produtos-beleza-image.png",
-    description:
-      "Maquiagem, perfumes, cosméticos e produtos para autocuidado",
+    image: "/images/produtos-beleza-image.webp",
+    description: "Maquiagem, perfumes, cosméticos e produtos para autocuidado",
   },
   {
     name: "Casa & Decoração",
     slug: "casa",
-    image: "/images/casa-image.png",
+    image: "/images/casa-image.webp",
     description: "Móveis, decoração e utensílios para o seu lar",
   },
   {
     name: "Utilidades",
     slug: "utilidades",
-    image: "/images/utilidades-image.png",
+    image: "/images/utilidades-image.webp",
     description: "Produtos úteis e práticos para o dia a dia",
   },
   {
     name: "Esporte & Fitness",
     slug: "esporte-fitness",
-    image: "/images/esportes-image.png",
+    image: "/images/esportes-image.webp",
     description: "Produtos para treinos, esportes e rotina ativa",
   },
   {
     name: "Saúde & Bem-estar",
     slug: "saude-beleza",
-    image: "/images/saude-image.png",
+    image: "/images/saude-image.webp",
     description: "Produtos para saúde, conforto e bem-estar",
   },
   {
     name: "Tecnologia & Gadgets",
     slug: "tecnologia",
-    image: "/images/tecnologia-image.png",
+    image: "/images/tecnologia-image.webp",
     description: "Smartphones, notebooks, acessórios e gadgets",
   },
   {
     name: "Pet Shop",
     slug: "pet-shop",
-    image: "/images/petshop-image.png",
+    image: "/images/petshop-image.webp",
     description: "Produtos para o cuidado do seu pet",
   },
 ];
@@ -115,15 +114,6 @@ const faqs = [
     answer:
       "Não. Os dados de pagamento e de compra são informados diretamente no ambiente do marketplace responsável pela venda.",
   },
-];
-
-const instagramGallery = [
-  "/images/fone.png",
-  "/images/casa-image.png",
-  "/images/esportes-image.png",
-  "/images/saude-image.png",
-  "/images/tecnologia-image.png",
-  "/images/utilidades-image.png",
 ];
 
 const Index = () => {
@@ -177,12 +167,13 @@ const Index = () => {
             <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-12">
               <div className="animate-slide-up">
                 <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-                  MP Vertise: sua vitrine inteligente de produtos
+                  Sua vitrine inteligente para encontrar as melhores ofertas
                 </h1>
 
                 <p className="mb-8 text-base leading-7 text-muted-foreground sm:text-lg">
-                  Encontre produtos selecionados e links diretos para
-                  diferentes marketplaces em um catálogo simples e organizado.
+                  Explore produtos cuidadosamente selecionados em diversas
+                  categorias e seja direcionado para comprar com segurança nas
+                  maiores lojas do Brasil.
                 </p>
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
@@ -348,9 +339,7 @@ const Index = () => {
               </div>
             ) : (
               <div className="rounded-3xl border border-dashed border-border bg-muted/30 px-6 py-14 text-center sm:px-8">
-                <h3 className="text-xl font-semibold">
-                  Produtos em breve
-                </h3>
+                <h3 className="text-xl font-semibold">Produtos em breve</h3>
 
                 <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-muted-foreground sm:text-base">
                   O catálogo está sendo preparado. Novos produtos e ofertas
@@ -407,9 +396,7 @@ const Index = () => {
                     ✓
                   </div>
 
-                  <h3 className="mb-2 text-xl font-semibold">
-                    {item.title}
-                  </h3>
+                  <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
 
                   <p className="leading-7 text-background/70">
                     {item.description}
@@ -472,8 +459,8 @@ const Index = () => {
                 </h3>
 
                 <p className="leading-7 text-muted-foreground">
-                  Categorias e subcategorias ajudam você a encontrar produtos
-                  de forma mais rápida.
+                  Categorias e subcategorias ajudam você a encontrar produtos de
+                  forma mais rápida.
                 </p>
               </article>
 
@@ -494,32 +481,6 @@ const Index = () => {
                   em diferentes dispositivos.
                 </p>
               </article>
-            </div>
-          </div>
-        </section>
-
-        {/* Galeria */}
-        <section className="border-t border-border py-16 md:py-24 lg:py-32">
-          <div className="container mx-auto px-4">
-            <SectionHeader
-              title="Acompanhe nossas atualizações"
-              description="@mpvertise"
-            />
-
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-              {instagramGallery.map((image, index) => (
-                <div
-                  key={image}
-                  className="group aspect-square overflow-hidden rounded-xl bg-muted transition-shadow hover:shadow-lg"
-                >
-                  <img
-                    src={image}
-                    alt={`Destaque visual da MP Vertise ${index + 1}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              ))}
             </div>
           </div>
         </section>
@@ -545,9 +506,7 @@ const Index = () => {
                     <h3>
                       <button
                         type="button"
-                        onClick={() =>
-                          setExpandedFaq(expanded ? null : index)
-                        }
+                        onClick={() => setExpandedFaq(expanded ? null : index)}
                         aria-expanded={expanded}
                         aria-controls={contentId}
                         className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition hover:bg-muted sm:px-6"

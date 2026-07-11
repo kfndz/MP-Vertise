@@ -111,10 +111,10 @@ export function Header() {
             className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-muted"
           >
             <img
-              src={product.image ?? "/images/home-image.png"}
+              src={product.image ?? "/images/home-image.webp"}
               alt={product.name}
               onError={(event) => {
-                event.currentTarget.src = "/images/home-image.png";
+                event.currentTarget.src = "/images/home-image.webp";
               }}
               className="h-11 w-11 flex-shrink-0 rounded-lg bg-muted object-cover"
             />

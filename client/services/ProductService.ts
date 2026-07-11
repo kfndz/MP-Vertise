@@ -66,7 +66,7 @@ function normalizeProduct(product: ApiProduct): Product {
   const mainImage =
     product.image ??
     normalizedImages[0] ??
-    "/images/home-image.png";
+    "/images/home-image.webp";
 
   const stock = Number(product.stock ?? 0);
 

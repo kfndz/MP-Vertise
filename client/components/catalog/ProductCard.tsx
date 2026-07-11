@@ -40,7 +40,7 @@ export const ProductCard = memo(function ProductCard({
   const imageUrl =
     product.images?.find(Boolean) ??
     product.image ??
-    "/images/home-image.png";
+    "/images/home-image.webp";
 
   const reviewCount =
     product.reviews ?? product.reviewCount ?? 0;
@@ -58,7 +58,7 @@ export const ProductCard = memo(function ProductCard({
           loading="lazy"
           onError={(event) => {
             event.currentTarget.src =
-              "/images/home-image.png";
+              "/images/home-image.webp";
           }}
           className="h-full w-full object-contain p-3 transition-transform duration-300 sm:p-4 md:group-hover:scale-105"
         />

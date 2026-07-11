@@ -91,7 +91,7 @@ export default function ProductTable({
           const imageUrl =
             product.image ??
             product.images?.find(Boolean) ??
-            "/images/home-image.png";
+            "/images/home-image.webp";
 
           return (
             <article
@@ -105,7 +105,7 @@ export default function ProductTable({
                     alt={product.name}
                     onError={(event) => {
                       event.currentTarget.src =
-                        "/images/home-image.png";
+                        "/images/home-image.webp";
                     }}
                     className="h-full w-full object-contain p-2"
                   />
@@ -227,7 +227,7 @@ export default function ProductTable({
                 const imageUrl =
                   product.image ??
                   product.images?.find(Boolean) ??
-                  "/images/home-image.png";
+                  "/images/home-image.webp";
 
                 return (
                   <tr
@@ -242,7 +242,7 @@ export default function ProductTable({
                             alt={product.name}
                             onError={(event) => {
                               event.currentTarget.src =
-                                "/images/home-image.png";
+                                "/images/home-image.webp";
                             }}
                             className="h-full w-full object-contain p-1.5"
                           />

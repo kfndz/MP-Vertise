@@ -124,7 +124,7 @@ const Product = () => {
       return [productData.image];
     }
 
-    return ["/images/home-image.png"];
+    return ["/images/home-image.webp"];
   }, [productData]);
 
   if (loading) {
@@ -310,7 +310,7 @@ const Product = () => {
                     }
                     onError={(event) => {
                       event.currentTarget.src =
-                        "/images/home-image.png";
+                        "/images/home-image.webp";
                     }}
                     className="h-full w-full object-contain p-4 sm:p-6"
                   />
@@ -341,7 +341,7 @@ const Product = () => {
                           }`}
                           onError={(event) => {
                             event.currentTarget.src =
-                              "/images/home-image.png";
+                              "/images/home-image.webp";
                           }}
                           className="h-full w-full object-contain p-1"
                         />

@@ -1,7 +1,4 @@
 User-agent: *
-
 Allow: /
-
-Disallow: /admin
 
 Sitemap: https://mp-vertise-chi.vercel.app/sitemap.xml
