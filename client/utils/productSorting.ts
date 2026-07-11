@@ -7,20 +7,84 @@ export type ProductSortOption =
   | "mais-vendidos"
   | "novos";
 
-export function sortProducts(products: Product[], sortBy: ProductSortOption): Product[] {
-  const sorted = [...products];
+function getReviewCount(product: Product) {
+  return Number(
+    product.reviewCount ??
+      product.reviews ??
+      0,
+  );
+}
+
+function getCreatedAtTimestamp(product: Product) {
+  if (!product.createdAt) {
+    return 0;
+  }
+
+  const timestamp = Date.parse(product.createdAt);
+
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+export function sortProducts(
+  products: Product[],
+  sortBy: ProductSortOption,
+): Product[] {
+  const sortedProducts = [...products];
 
   switch (sortBy) {
     case "menor-preco":
-      return sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+      return sortedProducts.sort(
+        (first, second) =>
+          Number(first.price ?? 0) -
+          Number(second.price ?? 0),
+      );
+
     case "maior-preco":
-      return sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
+      return sortedProducts.sort(
+        (first, second) =>
+          Number(second.price ?? 0) -
+          Number(first.price ?? 0),
+      );
+
     case "mais-vendidos":
-      return sorted.sort((a, b) => (b.reviews ?? 0) - (a.reviews ?? 0));
+      return sortedProducts.sort(
+        (first, second) =>
+          getReviewCount(second) -
+          getReviewCount(first),
+      );
+
     case "novos":
-      return sorted.sort((a, b) => Number(b.featured ?? false) - Number(a.featured ?? false));
+      return sortedProducts.sort(
+        (first, second) =>
+          getCreatedAtTimestamp(second) -
+          getCreatedAtTimestamp(first),
+      );
+
     case "relevancia":
     default:
-      return sorted.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+      return sortedProducts.sort(
+        (first, second) => {
+          const featuredDifference =
+            Number(second.featured ?? false) -
+            Number(first.featured ?? false);
+
+          if (featuredDifference !== 0) {
+            return featuredDifference;
+          }
+
+          const ratingDifference =
+            Number(second.rating ?? 0) -
+            Number(first.rating ?? 0);
+
+          if (ratingDifference !== 0) {
+            return ratingDifference;
+          }
+
+          return (
+            getReviewCount(second) -
+            getReviewCount(first)
+          );
+        },
+      );
   }
 }

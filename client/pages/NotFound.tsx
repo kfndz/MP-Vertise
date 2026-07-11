@@ -1,98 +1,131 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { Link } from 'react-router-dom';
-import { ChevronRight, Home, Search } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import {
+  ChevronRight,
+  Home,
+  Search,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 
 export default function NotFound() {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    document.title = "Página não encontrada | MP Vertise";
+
+    headingRef.current?.focus();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="flex min-h-screen flex-col bg-background">
       <Header />
 
-      {/* 404 Content */}
-      <div className="flex-1 flex items-center justify-center px-4 py-20 md:py-32">
-        <div className="text-center">
-          {/* 404 Illustration */}
-          <div className="mb-12">
-            <div className="inline-block">
-              <div className="relative">
-                <div className="text-8xl md:text-9xl font-black text-accent opacity-20">404</div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-accent/10 rounded-full mx-auto mb-4" />
-                  </div>
-                </div>
-              </div>
-            </div>
+      <main
+        id="main-content"
+        className="flex flex-1 items-center justify-center px-4 py-16 sm:py-20 md:py-28"
+      >
+        <div className="mx-auto w-full max-w-3xl text-center">
+          <div
+            aria-hidden="true"
+            className="mb-8 text-7xl font-black text-accent/20 sm:text-8xl md:text-9xl"
+          >
+            404
           </div>
 
-          {/* Content */}
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Página Não Encontrada</h1>
-          <p className="text-xl text-muted-foreground mb-4 max-w-2xl mx-auto">
-            Desculpe, a página que você está procurando não existe ou foi movida. Mas não se preocupe, estamos aqui para ajudá-lo a encontrar o que precisa.
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            className="mb-4 text-3xl font-bold outline-none sm:text-4xl md:text-5xl"
+          >
+            Página não encontrada
+          </h1>
+
+          <p className="mx-auto mb-8 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+            A página que você tentou acessar não existe, foi removida
+            ou teve o endereço alterado.
           </p>
 
-          {/* Quick Links */}
-          <div className="mb-12 pt-8">
-            <p className="text-muted-foreground mb-6 font-semibold">Explore nosso site</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:bg-accent/90 transition-all active:scale-95"
-              >
-                <Home className="w-5 h-5" />
-                Ir para Início
-              </Link>
-              <Link
-                to="/catalogo"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-all"
-              >
-                <Search className="w-5 h-5" />
-                Ver Catálogo
-              </Link>
-            </div>
+          <div className="mb-12 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              to="/"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3 font-semibold text-white transition hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            >
+              <Home
+                aria-hidden="true"
+                className="h-5 w-5"
+              />
+
+              Ir para o início
+            </Link>
+
+            <Link
+              to="/catalogo"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border-2 border-foreground px-6 py-3 font-semibold text-foreground transition hover:bg-foreground hover:text-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
+            >
+              <Search
+                aria-hidden="true"
+                className="h-5 w-5"
+              />
+
+              Ver catálogo
+            </Link>
           </div>
 
-          {/* Popular Pages */}
-          <div className="bg-card border border-border rounded-lg p-8 max-w-md mx-auto">
-            <h3 className="font-semibold mb-4">Páginas Populares</h3>
-            <div className="space-y-3 text-sm">
-              <Link to="/" className="block text-muted-foreground hover:text-accent transition-colors flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
-                Página Inicial
-              </Link>
-              <Link to="/catalogo" className="block text-muted-foreground hover:text-accent transition-colors flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
-                Produtos
-              </Link>
-              <Link to="/sobre" className="block text-muted-foreground hover:text-accent transition-colors flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
-                Sobre Nós
-              </Link>
-              <Link to="/contato" className="block text-muted-foreground hover:text-accent transition-colors flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
-                Fale Conosco
-              </Link>
-              <Link to="/faq" className="block text-muted-foreground hover:text-accent transition-colors flex items-center gap-2">
-                <ChevronRight className="w-4 h-4" />
-                Perguntas Frequentes
-              </Link>
-            </div>
-          </div>
+          <nav
+            aria-labelledby="popular-pages-title"
+            className="mx-auto max-w-md rounded-2xl border border-border bg-card p-6 text-left sm:p-8"
+          >
+            <h2
+              id="popular-pages-title"
+              className="mb-4 font-semibold"
+            >
+              Páginas populares
+            </h2>
 
-          {/* Search Help */}
-          <div className="mt-12 pt-8 border-t border-border">
-            <p className="text-muted-foreground mb-4">
-              Não encontrou o que procura? Entre em contato com nosso suporte.
+            <ul className="space-y-1 text-sm">
+              {[
+                { label: "Página inicial", to: "/" },
+                { label: "Catálogo", to: "/catalogo" },
+                { label: "Sobre nós", to: "/sobre" },
+                { label: "Contato", to: "/contato" },
+                {
+                  label: "Perguntas frequentes",
+                  to: "/faq",
+                },
+              ].map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <ChevronRight
+                      aria-hidden="true"
+                      className="h-4 w-4 flex-shrink-0"
+                    />
+
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-10 border-t border-border pt-8">
+            <p className="mb-3 text-sm text-muted-foreground">
+              Ainda precisa de ajuda?
             </p>
+
             <Link
               to="/contato"
-              className="inline-block text-accent font-semibold hover:underline"
+              className="font-semibold text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              Contate-nos →
+              Entre em contato com o suporte
             </Link>
           </div>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

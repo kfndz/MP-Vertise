@@ -41,20 +41,38 @@ export interface Product {
   updatedAt?: string;
 }
 
-export type ProductCreateInput = Omit<
-  Product,
-  | "id"
-  | "createdAt"
-  | "updatedAt"
-  | "inStock"
-  | "category"
-  | "subcategory"
-  | "reviews"
-> & {
+export type ProductCreateInput = {
+  name: string;
   slug?: string;
+
+  description?: string | null;
+  brand?: string | null;
+
+  price: number;
+  originalPrice?: number | null;
+
   affiliateUrl?: string | null;
   marketplace?: string | null;
 
+  image?: string | null;
+  images?: string[];
+
+  rating?: number;
+  reviewCount?: number;
+
+  stock?: number;
+
+  featured?: boolean;
+  isOffer?: boolean;
+  isBestSeller?: boolean;
+
+  badge?: string | null;
+
+  categoryId?: string | null;
+  subcategoryId?: string | null;
+
+  specifications?: Record<string, string>;
 };
 
-export type ProductUpdateInput = Partial<ProductCreateInput>;
+export type ProductUpdateInput =
+  Partial<ProductCreateInput>;

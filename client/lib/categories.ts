@@ -7,8 +7,9 @@ import {
   Smartphone,
   PawPrint,
   Settings,
-  LucideIcon,
 } from "lucide-react";
+
+import type { LucideIcon } from "lucide-react";
 
 export type Subcategory = {
   id: string;
@@ -49,13 +50,30 @@ export const categories: Category[] = [
     id: "saude-beleza",
     name: "Beleza & Cuidados Pessoais",
     slug: "saude-beleza",
-    description: "Maquiagem, perfumes, cosméticos e produtos de autocuidado",
+    description:
+      "Maquiagem, perfumes, cosméticos e produtos de autocuidado",
     icon: Heart,
     subcategories: [
-      { id: "cuidados-pessoais", name: "Cuidados Pessoais", slug: "cuidados-pessoais" },
-      { id: "cosmeticos", name: "Cosméticos", slug: "cosmeticos" },
-      { id: "bem-estar", name: "Bem-estar", slug: "bem-estar" },
-      { id: "higiene", name: "Higiene", slug: "higiene" },
+      {
+        id: "cuidados-pessoais",
+        name: "Cuidados Pessoais",
+        slug: "cuidados-pessoais",
+      },
+      {
+        id: "cosmeticos",
+        name: "Cosméticos",
+        slug: "cosmeticos",
+      },
+      {
+        id: "bem-estar",
+        name: "Bem-estar",
+        slug: "bem-estar",
+      },
+      {
+        id: "higiene",
+        name: "Higiene",
+        slug: "higiene",
+      },
     ],
   },
   {
@@ -66,8 +84,16 @@ export const categories: Category[] = [
     icon: Home,
     subcategories: [
       { id: "cozinha", name: "Cozinha", slug: "cozinha" },
-      { id: "decoracao", name: "Decoração", slug: "decoracao" },
-      { id: "organizacao", name: "Organização", slug: "organizacao" },
+      {
+        id: "decoracao",
+        name: "Decoração",
+        slug: "decoracao",
+      },
+      {
+        id: "organizacao",
+        name: "Organização",
+        slug: "organizacao",
+      },
       { id: "limpeza", name: "Limpeza", slug: "limpeza" },
     ],
   },
@@ -78,8 +104,16 @@ export const categories: Category[] = [
     description: "Produtos úteis e práticos para o dia a dia",
     icon: Utensils,
     subcategories: [
-      { id: "organizadores", name: "Organizadores", slug: "organizadores" },
-      { id: "ferramentas", name: "Ferramentas", slug: "ferramentas" },
+      {
+        id: "organizadores",
+        name: "Organizadores",
+        slug: "organizadores",
+      },
+      {
+        id: "ferramentas",
+        name: "Ferramentas",
+        slug: "ferramentas",
+      },
     ],
   },
   {
@@ -89,10 +123,18 @@ export const categories: Category[] = [
     description: "Produtos para treinos, esportes e rotina ativa",
     icon: Dumbbell,
     subcategories: [
-      { id: "musculacao", name: "Musculação", slug: "musculacao" },
+      {
+        id: "musculacao",
+        name: "Musculação",
+        slug: "musculacao",
+      },
       { id: "corrida", name: "Corrida", slug: "corrida" },
       { id: "yoga", name: "Yoga", slug: "yoga" },
-      { id: "acessorios-esporte", name: "Acessórios", slug: "acessorios-esporte" },
+      {
+        id: "acessorios-esporte",
+        name: "Acessórios",
+        slug: "acessorios-esporte",
+      },
     ],
   },
   {
@@ -102,11 +144,27 @@ export const categories: Category[] = [
     description: "Smartphones, notebooks, acessórios e gadgets",
     icon: Smartphone,
     subcategories: [
-      { id: "smartphones", name: "Smartphones", slug: "smartphones" },
-      { id: "informatica", name: "Informática", slug: "informatica" },
+      {
+        id: "smartphones",
+        name: "Smartphones",
+        slug: "smartphones",
+      },
+      {
+        id: "informatica",
+        name: "Informática",
+        slug: "informatica",
+      },
       { id: "audio", name: "Áudio", slug: "audio" },
-      { id: "smart-home", name: "Smart Home", slug: "smart-home" },
-      { id: "acessorios-tech", name: "Acessórios", slug: "acessorios-tech" },
+      {
+        id: "smart-home",
+        name: "Smart Home",
+        slug: "smart-home",
+      },
+      {
+        id: "acessorios-tech",
+        name: "Acessórios",
+        slug: "acessorios-tech",
+      },
     ],
   },
   {
@@ -118,8 +176,16 @@ export const categories: Category[] = [
     subcategories: [
       { id: "caes", name: "Cães", slug: "caes" },
       { id: "gatos", name: "Gatos", slug: "gatos" },
-      { id: "brinquedos-pet", name: "Brinquedos", slug: "brinquedos-pet" },
-      { id: "higiene-pet", name: "Higiene", slug: "higiene-pet" },
+      {
+        id: "brinquedos-pet",
+        name: "Brinquedos",
+        slug: "brinquedos-pet",
+      },
+      {
+        id: "higiene-pet",
+        name: "Higiene",
+        slug: "higiene-pet",
+      },
     ],
   },
   {
@@ -131,14 +197,26 @@ export const categories: Category[] = [
     subcategories: [
       { id: "interior", name: "Interior", slug: "interior" },
       { id: "exterior", name: "Exterior", slug: "exterior" },
-      { id: "acessorios-auto", name: "Acessórios", slug: "acessorios-auto" },
-      { id: "organizacao-auto", name: "Organização", slug: "organizacao-auto" },
+      {
+        id: "acessorios-auto",
+        name: "Acessórios",
+        slug: "acessorios-auto",
+      },
+      {
+        id: "organizacao-auto",
+        name: "Organização",
+        slug: "organizacao-auto",
+      },
     ],
   },
 ];
 
-export function getCategoryBySlug(slug: string): Category | undefined {
-  return categories.find((cat) => cat.slug === slug);
+export function getCategoryBySlug(
+  slug: string,
+): Category | undefined {
+  return categories.find(
+    (category) => category.slug === slug,
+  );
 }
 
 export function getSubcategoryBySlug(
@@ -147,9 +225,16 @@ export function getSubcategoryBySlug(
 ): Subcategory | undefined {
   const category = getCategoryBySlug(categorySlug);
 
-  return category?.subcategories.find((sub) => sub.slug === subcategorySlug);
+  return category?.subcategories.find(
+    (subcategory) =>
+      subcategory.slug === subcategorySlug,
+  );
 }
 
-export function getCategoryById(id: string): Category | undefined {
-  return categories.find((cat) => cat.id === id);
+export function getCategoryById(
+  id: string,
+): Category | undefined {
+  return categories.find(
+    (category) => category.id === id,
+  );
 }

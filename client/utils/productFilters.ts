@@ -15,7 +15,7 @@ export const DEFAULT_PRODUCT_FILTERS: ProductFilterState = {
   categories: [],
   priceRange: {
     min: 0,
-    max: 999999,
+    max: Number.MAX_SAFE_INTEGER,
   },
   minRating: 0,
 };
@@ -23,25 +23,29 @@ export const DEFAULT_PRODUCT_FILTERS: ProductFilterState = {
 export function filterProducts(
   products: Product[],
   filters: ProductFilterState,
-  searchTerm?: string,
-) {
+  searchTerm = "",
+): Product[] {
+  const normalizedTerm =
+    searchTerm.trim().toLowerCase();
+
   return products.filter((product) => {
     const price = Number(product.price ?? 0);
     const rating = Number(product.rating ?? 0);
+    const category = product.category ?? "";
 
     const matchesCategory =
       filters.categories.length === 0 ||
-      filters.categories.includes(product.category ?? "");
+      filters.categories.includes(category);
 
     const matchesPrice =
-      price >= filters.priceRange.min && price <= filters.priceRange.max;
+      price >= filters.priceRange.min &&
+      price <= filters.priceRange.max;
 
-    const matchesRating = rating >= filters.minRating;
-
-    const term = searchTerm?.trim().toLowerCase();
+    const matchesRating =
+      rating >= filters.minRating;
 
     const matchesSearch =
-      !term ||
+      normalizedTerm.length === 0 ||
       [
         product.name,
         product.description,
@@ -50,9 +54,23 @@ export function filterProducts(
         product.subcategory,
         product.marketplace,
       ]
-        .filter(Boolean)
-        .some((value) => String(value).toLowerCase().includes(term));
+        .filter(
+          (value): value is string =>
+            value !== null &&
+            value !== undefined &&
+            value !== "",
+        )
+        .some((value) =>
+          value
+            .toLowerCase()
+            .includes(normalizedTerm),
+        );
 
-    return matchesCategory && matchesPrice && matchesRating && matchesSearch;
+    return (
+      matchesCategory &&
+      matchesPrice &&
+      matchesRating &&
+      matchesSearch
+    );
   });
 }
