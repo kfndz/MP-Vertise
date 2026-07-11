@@ -81,7 +81,7 @@ PostgreSQL / Neon
 Clone o repositório:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/kfndz/MP-Vertise
 cd MP-Vertise
 ```
 
