@@ -1,230 +1,217 @@
 # MP Vertise
 
-Plataforma responsiva de curadoria e divulgação de produtos afiliados, com catálogo público, busca, favoritos e painel administrativo para gerenciamento de produtos.
+🇺🇸 English | 🇧🇷 Português
 
-## Visão geral
+A full-stack affiliate product discovery platform designed for the Brazilian e-commerce ecosystem, featuring a public product catalog, search, favorites, and an administrative dashboard for product management.
 
-A MP Vertise reúne produtos selecionados de diferentes marketplaces em uma experiência única de navegação. O visitante pode explorar categorias, pesquisar produtos, salvar favoritos e acessar a loja parceira por meio do link de afiliado.
+> **Note:** The platform targets the Brazilian market, and the application interface is currently available in Brazilian Portuguese.
 
-O sistema não processa pagamentos ou pedidos. A compra é concluída diretamente no marketplace responsável pela venda.
+---
 
-## Funcionalidades
+Uma plataforma full-stack de curadoria e divulgação de produtos afiliados voltada ao mercado brasileiro, com catálogo público, busca, favoritos e painel administrativo para gerenciamento de produtos.
 
-- Home responsiva com carrossel e categorias em destaque
-- Catálogo com busca, filtros e ordenação
-- Páginas de categoria e subcategoria
-- Página individual de produto
-- Produtos relacionados
-- Favoritos salvos no navegador
-- Estados de carregamento, erro e catálogo vazio
-- Painel administrativo protegido
-- Cadastro, edição e exclusão de produtos
-- Upload e visualização de imagens
-- API própria integrada ao banco de dados
-- SEO básico, sitemap, robots.txt e web manifest
-- Layout adaptado para celular, tablet e desktop
+> **Observação:** A interface da aplicação está disponível em português (Brasil).
 
-## Tecnologias
+---
+
+## 🌐 Live Demo | Demonstração
+
+**Website / Site**
+
+https://mp-vertise-chi.vercel.app/
+
+---
+
+# 🇺🇸 About
+
+MP Vertise brings together selected products from multiple marketplaces into a single browsing experience.
+
+Visitors can browse categories, search products, save favorites, and access partner marketplaces through affiliate links.
+
+The platform does **not** process orders or payments. Purchases are completed directly on each marketplace.
+
+---
+
+# 🇧🇷 Sobre
+
+A MP Vertise reúne produtos selecionados de diferentes marketplaces em uma única experiência de navegação.
+
+Os visitantes podem explorar categorias, pesquisar produtos, salvar favoritos e acessar o marketplace parceiro por meio de links de afiliado.
+
+A plataforma **não processa pagamentos nem pedidos**. Toda a compra é realizada diretamente no marketplace responsável.
+
+---
+
+# ✨ Features | Funcionalidades
+
+* Responsive home page with featured categories
+* Product catalog with search, filters and sorting
+* Category and subcategory pages
+* Individual product pages
+* Related products
+* Browser-based favorites
+* Loading, error and empty states
+* Protected admin dashboard
+* Product management (CRUD)
+* Image upload and preview
+* REST API connected to PostgreSQL
+* Basic SEO (robots.txt, sitemap and web manifest)
+* Responsive layout for desktop, tablet and mobile
+
+---
+
+* Home responsiva com categorias em destaque
+* Catálogo com busca, filtros e ordenação
+* Páginas de categoria e subcategoria
+* Página individual de produto
+* Produtos relacionados
+* Favoritos armazenados no navegador
+* Estados de carregamento, erro e catálogo vazio
+* Painel administrativo protegido
+* Cadastro, edição e exclusão de produtos
+* Upload e visualização de imagens
+* API integrada ao banco de dados
+* SEO básico, sitemap, robots.txt e web manifest
+* Layout responsivo para desktop, tablet e celular
+
+---
+
+# 🛠️ Tech Stack
 
 ### Frontend
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- TanStack Query
-- Radix UI
-- Lucide React
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* React Router
+* TanStack Query
+* Radix UI
+* Lucide React
 
-### Backend e dados
+### Backend
 
-- Node.js
-- Express
-- Prisma ORM
-- PostgreSQL
-- Neon
-- JWT
-- bcrypt
+* Node.js
+* Express
+* Prisma ORM
+* PostgreSQL
+* Neon
 
-### Infraestrutura
+### Authentication
 
-- Git e GitHub
-- Vercel
-- GitHub Codespaces
+* JWT
+* bcrypt
 
-## Arquitetura simplificada
+### Development Tools
+
+* Git
+* GitHub
+* GitHub Codespaces
+* Vercel
+
+---
+
+# 🏗️ Architecture | Arquitetura
 
 ```text
-Usuário
-  ↓
+User
+ ↓
 React
-  ↓
+ ↓
 Services
-  ↓
-API
-  ↓
-Prisma
-  ↓
-PostgreSQL / Neon
+ ↓
+REST API
+ ↓
+Prisma ORM
+ ↓
+PostgreSQL (Neon)
 ```
 
-## Requisitos
+---
 
-- Node.js 20 ou superior
-- pnpm 10 ou superior
-- Banco PostgreSQL
-- Variáveis de ambiente configuradas conforme `.env.example`
-
-## Instalação
-
-Clone o repositório:
+# ⚙️ Installation | Instalação
 
 ```bash
 git clone https://github.com/kfndz/MP-Vertise
+
 cd MP-Vertise
-```
 
-Instale as dependências:
-
-```bash
 pnpm install
-```
 
-Crie o arquivo local de variáveis de ambiente:
-
-```bash
 cp .env.example .env
-```
 
-Preencha o `.env` com os valores do seu ambiente.
-
-Gere o Prisma Client:
-
-```bash
 pnpm prisma:generate
-```
 
-Inicie o projeto:
-
-```bash
 pnpm dev
 ```
 
-A aplicação ficará disponível, por padrão, em:
+---
 
-```text
-http://localhost:8080
-```
-
-## Scripts
-
-```bash
-pnpm dev
-```
-
-Inicia o ambiente de desenvolvimento.
-
-```bash
-pnpm typecheck
-```
-
-Executa a verificação de tipos do TypeScript.
-
-```bash
-pnpm test
-```
-
-Executa os testes com Vitest.
-
-```bash
-pnpm build
-```
-
-Gera os builds do frontend e do servidor.
-
-```bash
-pnpm start
-```
-
-Inicia o servidor a partir do build de produção.
-
-```bash
-pnpm format.fix
-```
-
-Formata os arquivos do projeto com Prettier.
-
-```bash
-pnpm prisma:migrate
-```
-
-Cria e aplica migrations do Prisma no ambiente de desenvolvimento.
-
-```bash
-pnpm prisma:seed
-```
-
-Executa o seed do banco de dados.
-
-## Estrutura principal
+# 📁 Project Structure | Estrutura
 
 ```text
 MP-Vertise/
 ├── api/
 ├── client/
-│   ├── components/
-│   ├── hooks/
-│   ├── lib/
-│   ├── pages/
-│   ├── services/
-│   ├── types/
-│   └── utils/
 ├── public/
 ├── server/
 ├── shared/
 ├── scripts/
-├── index.html
 ├── package.json
-├── tsconfig.json
 └── vite.config.ts
 ```
 
-## Variáveis de ambiente
+---
 
-O projeto utiliza variáveis de ambiente para banco de dados, autenticação e configurações de produção.
+# 🔐 Security | Segurança
 
-Use o arquivo `.env.example` como referência e nunca envie o arquivo `.env` para o GitHub.
+* Protected administrative dashboard
+* Password hashing with bcrypt
+* JWT authentication
+* Environment variables for secrets
+* `.env` ignored by Git
+* Administrative pages configured with `noindex`
 
-## Produção
+---
 
-Antes de publicar:
+* Painel administrativo protegido
+* Senhas criptografadas com bcrypt
+* Autenticação via JWT
+* Variáveis de ambiente para credenciais
+* Arquivos `.env` ignorados pelo Git
+* Páginas administrativas configuradas com `noindex`
 
-```bash
-pnpm typecheck
-pnpm build
-```
+---
 
-O deploy atual utiliza a Vercel. As variáveis de ambiente devem ser cadastradas no painel da plataforma.
+# 💼 Business Model | Modelo de Negócio
 
-## Segurança
+MP Vertise operates as an affiliate marketing platform.
 
-- O painel administrativo exige autenticação.
-- Senhas não devem ser armazenadas em texto puro.
-- Segredos e credenciais devem permanecer somente em variáveis de ambiente.
-- Arquivos `.env` são ignorados pelo Git.
-- As páginas administrativas recebem instrução `noindex`.
+Products are displayed in the catalog, and users are redirected to partner marketplaces where purchases, shipping, returns, and payments are handled.
 
-## Modelo de negócio
+---
 
-A MP Vertise funciona como uma plataforma de afiliados. Os produtos são divulgados no catálogo e o visitante é redirecionado para o marketplace parceiro, onde pagamento, entrega, troca e devolução são processados.
+A MP Vertise funciona como uma plataforma de marketing de afiliados.
 
-## Versão
+Os produtos são divulgados no catálogo e o usuário é redirecionado para o marketplace parceiro, onde pagamento, entrega, troca e devolução são processados.
 
-**MP Vertise v1.0.0**
+---
 
-Primeiro commit do projeto: 11 de junho de 2026.
+# 🚀 Roadmap
 
-## Autor
+* User accounts
+* Personalized recommendations
+* Product comparison
+* Price history
+* Coupon integration
+* Product reviews
+* Analytics dashboard
+* Multi-marketplace support
 
-Desenvolvido por **Kauã Fernandez**.
+---
+
+# 📄 License | Licença
+
+This project is available for educational, portfolio and demonstration purposes.
+
+Este projeto está disponível para fins de estudo, portfólio e demonstração.
